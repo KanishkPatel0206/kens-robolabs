@@ -1,4 +1,4 @@
-# ✳ Crayon Robotics Lab — Verified Modified-DH Workspace
+# ✳ Crayon Robotics Lab v2 — Verified Modified-DH Workspace
 
 **🌐 Live demo: https://kanishkpatel0206.github.io/crayon-robotics-lab/**
 
@@ -10,6 +10,22 @@ Your Crayon layout and light theme (sidebar, hero cards, pill tabs, 3D viewport)
 **Online:** open the live demo above. **Locally:** open `index.html` in Chrome, Edge or Firefox (three.js is bundled in `vendor/`, so 3D works offline; only the Google Fonts are optional, system fonts are the fallback). `node tests/run_selftests.js` runs the 30 engine checks.
 
 **Share a robot:** press **🔗 Share** to copy a link that contains your whole robot, for example `https://kanishkpatel0206.github.io/crayon-robotics-lab/#s=…`.
+
+## v2 — Export & Report (new sidebar page)
+Turn the robot on screen into class-report material:
+- **Printable report:** title, name, course and date; the MDH table (variable cells marked, tool frame row); a **worked derivation** (every link matrix ⁱ⁻¹Tᵢ with the numbers substituted, then the final ⁰Tₙ and tool position); Jacobian with singular values; gravity torques; trajectory table and plots; workspace summary and plot; a 3D figure with caption. Tick the sections you want and choose 2/3/4/6 decimals. Open it and press **Print / Save as PDF**, or download it as `.html`.
+- **Copy for Word / Docs:** puts the report on the clipboard as formatted tables.
+- **LaTeX** (`tabular` + `bmatrix`), **Markdown**, **MATLAB** (Peter Corke Robotics Toolbox, modified DH) and **Python** (NumPy) export. Shift+click copies instead of downloading.
+- **Images:** 3D view as PNG (SVG if WebGL is unavailable); trajectory position/velocity/acceleration and workspace plots as PNG.
+- **CSV:** link matrices, Jacobian, current pose + tool position, gravity torques, trajectory.
+- Every report carries the date, the app version, the engine self-test result (30/30) and a **share link** that reopens the exact robot.
+
+Verified by tests: the generated Python reproduces the page's forward kinematics on all 16 robots (5·10⁻⁵ mm), LaTeX/Markdown/MATLAB structure, CSV shapes, report content and the download/clipboard buttons (`tests/ui_export_test.js`, needs Python with NumPy).
+
+### 2.0.1 — export fixes
+- **3D image export fixed** (it produced an empty pale-blue picture). The snapshot now uses its own offscreen renderer and a camera that frames the whole robot (including the full travel of prismatic rails), so it works even while the 3D tab is hidden, and it refuses to return a blank image (the report then says so instead of showing an empty box). Coordinate frames can be included in the image.
+- Report: the figure comes first; derivation blocks no longer split across pages; proper ⁰T₁ notation and units; robot shown by name ("Stanford arm RRPRRR"); a short "Open this exact robot" link instead of a very long URL that ran off the page; colours print correctly; share links made from a local file point to the published site.
+- Tip: in the print dialog turn **off** "Headers and footers" and turn **on** "Background graphics".
 
 ## What changed under the hood
 | Page | Before | Now |

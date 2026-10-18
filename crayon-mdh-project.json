@@ -1,0 +1,170 @@
+{
+  "convention": "Craig-style Modified DH",
+  "equation": "Rx(alpha[i-1]) Tx(a[i-1]) Rz(theta[i]) Tz(d[i])",
+  "currentPreset": "stanford",
+  "mdh_table": [
+    {
+      "i": 1,
+      "name": "Waist",
+      "type": "R",
+      "alpha_prev_deg": 0,
+      "a_prev_mm": 0,
+      "theta_deg": 0,
+      "d_mm": 412,
+      "variable": "theta",
+      "min": -170,
+      "max": 170
+    },
+    {
+      "i": 2,
+      "name": "Shoulder",
+      "type": "R",
+      "alpha_prev_deg": -90,
+      "a_prev_mm": 0,
+      "theta_deg": -135,
+      "d_mm": 154,
+      "variable": "theta",
+      "min": -135,
+      "max": 135
+    },
+    {
+      "i": 3,
+      "name": "Telescope",
+      "type": "P",
+      "alpha_prev_deg": 90,
+      "a_prev_mm": 0,
+      "theta_deg": 0,
+      "d_mm": 600,
+      "variable": "d",
+      "min": 100,
+      "max": 600
+    },
+    {
+      "i": 4,
+      "name": "Roll 1",
+      "type": "R",
+      "alpha_prev_deg": 0,
+      "a_prev_mm": 0,
+      "theta_deg": -86.5,
+      "d_mm": 0,
+      "variable": "theta",
+      "min": -170,
+      "max": 170
+    },
+    {
+      "i": 5,
+      "name": "Bend",
+      "type": "R",
+      "alpha_prev_deg": -90,
+      "a_prev_mm": 0,
+      "theta_deg": -37.8,
+      "d_mm": 0,
+      "variable": "theta",
+      "min": -90,
+      "max": 90
+    },
+    {
+      "i": 6,
+      "name": "Roll 2",
+      "type": "R",
+      "alpha_prev_deg": 90,
+      "a_prev_mm": 0,
+      "theta_deg": 69.2,
+      "d_mm": 120,
+      "variable": "theta",
+      "min": -170,
+      "max": 170
+    }
+  ],
+  "joints": [
+    {
+      "name": "Waist",
+      "type": "R",
+      "alpha": 0,
+      "a": 0,
+      "theta": 0,
+      "d": 412,
+      "min": -170,
+      "max": 170
+    },
+    {
+      "name": "Shoulder",
+      "type": "R",
+      "alpha": -90,
+      "a": 0,
+      "theta": -135,
+      "d": 154,
+      "min": -135,
+      "max": 135
+    },
+    {
+      "name": "Telescope",
+      "type": "P",
+      "alpha": 90,
+      "a": 0,
+      "theta": 0,
+      "d": 600,
+      "min": 100,
+      "max": 600
+    },
+    {
+      "name": "Roll 1",
+      "type": "R",
+      "alpha": 0,
+      "a": 0,
+      "theta": -86.5,
+      "d": 0,
+      "min": -170,
+      "max": 170
+    },
+    {
+      "name": "Bend",
+      "type": "R",
+      "alpha": -90,
+      "a": 0,
+      "theta": -37.8,
+      "d": 0,
+      "min": -90,
+      "max": 90
+    },
+    {
+      "name": "Roll 2",
+      "type": "R",
+      "alpha": 90,
+      "a": 0,
+      "theta": 69.2,
+      "d": 120,
+      "min": -170,
+      "max": 170
+    }
+  ],
+  "toolOffset_mm": 0,
+  "toolOffsetZ_mm": 0,
+  "transform": [
+    [
+      -0.8258011471616509,
+      0.18640082698673782,
+      -0.5322660960883772,
+      -488.1360002425338
+    ],
+    [
+      -0.22299644794811185,
+      0.758958210771717,
+      0.6117638584492541,
+      227.41166301391053
+    ],
+    [
+      0.5180010130772201,
+      0.6238887448903484,
+      -0.5851818387904049,
+      -82.48588936677706
+    ],
+    [
+      0,
+      0,
+      0,
+      1
+    ]
+  ],
+  "baseHeight_mm": 140
+}
