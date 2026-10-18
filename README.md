@@ -1,0 +1,73 @@
+# Crayon Robotics Lab — Verified Modified-DH Workspace
+
+Your Crayon layout and light theme (sidebar, hero cards, pill tabs, 3D viewport), now running on a numerically verified robotics engine.
+
+## Run
+Open `index.html` in Chrome, Edge or Firefox. three.js is bundled in `vendor/`, so 3D works offline; only the Google Fonts are optional (system fonts are the fallback). `node tests/run_selftests.js` runs the 30 engine checks.
+
+## What changed under the hood
+| Page | Before | Now |
+|---|---|---|
+| Jacobian | finite-difference, position only (3×n) | analytic **6×n geometric Jacobian**, singular values (linear and 6D), condition, manipulability, singularity flag, finite-difference cross-check, angular velocity, **resolved-rate** solver |
+| Inverse kinematics | position-only DLS | DLS with **optional orientation (roll/pitch/yaw)**, **multi-start**, joint limits, several distinct solutions, every answer **re-checked by FK**, honest failure reasons, **Apply** button |
+| Dynamics | single-joint τ ≈ mgr·sin θ + Iα guess | full **M(q), C(q,q̇)q̇, g(q)**, inverse dynamics, selectable gravity direction, editable link masses, **RK4 forward simulation** with energy-drift check, play on robot |
+| Trajectory | single joint | adds a **synchronised all-joint move** to the last IK solution with limit checks |
+| Learning | – | in-page **self-test runner** (30 checks) |
+| Project | export only | **JSON import** with validation |
+
+All of it uses the Craig order `Rx(α[i-1]) Tx(a[i-1]) Rz(θ[i]) Tz(d[i])` plus the tool offset, exactly as the page's own forward kinematics. The engine's FK was compared with the page's FK on all 7 presets (identical), and a built-in test proves Modified DH ≡ classical DH for FK, Jacobian, M(q) and g(q).
+
+## v4 additions
+**Proper Modified-DH table** — columns in Craig order **α(i−1) · a(i−1) · θ(i) · d(i)**, colour-coded, with the joint-variable cell highlighted (θ for revolute, d for prismatic), min/max limits, an editable **tool frame row** (extra fixed frame: a_n along x, d_(n+1) along z), the transform banner and a live summary (DOF · joint string · reach). Row tools: move up/down, duplicate, insert, delete; Zero pose, Random pose, CSV and a "Load a robot…" menu.
+
+**16 robots** (7 original + 8 new + Custom): PUMA 560-style, UR5-style (matches the published zero-pose TCP −817.25, −191.45, −5.49 mm), IRB 120-style, Stanford arm (RRPRRR), 7-DOF redundant LBR-style arm, SCARA RRPR, Cylindrical RPP, Spherical RRP. Library cards show DOF, joint string and reach.
+
+**Fixed**
+- Switching a joint Prismatic → Revolute left the limits at [−250, 0]; now resets to ±180°.
+- Limits could be inverted (min ≥ max) or leave the joint outside its range; now corrected automatically.
+- The tool offset could not be edited and was x-only; now x and z, saved/exported/imported.
+- Export now includes the explicit `mdh_table`; import validates ranges.
+
+Tests: `node tests/run_selftests.js` (engine, 30 checks) and `npm i jsdom && node tests/ui_smoke_test.js` (24 UI checks across all robots).
+
+## v5 — prismatic joints, visualizer and audit fixes
+**3D visualizer rewritten around the real Modified-DH geometry.** Each link is drawn as its true path: a(i−1) along x(i−1), then d(i) along z(i) (verified to close on the FK origin for all 16 robots to 1e-13). **Prismatic joints** now show a grey slide rail across the full min…max range, red end-stops, a rod that grows with d, and a carriage block at the current position. **Revolute joints** are cylinders along their z axis. The selected joint glows.
+
+**Fixed**
+- Prismatic joints had no nudge buttons; now ±1 / ±10 mm and "min".
+- Inspector type switch forced limits [−250, 0] (conflicting with the table) and could leave d out of range. Table and inspector now share one validated edit path: type switch, min<max, and the variable is always clamped into its limits.
+- Joint cards showed d twice for prismatic joints; now Craig-ordered chips with the variable highlighted, a range bar and an AT LIMIT flag.
+- Dragging a slider pushed a new undo entry on every tick (undo history flooded); now one entry per drag.
+- Undo/redo and Save ignored the tool frame; they now restore joints + tool x/z. Stored/corrupt projects are sanitised at startup.
+- **Dynamics:** the slender-rod inertia estimate gave near-zero inertia to very short links (e.g. IRB-120 wrist), making the 5 ms RK4 simulation blow up (energy ~1e60). Added a minimum link inertia (~40 mm body radius) and a 2 ms step; the simulation now warns if the motion is still numerically stiff. Worst energy drift over a 2 s free swing across all 16 robots: 5.5e-4 (relative).
+
+Tests: `node tests/run_selftests.js` (30 engine checks); with `npm i jsdom`: `node tests/ui_smoke_test.js` (table, library, IK) and `node tests/ui_audit_test.js` (geometry, render, Jacobian vs finite differences, energy, NaN scan of every page for every robot, inspector/nudge/undo/save).
+
+
+## Publish on GitHub Pages
+1. Create a repository and upload **the contents of this folder** (keep `index.html` at the repository root, with `vendor/` beside it).
+2. Edit `LICENSE` and replace `<YOUR NAME>`.
+3. In the repository: **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `main` / `(root)` → Save.**
+4. After about a minute the site is live at `https://<user>.github.io/<repository>/`.
+The site is fully static: no build step and no server. All paths are relative, so it works under a `/repository/` sub-path.
+
+## v7 — quick features
+- **🔗 Share:** copies a link that contains the whole robot (joints, tool frame, base height); opening it loads that robot.
+- **Keyboard:** ← / → move the selected joint (Shift ×10), [ ] choose a joint, Ctrl+Z / Ctrl+Y undo/redo, P presentation mode.
+- **⛶ Present:** clean fullscreen layout for lectures (P or Esc to exit).
+- **Payload test** (Dynamics page): extra joint torque/force from a mass at the tool, via the Jacobian transpose.
+- **Quick quiz** (Learning Center): compute the tool position from a random Modified-DH table; scored.
+- **Fixes:** undo, save and export now include the base height; Random pose always finds a collision-free pose; Zero pose raises the base height if the arm would hit the floor.
+
+## v6 — collision model and scrollable UI
+**Collision.** Every link, joint housing, prismatic rod/carriage and the tool is a capsule. Checked against a **floor** (with an adjustable *Base height*; a pedestal is drawn under the base), the **pedestal**, and **self-collision** between non-neighbouring links (links joined through zero-length wrist joints count as connected). Colliding links turn **red** in 3D and a status pill names the culprit (floor / pedestal / J2↔J5). With *Block collisions* on, any move from a clear pose that would collide (slider, nudge, table, IK apply, trajectory, animation) is refused with a message. Presets pick a base height automatically so every robot loads clear of the floor. IK solutions are tagged "⚠ collides" and listed last; the workspace sampler can exclude colliding poses.
+
+**Scrolling and responsiveness.** Sticky, internally scrolling sidebar; joint tree and inspector scroll independently while the 3D view stays in place; tables get sticky headers and a bounded height; plot canvases scale to their container; the 3D view height adapts to the window; below 1000 px the sidebar becomes a horizontal strip; thin themed scrollbars; back-to-top button.
+
+Tests added: `node tests/ui_collision_test.js` (all 16 presets load clear, 600 random moves never end in collision, floor/pedestal detection, status pill, workspace filter, scroll rules).
+
+## Notes and limits
+- Units on the page stay mm/degrees; the engine works in m/rad internally.
+- Link masses are slender-rod estimates (default 1 kg per link, editable on the Dynamics page). Planar arms lying in the XY plane have zero gravity torque with −Z gravity; choose −Y gravity for a vertical plane.
+- Joint-limit-aware numerical IK can still fail near singularities; it then reports the best attempt instead of claiming success.
+- Presets are teaching models, not vendor-accurate robots.
