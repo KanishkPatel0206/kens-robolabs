@@ -1,9 +1,15 @@
-# Crayon Robotics Lab — Verified Modified-DH Workspace
+# ✳ Crayon Robotics Lab — Verified Modified-DH Workspace
 
-Your Crayon layout and light theme (sidebar, hero cards, pill tabs, 3D viewport), now running on a numerically verified robotics engine.
+**🌐 Live demo: https://kanishkpatel0206.github.io/crayon-robotics-lab/**
+
+An interactive robot-kinematics studio built around Craig-style **Modified Denavit–Hartenberg** parameters: a colour-coded editable MDH table with a tool frame, a real 3D viewer (with prismatic rails, floor and collision checking), 16 robot presets, forward and inverse kinematics, Jacobian, trajectories, workspace analysis and full dynamics. It runs entirely in your browser; nothing is uploaded.
+
+Your Crayon layout and light theme (sidebar, hero cards, pill tabs, 3D viewport), running on a numerically verified robotics engine.
 
 ## Run
-Open `index.html` in Chrome, Edge or Firefox. three.js is bundled in `vendor/`, so 3D works offline; only the Google Fonts are optional (system fonts are the fallback). `node tests/run_selftests.js` runs the 30 engine checks.
+**Online:** open the live demo above. **Locally:** open `index.html` in Chrome, Edge or Firefox (three.js is bundled in `vendor/`, so 3D works offline; only the Google Fonts are optional, system fonts are the fallback). `node tests/run_selftests.js` runs the 30 engine checks.
+
+**Share a robot:** press **🔗 Share** to copy a link that contains your whole robot, for example `https://kanishkpatel0206.github.io/crayon-robotics-lab/#s=…`.
 
 ## What changed under the hood
 | Page | Before | Now |
@@ -45,6 +51,7 @@ Tests: `node tests/run_selftests.js` (30 engine checks); with `npm i jsdom`: `no
 
 
 ## Publish on GitHub Pages
+This project is published from the `main` branch root. To publish your own copy:
 1. Create a repository and upload **the contents of this folder** (keep `index.html` at the repository root, with `vendor/` beside it).
 2. Edit `LICENSE` and replace `<YOUR NAME>`.
 3. In the repository: **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `main` / `(root)` → Save.**
@@ -71,3 +78,6 @@ Tests added: `node tests/ui_collision_test.js` (all 16 presets load clear, 600 r
 - Link masses are slender-rod estimates (default 1 kg per link, editable on the Dynamics page). Planar arms lying in the XY plane have zero gravity torque with −Z gravity; choose −Y gravity for a vertical plane.
 - Joint-limit-aware numerical IK can still fail near singularities; it then reports the best attempt instead of claiming success.
 - Presets are teaching models, not vendor-accurate robots.
+
+## Credits and licence
+MIT licensed. © 2026 Kanishk Patel (UI and integration) and © 2026 Atharva Bhosale (RoboLab Web engine). three.js is MIT licensed. See `LICENSE` and `NOTICE.md`.
