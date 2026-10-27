@@ -2,36 +2,42 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Crayon Robotics Lab v2 — Modified DH</title>
+<title>Ken’s RoboLabs v3 — Manipulator Kinematics Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#faf8ff;--white:#fff;--panel:#f3f2ff;--panel2:#ededfb;--ink:#191b25;--muted:#626879;--line:#d9d9e7;--blue:#76b9f2;--blue-dark:#076397;--coral:#ff8e80;--yellow:#ffe089;--mint:#a8e6cf;--lav:#c8b6f6;--shadow:3px 3px 0 #717880;--mono:'JetBrains Mono',monospace;--sans:'Outfit',sans-serif}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px}button,input,select{font:inherit}button{cursor:pointer;border:1px solid transparent;border-radius:10px;padding:9px 12px;background:var(--white);color:var(--ink);transition:.15s}button:hover{filter:brightness(.98);transform:translateY(-1px)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #76b9f2aa;outline-offset:1px}.primary{background:var(--blue);border-color:var(--blue-dark);box-shadow:2px 2px 0 var(--blue-dark);font-weight:600}.gold{background:var(--yellow);border-color:#b59b4c;box-shadow:2px 2px 0 #b59b4c;font-weight:600}.soft{background:var(--panel)}.danger{background:#ffe2dd;color:#852b21}.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}.muted{color:var(--muted)}.tiny{font-size:11px}.caps{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}.appbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:18px;padding:10px 18px;background:#faf8ffed;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);min-height:62px}.brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;white-space:nowrap}.logo{display:grid;place-items:center;width:35px;height:35px;border:2px solid var(--ink);border-radius:10px;background:var(--yellow);box-shadow:2px 2px 0 var(--ink);font-size:20px}.tag{font-size:10px;background:#d7ebff;padding:5px 7px;border-radius:7px;font-weight:700}.topnav{display:flex;gap:5px;margin-left:auto;background:var(--panel);padding:4px;border-radius:12px}.topnav button{background:transparent}.topnav button.active{background:var(--blue);box-shadow:2px 2px 0 var(--blue-dark);font-weight:600}.shell{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:calc(100vh - 62px)}aside{padding:18px 12px;background:#f3f2ff;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:8px}aside .caps{padding:0 10px 8px;color:var(--muted)}.navitem{display:flex;gap:10px;align-items:center;text-align:left;background:transparent;padding:11px 12px;border-radius:12px;color:#454b5a;width:100%}.navitem.active{background:var(--blue);color:#004971;box-shadow:3px 3px 0 var(--blue-dark);font-weight:600}.navicon{width:20px;text-align:center}.aside-note{margin-top:auto;background:var(--white);border:1px solid var(--line);border-radius:13px;padding:13px;box-shadow:2px 2px 0 #717880}.aside-note p{margin:8px 0 0;line-height:1.45;font-size:12px}.content{padding:20px;min-width:0;max-width:1800px;width:100%;margin:auto}.hero,.panel{background:var(--white);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}.hero{padding:17px;margin-bottom:20px}.hero-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.hero h1{font-size:21px;margin:0 0 6px}.pills{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.pill{font-size:10px;letter-spacing:.04em;font-weight:700;border-radius:7px;padding:5px 8px;background:var(--panel)}.pill.blue{background:#d7ebff;color:#064b76}.pill.yellow{background:#fff0bd}.formula{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;background:#fff6d9;border:1px solid #e0c35d;box-shadow:2px 2px 0 #927a2f;border-radius:12px;padding:13px 15px;margin-top:14px}.formula code{font-family:var(--mono);font-size:13px;font-weight:600;line-height:1.8}.legend{display:flex;gap:6px;flex-wrap:wrap}.legend span{font-size:11px;padding:5px 8px;border-radius:7px;font-family:var(--mono)}.legend .a{background:#d9f6e8}.legend .al{background:#d7ebff}.legend .d{background:#ffe1dd}.legend .th{background:#e9e0ff}.workspace{display:grid;grid-template-columns:minmax(220px, .82fr) minmax(360px,1.55fr) minmax(230px,.82fr);gap:16px;align-items:start}.panel{padding:15px;min-width:0;margin-bottom:16px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.panel h2{font-size:16px;margin:0}.panel h3{font-size:13px;margin:0}.badge{font-size:10px;padding:4px 7px;border-radius:7px;background:var(--panel);font-weight:700}.joint-list{display:flex;flex-direction:column;gap:9px}.joint-card{background:var(--panel);border:1px solid transparent;border-radius:12px;padding:10px;cursor:pointer}.joint-card.selected{background:#e5f2ff;border-color:var(--blue-dark);box-shadow:2px 2px 0 var(--blue-dark)}.joint-card .row{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:8px}.joint-number{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:7px;background:var(--blue);font-family:var(--mono);font-weight:700}.joint-meta{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:#fff;border-radius:8px;padding:8px;font-family:var(--mono);font-size:10px}.button-row{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}.button-row button{flex:1}.checklist{background:var(--panel);border-radius:11px;padding:12px;margin-top:12px;font-size:12px;line-height:1.55}.checklist div{margin-top:5px}.check{color:#087a58;font-weight:700}.viewport-panel{padding:0;overflow:hidden}.viewport-head{padding:12px 14px;background:var(--panel);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.view-tabs{display:flex;gap:4px}.view-tabs button{padding:6px 9px;font-size:11px;background:transparent}.view-tabs button.active{background:var(--blue);font-weight:700}.canvas{height:390px;position:relative;background:#fffefa;background-image:radial-gradient(#d9d9e7 1px,transparent 1px);background-size:20px 20px;overflow:hidden}.canvas svg{width:100%;height:100%;display:block}.viewport-tools{display:flex;gap:6px;flex-wrap:wrap;padding:9px 12px;background:#fff;border-top:1px solid var(--line)}.viewport-tools button{font-size:11px;padding:6px 8px;background:var(--panel)}.posebar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:10px 12px;background:#e8e8f7}.pose-values{display:flex;gap:7px;flex-wrap:wrap;font-family:var(--mono);font-size:12px}.pose-values span{background:#fff;padding:5px 8px;border-radius:6px}.inspector-block{background:var(--panel);padding:11px;border-radius:11px;margin-bottom:10px}.field-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.value{font-family:var(--mono);background:white;padding:5px 7px;border-radius:7px;min-width:75px;text-align:right}.range{width:100%;accent-color:var(--blue-dark)}.nudge{display:flex;gap:4px;margin-top:8px}.nudge button{flex:1;padding:5px 2px;font-size:10px;background:white}.param-field{display:grid;grid-template-columns:1fr 92px;gap:8px;align-items:center;padding:9px;background:var(--panel);border-radius:9px;margin-top:7px}.param-field label{font-size:12px}.param-field small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.param-field input,.param-field select{width:100%;min-width:0;border:1px solid var(--line);border-radius:7px;background:white;padding:7px;font-family:var(--mono);font-size:12px;text-align:right}.status{font-size:11px;background:#d9f6e8;padding:9px;border-radius:9px;margin-top:10px}.lower{margin-top:18px}.tabbar{display:flex;gap:6px;flex-wrap:wrap;background:var(--panel);padding:8px;border-radius:11px 11px 0 0}.tabbar button.active{background:var(--blue);box-shadow:2px 2px 0 var(--blue-dark);font-weight:700}.tabcontent{padding:14px;overflow:auto}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:760px;font-size:12px}th{background:var(--panel);text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.04em;padding:11px 9px}td{padding:8px 9px;border-bottom:1px solid #e4e5ee}tbody tr.selected{background:#eff7ff}td input,td select{width:100%;min-width:72px;padding:7px;border:1px solid var(--line);border-radius:6px;background:white;font:12px var(--mono)}.matrix-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:12px}.matrix-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;overflow:auto}.matrix-card h3{margin-bottom:10px}.matrix{display:grid;grid-template-columns:repeat(4,minmax(45px,1fr));gap:4px;font:11px var(--mono);min-width:210px}.matrix span{background:var(--panel);padding:7px 4px;text-align:center;border-radius:4px}.matrix .highlight{background:#fff0bd}.result-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.result-strip div{background:var(--panel);padding:10px;border-radius:9px}.result-strip strong{font:12px var(--mono);display:block;margin-top:5px}.toast{position:fixed;right:18px;bottom:18px;background:#202332;color:white;padding:12px 16px;border-radius:10px;box-shadow:0 5px 25px #0002;z-index:50;opacity:0;transform:translateY(12px);transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translateY(0)}.hidden{display:none!important}.footer-note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:10px}.mobile-menu{display:none}
+:root{--paper:#f2fbf7;--white:#fff;--panel:#e3f5ee;--panel2:#d6efe6;--ink:#0b2e3a;--muted:#4a6b72;--line:#c5e3d6;--blue:#2fbfd9;--blue-dark:#086b86;--coral:#4cc38a;--yellow:#9fe3b6;--red:#e5484d;--red-dark:#a62a30;--red-soft:#ffe3e1;--navy:#05424f;--mint:#a8e6cf;--lav:#8fd9a8;--shadow:3px 3px 0 #4f8a8c;--mono:'JetBrains Mono',monospace;--sans:'Outfit',sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px}button,input,select{font:inherit}button{cursor:pointer;border:1px solid transparent;border-radius:10px;padding:9px 12px;background:var(--white);color:var(--ink);transition:.15s}button:hover{filter:brightness(.98);transform:translateY(-1px)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #2fbfd9aa;outline-offset:1px}.primary{background:var(--blue);border-color:var(--blue-dark);box-shadow:2px 2px 0 var(--blue-dark);font-weight:600}.gold{background:var(--yellow);border-color:#3f9b6c;box-shadow:2px 2px 0 #3f9b6c;font-weight:600}.soft{background:var(--panel)}.danger{background:#ffe2dd;color:#852b21}.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}.muted{color:var(--muted)}.tiny{font-size:11px}.caps{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}.appbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:18px;padding:10px 18px;background:#f2fbf7ed;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);min-height:62px}.brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;white-space:nowrap}.logo{display:grid;place-items:center;width:35px;height:35px;border:2px solid var(--ink);border-radius:10px;background:var(--yellow);box-shadow:2px 2px 0 var(--ink);font-size:20px}.tag{font-size:10px;background:#c6f0f4;padding:5px 7px;border-radius:7px;font-weight:700}.topnav{display:flex;gap:5px;margin-left:auto;background:var(--panel);padding:4px;border-radius:12px}.topnav button{background:transparent}.topnav button.active{background:var(--blue);box-shadow:2px 2px 0 var(--blue-dark);font-weight:600}.shell{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:calc(100vh - 62px)}aside{padding:18px 12px;background:#e3f5ee;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:8px}aside .caps{padding:0 10px 8px;color:var(--muted)}.navitem{display:flex;gap:10px;align-items:center;text-align:left;background:transparent;padding:11px 12px;border-radius:12px;color:#2f5560;width:100%}.navitem.active{background:var(--blue);color:#05424f;box-shadow:3px 3px 0 var(--blue-dark);font-weight:600}.navicon{width:20px;text-align:center}.aside-note{margin-top:auto;background:var(--white);border:1px solid var(--line);border-radius:13px;padding:13px;box-shadow:2px 2px 0 #4f8a8c}.aside-note p{margin:8px 0 0;line-height:1.45;font-size:12px}.content{padding:20px;min-width:0;max-width:1800px;width:100%;margin:auto}.hero,.panel{background:var(--white);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}.hero{padding:17px;margin-bottom:20px}.hero-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.hero h1{font-size:21px;margin:0 0 6px}.pills{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.pill{font-size:10px;letter-spacing:.04em;font-weight:700;border-radius:7px;padding:5px 8px;background:var(--panel)}.pill.blue{background:#c6f0f4;color:#05424f}.pill.yellow{background:#d5f3e0}.formula{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;background:#e6f8ee;border:1px solid #8fd3ac;box-shadow:2px 2px 0 #2f7a5a;border-radius:12px;padding:13px 15px;margin-top:14px}.formula code{font-family:var(--mono);font-size:13px;font-weight:600;line-height:1.8}.legend{display:flex;gap:6px;flex-wrap:wrap}.legend span{font-size:11px;padding:5px 8px;border-radius:7px;font-family:var(--mono)}.legend .a{background:#d9f6e8}.legend .al{background:#c6f0f4}.legend .d{background:#ffe1dd}.legend .th{background:#dff3c4}.workspace{display:grid;grid-template-columns:minmax(220px, .82fr) minmax(360px,1.55fr) minmax(230px,.82fr);gap:16px;align-items:start}.panel{padding:15px;min-width:0;margin-bottom:16px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.panel h2{font-size:16px;margin:0}.panel h3{font-size:13px;margin:0}.badge{font-size:10px;padding:4px 7px;border-radius:7px;background:var(--panel);font-weight:700}.joint-list{display:flex;flex-direction:column;gap:9px}.joint-card{background:var(--panel);border:1px solid transparent;border-radius:12px;padding:10px;cursor:pointer}.joint-card.selected{background:#d4f2f5;border-color:var(--blue-dark);box-shadow:2px 2px 0 var(--blue-dark)}.joint-card .row{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:8px}.joint-number{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:7px;background:var(--blue);font-family:var(--mono);font-weight:700}.joint-meta{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:#fff;border-radius:8px;padding:8px;font-family:var(--mono);font-size:10px}.button-row{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}.button-row button{flex:1}.checklist{background:var(--panel);border-radius:11px;padding:12px;margin-top:12px;font-size:12px;line-height:1.55}.checklist div{margin-top:5px}.check{color:#087a58;font-weight:700}.viewport-panel{padding:0;overflow:hidden}.viewport-head{padding:12px 14px;background:var(--panel);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.view-tabs{display:flex;gap:4px}.view-tabs button{padding:6px 9px;font-size:11px;background:transparent}.view-tabs button.active{background:var(--blue);font-weight:700}.canvas{height:390px;position:relative;background:#f3fcfb;background-image:radial-gradient(#c5e3d6 1px,transparent 1px);background-size:20px 20px;overflow:hidden}.canvas svg{width:100%;height:100%;display:block}.viewport-tools{display:flex;gap:6px;flex-wrap:wrap;padding:9px 12px;background:#fff;border-top:1px solid var(--line)}.viewport-tools button{font-size:11px;padding:6px 8px;background:var(--panel)}.posebar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:10px 12px;background:#d2ece2}.pose-values{display:flex;gap:7px;flex-wrap:wrap;font-family:var(--mono);font-size:12px}.pose-values span{background:#fff;padding:5px 8px;border-radius:6px}.inspector-block{background:var(--panel);padding:11px;border-radius:11px;margin-bottom:10px}.field-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.value{font-family:var(--mono);background:white;padding:5px 7px;border-radius:7px;min-width:75px;text-align:right}.range{width:100%;accent-color:var(--blue-dark)}.nudge{display:flex;gap:4px;margin-top:8px}.nudge button{flex:1;padding:5px 2px;font-size:10px;background:white}.param-field{display:grid;grid-template-columns:1fr 92px;gap:8px;align-items:center;padding:9px;background:var(--panel);border-radius:9px;margin-top:7px}.param-field label{font-size:12px}.param-field small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.param-field input,.param-field select{width:100%;min-width:0;border:1px solid var(--line);border-radius:7px;background:white;padding:7px;font-family:var(--mono);font-size:12px;text-align:right}.status{font-size:11px;background:#d9f6e8;padding:9px;border-radius:9px;margin-top:10px}.lower{margin-top:18px}.tabbar{display:flex;gap:6px;flex-wrap:wrap;background:var(--panel);padding:8px;border-radius:11px 11px 0 0}.tabbar button.active{background:var(--blue);box-shadow:2px 2px 0 var(--blue-dark);font-weight:700}.tabcontent{padding:14px;overflow:auto}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:760px;font-size:12px}th{background:var(--panel);text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.04em;padding:11px 9px}td{padding:8px 9px;border-bottom:1px solid #d0e7de}tbody tr.selected{background:#e6f8f4}td input,td select{width:100%;min-width:72px;padding:7px;border:1px solid var(--line);border-radius:6px;background:white;font:12px var(--mono)}.matrix-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:12px}.matrix-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;overflow:auto}.matrix-card h3{margin-bottom:10px}.matrix{display:grid;grid-template-columns:repeat(4,minmax(45px,1fr));gap:4px;font:11px var(--mono);min-width:210px}.matrix span{background:var(--panel);padding:7px 4px;text-align:center;border-radius:4px}.matrix .highlight{background:#d5f3e0}.result-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.result-strip div{background:var(--panel);padding:10px;border-radius:9px}.result-strip strong{font:12px var(--mono);display:block;margin-top:5px}.toast{position:fixed;right:18px;bottom:18px;background:#0b3b4a;color:white;padding:12px 16px;border-radius:10px;box-shadow:0 5px 25px #0002;z-index:50;opacity:0;transform:translateY(12px);transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translateY(0)}.hidden{display:none!important}.footer-note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:10px}.mobile-menu{display:none}
 @media(max-width:1200px){.workspace{grid-template-columns:minmax(210px,.8fr) minmax(340px,1.4fr)}.right-col{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:14px}.right-col .panel{margin:0}.canvas{height:350px}}
 @media(max-width:800px){.shell{grid-template-columns:1fr}aside{display:none}.content{padding:12px}.appbar{padding:9px 12px;gap:8px}.topnav{display:none}.brand{font-size:14px}.tag{display:none}.workspace{grid-template-columns:1fr}.right-col{grid-column:auto;display:block}.right-col .panel{margin-bottom:14px}.canvas{height:320px}.hero h1{font-size:18px}.result-strip{grid-template-columns:1fr 1fr}.formula code{font-size:11px}.appbar .hide-mobile{display:none}}
 </style><script src="vendor/three.min.js"></script>
 <style>
-/* Integrated robotics analysis panels — same Crayon light theme */
-#robot3d{display:block;width:100%;height:100%;min-height:390px;touch-action:none;background:#f0f4fa}
+/* Integrated robotics analysis panels — same RoboLabs tropical theme */
+#robot3d{display:block;width:100%;height:100%;min-height:390px;touch-action:none;background:#e6f7f3}
 .canvas{position:relative}
 .advanced-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.analysis-output{background:#f3f2ff;border:1px solid var(--line);border-radius:11px;padding:12px;overflow:auto}
+.analysis-output{background:#e3f5ee;border:1px solid var(--line);border-radius:11px;padding:12px;overflow:auto}
 .analysis-output table{min-width:0}
 .analysis-output td,.analysis-output th{padding:8px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--mono);font-size:12px}
 .analysis-output th:first-child,.analysis-output td:first-child{text-align:left}
 .field-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:9px 0}
 .field-row label{font-size:12px;color:var(--muted)}.field-row input,.field-row select{max-width:150px;border:1px solid var(--line);border-radius:8px;padding:8px;background:#fff;color:var(--ink)}
-.plot-box{width:100%;height:270px;background:#f8faff;border:1px solid var(--line);border-radius:10px}
+.plot-box{width:100%;height:270px;background:#eefaf6;border:1px solid var(--line);border-radius:10px}
 @media(max-width:900px){.advanced-grid{grid-template-columns:1fr}#robot3d{min-height:320px}}
 </style>
-<meta name="description" content="Crayon Robotics Lab: an interactive Modified-DH (Craig) robot kinematics and dynamics studio with 3D visualisation, inverse kinematics, Jacobian, trajectories and collision checking.">
-<meta name="theme-color" content="#faf8ff"><meta property="og:title" content="Crayon Robotics Lab"><meta property="og:description" content="Interactive Modified Denavit–Hartenberg robot kinematics studio."><meta property="og:type" content="website"><meta property="og:url" content="https://kanishkpatel0206.github.io/crayon-robotics-lab/"><link rel="canonical" href="https://kanishkpatel0206.github.io/crayon-robotics-lab/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='14' fill='%23ffe089' stroke='%23191b25' stroke-width='4'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle'%3E%E2%9C%B3%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/v3.css?v=3.0.0">
+<meta name="description" content="Ken’s RoboLabs v3: a professional, browser-based Modified-DH manipulator kinematics and dynamics studio with 3D visualisation, inverse kinematics, Jacobian, trajectories, collision checking and teaching tools.">
+<meta name="application-version" content="3.0.0">
+<meta name="theme-color" content="#f2fbf7"><meta property="og:title" content="Ken’s RoboLabs v3 — Manipulator Kinematics Studio"><meta property="og:description" content="Interactive Modified Denavit–Hartenberg robot kinematics, dynamics and teaching studio."><meta property="og:type" content="website"><meta property="og:url" content="https://kanishkpatel0206.github.io/kens-robolabs/"><link rel="canonical" href="https://kanishkpatel0206.github.io/kens-robolabs/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="apple-touch-icon" href="favicon.svg">
 </head>
 <body>
+<script>try{var _o=localStorage.getItem('crayon-mdh-project');if(_o&&!localStorage.getItem('robolabs-project'))localStorage.setItem('robolabs-project',_o);var _t=localStorage.getItem('crayon-tour-v3');if(_t&&!localStorage.getItem('robolabs-tour-v3'))localStorage.setItem('robolabs-tour-v3',_t)}catch(e){}</script>
+<a class="skip-link" href="#mainContent">Skip to main content</a>
 <header class="appbar">
-  <div class="brand"><div class="logo">✳</div><span>Crayon Robotics Lab</span><span class="tag">MODIFIED DH · v2</span></div>
+  <div class="brand"><div class="logo" aria-hidden="true">🌺</div><span>Ken’s RoboLabs</span><span class="tag">MODIFIED DH · v3</span></div>
   <div class="topnav"><button class="active" data-page="workspace">Workspace</button><button data-page="library">Robot Library</button><button data-page="learn">Learning Center</button></div>
   <div style="display:flex;gap:7px;align-items:center"><button class="soft hide-mobile" id="undoBtn" title="Undo">↶</button><button class="soft hide-mobile" id="redoBtn" title="Redo">↷</button><button class="gold" id="saveBtn">▣ Save</button><button class="soft hide-mobile" id="exportBtn">↓ Export</button></div>
 </header>
@@ -42,7 +48,7 @@
   <button class="navitem" data-page="library"><span class="navicon">⌘</span>Robot Library</button>
   <button class="navitem" data-page="frames"><span class="navicon">⊙</span>Coordinate Frames</button>
   <button class="navitem" data-page="fk"><span class="navicon">⚙</span>Forward Kinematics</button>
-  <button class="navitem" data-page="ik"><span class="navicon">⌖</span>Inverse Kinematics (2R)</button>
+  <button class="navitem" data-page="ik"><span class="navicon">⌖</span>Inverse Kinematics</button>
   <button class="navitem" data-page="learn"><span class="navicon">▤</span>Learning Center</button>
   <button class="navitem" data-page="jacobian"><span class="navicon">∂</span>Jacobian & Velocity</button>
   <button class="navitem" data-page="trajectory"><span class="navicon">⌁</span>Trajectory Planner</button>
@@ -50,7 +56,7 @@
   <button class="navitem" data-page="dynamics"><span class="navicon">⚖</span>Dynamics Explorer</button>
   <div class="aside-note"><div class="caps">Your convention</div><div class="mono" style="font-size:11px;line-height:1.8;margin-top:7px">T = Rx(αᵢ₋₁) Tx(aᵢ₋₁) Rz(θᵢ) Tz(dᵢ)</div><p>Craig-style Modified DH. Matrix math and frame transforms update from your parameters.</p></div>
 </aside>
-<main class="content">
+<main class="content" id="mainContent" tabindex="-1">
 <section id="workspacePage">
   <div class="hero">
     <div class="hero-top"><div><h1>✎ Modified DH Calculator</h1><div class="muted">Build a robot, edit its parameters, and inspect every transformation.</div></div><div class="pills"><span class="pill blue">CRAIG-STYLE MDH</span><span class="pill">LIVE FORWARD KINEMATICS</span><span class="pill yellow">DEG / MM</span></div></div>
@@ -744,6 +750,28 @@ if (typeof module !== 'undefined' && module.exports) module.exports = RL;
 
 </script>
 <script>
+/* ===== v3 safety helpers (shared by every later script) ====================
+   Joint names are user-controlled via the table, project import and share
+   links. They are rendered with innerHTML throughout the legacy UI, so we
+   normalise them at every boundary and again before every render. This keeps
+   the existing renderers safe without rewriting them all in v3. */
+window.robolabsSafeName = function (value, fallback) {
+  var s = String(value == null ? '' : value)
+    .replace(/[<>&"'\u0000-\u001F\u007F]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 40);
+  return s || fallback || 'Joint';
+};
+window.robolabsSafeNumber = function (value, fallback, min, max) {
+  var n = Number(value);
+  if (!Number.isFinite(n)) n = fallback;
+  if (Number.isFinite(min) && n < min) n = min;
+  if (Number.isFinite(max) && n > max) n = max;
+  return n;
+};
+</script>
+<script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const rad=d=>d*Math.PI/180, deg=r=>r*180/Math.PI, fmt=(n,d=2)=>Number.isFinite(n)?n.toFixed(d):'—';
 let selected=0, currentPreset='3r', showFrames=true, trace=false, viewMode='iso', animating=false, animTimer=null, history=[], future=[], tracePoints=[];
@@ -771,16 +799,16 @@ function transform(j){return mul(mul(mul(Rx(rad(j.alpha)),Tx(j.a)),Rz(rad(j.thet
 function calc(){let T=identity(),Ts=[identity()],As=[];for(const j of joints){let A=transform(j);As.push(A);T=mul(T,A);Ts.push(T)}if(toolOffset!==0){T=mul(T,Tx(toolOffset));Ts.push(T)}return {T,Ts,As}}
 function pos(T){return [T[0][3],T[1][3],T[2][3]]}
 function yaw(T){return deg(Math.atan2(T[1][0],T[0][0]))}
-function renderJoints(){ $('#dofBadge').textContent='DOF: '+joints.length;$('#jointList').innerHTML=joints.map((j,i)=>`<div class="joint-card ${i===selected?'selected':''}" data-select="${i}"><div class="row"><span style="display:flex;align-items:center;gap:7px"><span class="joint-number">${i+1}</span><b>${j.name}</b></span><span class="badge">${j.type==='R'?'REVOLUTE':'PRISMATIC'}</span></div><div class="joint-meta"><span><b style="color:#c34b3c">a${sub(i)}:</b> ${fmt(j.a,1)} mm</span><span><b style="color:#176ca1">α${sub(i)}:</b> ${fmt(j.alpha,1)}°</span><span><b>d${i+1}:</b> ${fmt(j.d,1)} mm</span><span><b style="color:#715c12">${j.type==='R'?'θ':'d'}${i+1}:</b> ${fmt(j.type==='R'?j.theta:j.d,1)}${j.type==='R'?'°':' mm'}</span></div></div>`).join('');$$('[data-select]').forEach(el=>el.onclick=()=>{selected=+el.dataset.select;renderAll()})}
+function renderJoints(){ $('#dofBadge').textContent='DOF: '+joints.length;$('#jointList').innerHTML=joints.map((j,i)=>`<div class="joint-card ${i===selected?'selected':''}" data-select="${i}"><div class="row"><span style="display:flex;align-items:center;gap:7px"><span class="joint-number">${i+1}</span><b>${j.name}</b></span><span class="badge">${j.type==='R'?'REVOLUTE':'PRISMATIC'}</span></div><div class="joint-meta"><span><b style="color:#c34b3c">a${sub(i)}:</b> ${fmt(j.a,1)} mm</span><span><b style="color:#0a7f98">α${sub(i)}:</b> ${fmt(j.alpha,1)}°</span><span><b>d${i+1}:</b> ${fmt(j.d,1)} mm</span><span><b style="color:#086b86">${j.type==='R'?'θ':'d'}${i+1}:</b> ${fmt(j.type==='R'?j.theta:j.d,1)}${j.type==='R'?'°':' mm'}</span></div></div>`).join('');$$('[data-select]').forEach(el=>el.onclick=()=>{selected=+el.dataset.select;renderAll()})}
 function sub(i){return ['₀','₁','₂','₃','₄','₅','₆','₇','₈','₉','₁₀','₁₁'][i]||`₍${i}₎`}
 function renderInspector(){const j=joints[selected];if(!j)return;$('#inspectorTitle').textContent=j.name+' Inspector';$('#activeBadge').textContent='JOINT '+(selected+1);$('#jointVariableLabel').textContent=j.type==='R'?`Joint angle (θ${sub(selected+1)})`:`Joint offset (d${sub(selected+1)})`;$('#jointValue').textContent=fmt(j.type==='R'?j.theta:j.d,1);$('#jointSlider').min=j.type==='R'?j.min:j.min;$('#jointSlider').max=j.type==='R'?j.max:j.max;$('#jointSlider').step=j.type==='R'?'0.1':'1';$('#jointSlider').value=j.type==='R'?j.theta:j.d;$('#jointSlider').nextElementSibling.style.display=j.type==='R'?'flex':'none';$('#jointSlider').oninput=e=>{snap();let v=+e.target.value;if(j.type==='R')j.theta=v;else j.d=v;renderAll(false)};$('#paramFields').innerHTML=[['a','Link length a'+sub(selected),'Along X previous frame','mm'],['alpha','Link twist α'+sub(selected),'Rotation about X previous frame','deg'],['d','Joint offset d'+sub(selected+1),'Along current Z axis','mm'],['theta','Joint angle θ'+sub(selected+1),'Rotation about current Z axis','deg']].map(([key,label,help,unit])=>`<div class="param-field"><label><b>${label}</b><small>${help}</small></label><div><input type="number" step="${key==='alpha'||key==='theta'?'0.1':'1'}" data-param="${key}" value="${j[key]}"><small style="text-align:right">${unit}</small></div></div>`).join('')+`<div class="param-field"><label><b>Joint type</b><small>Revolute or prismatic</small></label><select data-param="type"><option value="R" ${j.type==='R'?'selected':''}>Revolute</option><option value="P" ${j.type==='P'?'selected':''}>Prismatic</option></select></div><div class="param-field"><label><b>Joint minimum</b><small>Limit in active unit</small></label><input data-param="min" type="number" value="${j.min}"></div><div class="param-field"><label><b>Joint maximum</b><small>Limit in active unit</small></label><input data-param="max" type="number" value="${j.max}"></div>`;$('#paramFields').querySelectorAll('[data-param]').forEach(inp=>inp.addEventListener('change',()=>{snap();const k=inp.dataset.param;let v=inp.value;j[k]=k==='type'?v:Number(v);if(k==='type'&&v==='P'){j.min=-250;j.max=0}if(k==='type'&&v==='R'){j.min=-180;j.max=180}renderAll(false)}));const ti=$('#toolOffsetInput');ti.value=toolOffset;ti.onchange=()=>{snap();toolOffset=Number(ti.value)||0;renderAll(false)}}
 function renderTable(){ $('#dhTableBody').innerHTML=joints.map((j,i)=>`<tr class="${i===selected?'selected':''}"><td>${i+1}</td><td><input data-i="${i}" data-k="name" value="${j.name}"></td><td><input type="number" data-i="${i}" data-k="a" value="${j.a}"></td><td><input type="number" data-i="${i}" data-k="alpha" value="${j.alpha}"></td><td><input type="number" data-i="${i}" data-k="theta" value="${j.theta}"></td><td><input type="number" data-i="${i}" data-k="d" value="${j.d}"></td><td><select data-i="${i}" data-k="type"><option value="R" ${j.type==='R'?'selected':''}>Revolute</option><option value="P" ${j.type==='P'?'selected':''}>Prismatic</option></select></td><td><span class="mono tiny">[${j.min}, ${j.max}]</span></td><td><span class="check">✓ Defined</span></td><td><button class="soft" data-edit="${i}">Edit</button><button class="danger" data-del="${i}" ${joints.length===1?'disabled':''}>×</button></td></tr>`).join('');$('#dhTableBody').querySelectorAll('[data-k]').forEach(inp=>inp.addEventListener('change',()=>{snap();let i=+inp.dataset.i,k=inp.dataset.k;joints[i][k]=k==='type'||k==='name'?inp.value:Number(inp.value);if(k==='type'&&inp.value==='P'){joints[i].min=-250;joints[i].max=0}selected=i;renderAll(false)}));$$('[data-edit]').forEach(b=>b.onclick=()=>{selected=+b.dataset.edit;renderAll();window.scrollTo({top:0,behavior:'smooth'})});$$('[data-del]').forEach(b=>b.onclick=()=>{snap();joints.splice(+b.dataset.del,1);selected=Math.min(selected,joints.length-1);renderAll()})}
 function matrixHtml(M,highlightLast=false){return `<div class="matrix">${M.map((row,i)=>row.map((v,j)=>`<span class="${highlightLast&&j===3?'highlight':''}">${fmt(v,4)}</span>`).join('')).join('')}</div>`}
-function renderMatrices(){let {T,Ts,As}=calc();$('#matrixGrid').innerHTML=As.map((A,i)=>`<div class="matrix-card"><h3>⁽${i}⁾T${i+1} <span class="muted tiny">Joint ${i+1}</span></h3>${matrixHtml(A,true)}</div>`).join('')+`<div class="matrix-card" style="border-color:#076397"><h3>⁰T${joints.length} · Final transform</h3>${matrixHtml(T,true)}<div class="footer-note">Highlighted column = translation (mm)</div></div>`;$('#frameGrid').innerHTML=Ts.map((T,i)=>`<div class="matrix-card"><h3>Frame {${i}}</h3>${matrixHtml(T,true)}</div>`).join('');$('#fkMatrix').innerHTML=matrixHtml(T,true);$('#fkSummary').innerHTML=`<div class="result-strip"><div><span class="caps">X</span><strong>${fmt(T[0][3])} mm</strong></div><div><span class="caps">Y</span><strong>${fmt(T[1][3])} mm</strong></div><div><span class="caps">Z</span><strong>${fmt(T[2][3])} mm</strong></div><div><span class="caps">Yaw</span><strong>${fmt(yaw(T))}°</strong></div></div>`;$('#stepsContent').innerHTML=As.map((A,i)=>`<div class="matrix-card" style="margin-bottom:10px"><h3>Step ${i+1}: A${i+1} = Rx(α${sub(i)}) Tx(a${sub(i)}) Rz(θ${sub(i+1)}) Tz(d${sub(i+1)})</h3>${matrixHtml(A)}</div>`).join('')+`<div class="matrix-card"><h3>Final multiplication</h3><p class="mono">⁰T${joints.length} = A₁ · A₂ · … · A${joints.length}</p>${matrixHtml(T,true)}</div>`}
-function renderRobot(){const {Ts}=calc();let pts=Ts.map(T=>pos(T));let max=200;for(let p of pts)max=Math.max(max,Math.abs(p[0]),Math.abs(p[1]),Math.abs(p[2]));let scale=250/(max||1);let project=p=>{if(viewMode==='top')return [350+p[0]*scale,230-p[1]*scale];if(viewMode==='front')return [350+p[0]*scale,230-p[2]*scale];return [350+(p[0]-p[1]*.35)*scale,250-(p[2]+(p[0]+p[1])*.20)*scale]};let xy=pts.map(project);let svg=`<defs><filter id="shadow"><feDropShadow dx="2" dy="3" stdDeviation="2" flood-opacity=".18"/></filter></defs><ellipse cx="350" cy="390" rx="110" ry="22" fill="#e4e3ee"/>`;svg+=`<path d="M280 385 L420 385 L400 350 L300 350Z" fill="#414653" stroke="#202332" stroke-width="2"/><rect x="323" y="322" width="54" height="35" rx="5" fill="#076397"/><circle cx="${xy[0][0]}" cy="${xy[0][1]}" r="15" fill="#ffe089" stroke="#7a641e" stroke-width="3"/>`;
-for(let i=0;i<xy.length-1;i++){let [x1,y1]=xy[i],[x2,y2]=xy[i+1];svg+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#064b76" stroke-width="24" stroke-linecap="round"/><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${i%2?'#ff8e80':'#76b9f2'}" stroke-width="18" stroke-linecap="round" filter="url(#shadow)"/>`;svg+=`<circle cx="${x2}" cy="${y2}" r="12" fill="#ffe089" stroke="#7a641e" stroke-width="3"/><circle cx="${x2}" cy="${y2}" r="4" fill="#fff"/>`}
-if(showFrames){Ts.forEach((T,i)=>{let [x,y]=xy[i],ang=Math.atan2(T[1][0],T[0][0]),len=35;let ex=x+len*Math.cos(ang),ey=y-len*Math.sin(ang),fx=x-len*Math.sin(ang),fy=y-len*Math.cos(ang);svg+=`<line x1="${x}" y1="${y}" x2="${ex}" y2="${ey}" stroke="#e34843" stroke-width="2.5"/><line x1="${x}" y1="${y}" x2="${fx}" y2="${fy}" stroke="#0c9b69" stroke-width="2.5"/><circle cx="${x}" cy="${y}" r="3" fill="#2768d8"/><text x="${x+7}" y="${y-9}" font-family="Outfit" font-size="12" font-weight="700" fill="#30323d">{${i}}</text>`})}
-if(trace&&xy.length)svg+=`<polyline points="${tracePoints.map(p=>p.join(',')).join(' ')}" fill="none" stroke="#c8b6f6" stroke-width="3" stroke-dasharray="5 5"/>`;svg+=`<text x="24" y="28" fill="#626879" font-family="Outfit" font-size="12">${viewMode==='top'?'TOP VIEW · XY':viewMode==='front'?'FRONT VIEW · XZ':'ISOMETRIC VIEW'}</text>`;$('#robotSvg').innerHTML=svg;tracePoints.push(xy[xy.length-1]);if(tracePoints.length>150)tracePoints.shift()}
+function renderMatrices(){let {T,Ts,As}=calc();$('#matrixGrid').innerHTML=As.map((A,i)=>`<div class="matrix-card"><h3>⁽${i}⁾T${i+1} <span class="muted tiny">Joint ${i+1}</span></h3>${matrixHtml(A,true)}</div>`).join('')+`<div class="matrix-card" style="border-color:#086b86"><h3>⁰T${joints.length} · Final transform</h3>${matrixHtml(T,true)}<div class="footer-note">Highlighted column = translation (mm)</div></div>`;$('#frameGrid').innerHTML=Ts.map((T,i)=>`<div class="matrix-card"><h3>Frame {${i}}</h3>${matrixHtml(T,true)}</div>`).join('');$('#fkMatrix').innerHTML=matrixHtml(T,true);$('#fkSummary').innerHTML=`<div class="result-strip"><div><span class="caps">X</span><strong>${fmt(T[0][3])} mm</strong></div><div><span class="caps">Y</span><strong>${fmt(T[1][3])} mm</strong></div><div><span class="caps">Z</span><strong>${fmt(T[2][3])} mm</strong></div><div><span class="caps">Yaw</span><strong>${fmt(yaw(T))}°</strong></div></div>`;$('#stepsContent').innerHTML=As.map((A,i)=>`<div class="matrix-card" style="margin-bottom:10px"><h3>Step ${i+1}: A${i+1} = Rx(α${sub(i)}) Tx(a${sub(i)}) Rz(θ${sub(i+1)}) Tz(d${sub(i+1)})</h3>${matrixHtml(A)}</div>`).join('')+`<div class="matrix-card"><h3>Final multiplication</h3><p class="mono">⁰T${joints.length} = A₁ · A₂ · … · A${joints.length}</p>${matrixHtml(T,true)}</div>`}
+function renderRobot(){const {Ts}=calc();let pts=Ts.map(T=>pos(T));let max=200;for(let p of pts)max=Math.max(max,Math.abs(p[0]),Math.abs(p[1]),Math.abs(p[2]));let scale=250/(max||1);let project=p=>{if(viewMode==='top')return [350+p[0]*scale,230-p[1]*scale];if(viewMode==='front')return [350+p[0]*scale,230-p[2]*scale];return [350+(p[0]-p[1]*.35)*scale,250-(p[2]+(p[0]+p[1])*.20)*scale]};let xy=pts.map(project);let svg=`<defs><filter id="shadow"><feDropShadow dx="2" dy="3" stdDeviation="2" flood-opacity=".18"/></filter></defs><ellipse cx="350" cy="390" rx="110" ry="22" fill="#cfe6dc"/>`;svg+=`<path d="M280 385 L420 385 L400 350 L300 350Z" fill="#2a505a" stroke="#0b3b4a" stroke-width="2"/><rect x="323" y="322" width="54" height="35" rx="5" fill="#086b86"/><circle cx="${xy[0][0]}" cy="${xy[0][1]}" r="15" fill="#9fe3b6" stroke="#0a6b50" stroke-width="3"/>`;
+for(let i=0;i<xy.length-1;i++){let [x1,y1]=xy[i],[x2,y2]=xy[i+1];svg+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#05424f" stroke-width="24" stroke-linecap="round"/><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${i%2?'#4cc38a':'#2fbfd9'}" stroke-width="18" stroke-linecap="round" filter="url(#shadow)"/>`;svg+=`<circle cx="${x2}" cy="${y2}" r="12" fill="#9fe3b6" stroke="#0a6b50" stroke-width="3"/><circle cx="${x2}" cy="${y2}" r="4" fill="#fff"/>`}
+if(showFrames){Ts.forEach((T,i)=>{let [x,y]=xy[i],ang=Math.atan2(T[1][0],T[0][0]),len=35;let ex=x+len*Math.cos(ang),ey=y-len*Math.sin(ang),fx=x-len*Math.sin(ang),fy=y-len*Math.cos(ang);svg+=`<line x1="${x}" y1="${y}" x2="${ex}" y2="${ey}" stroke="#e34843" stroke-width="2.5"/><line x1="${x}" y1="${y}" x2="${fx}" y2="${fy}" stroke="#0c9b69" stroke-width="2.5"/><circle cx="${x}" cy="${y}" r="3" fill="#2768d8"/><text x="${x+7}" y="${y-9}" font-family="Outfit" font-size="12" font-weight="700" fill="#0b2e3a">{${i}}</text>`})}
+if(trace&&xy.length)svg+=`<polyline points="${tracePoints.map(p=>p.join(',')).join(' ')}" fill="none" stroke="#8fd9a8" stroke-width="3" stroke-dasharray="5 5"/>`;svg+=`<text x="24" y="28" fill="#4a6b72" font-family="Outfit" font-size="12">${viewMode==='top'?'TOP VIEW · XY':viewMode==='front'?'FRONT VIEW · XZ':'ISOMETRIC VIEW'}</text>`;$('#robotSvg').innerHTML=svg;tracePoints.push(xy[xy.length-1]);if(tracePoints.length>150)tracePoints.shift()}
 function renderAll(updateTable=true){if(selected>=joints.length)selected=joints.length-1;renderJoints();renderInspector();if(updateTable)renderTable();renderMatrices();renderRobot();const {T}=calc(),p=pos(T);$('#poseX').textContent=fmt(p[0]);$('#poseY').textContent=fmt(p[1]);$('#poseZ').textContent=fmt(p[2]);$('#posePhi').textContent=fmt(yaw(T))+'°';$('#sumX').textContent=fmt(p[0]);$('#sumY').textContent=fmt(p[1]);$('#sumZ').textContent=fmt(p[2]);$('#sumPhi').textContent=fmt(yaw(T))+'°';$('#statusBox').textContent='✓ Matrix recalculated from current MDH parameters.'}
 function setPreset(name){snap();currentPreset=name;joints=structuredClone(defaults[name]||defaults['2r']);toolOffset=presetTool[name]??0;selected=0;tracePoints=[];renderAll();toast(name.toUpperCase()+' preset loaded')}
 function download(name,content,type){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();URL.revokeObjectURL(a.href)}
@@ -799,8 +827,8 @@ $('#fitView').onclick=()=>{tracePoints=[];renderRobot();toast('View fitted')};
 $('#traceBtn').onclick=()=>{trace=!trace;$('#traceBtn').textContent='⌁ Trace: '+(trace?'on':'off');if(!trace){tracePoints=[];trace3DPoints=[]}renderRobot()};
 $('#animateBtn').onclick=()=>{animating=!animating;$('#animateBtn').textContent=animating?'Ⅱ Pause':'▶ Animate';if(animating){animTimer=setInterval(()=>{let j=joints[selected];if(j.type==='R')j.theta=j.min+(Math.sin(Date.now()/800)+1)/2*(j.max-j.min);else j.d=j.min+(Math.sin(Date.now()/800)+1)/2*(j.max-j.min);$('#jointSlider').value=j.type==='R'?j.theta:j.d;renderAll(false)},60)}else clearInterval(animTimer)};
 $('#fkGo').onclick=()=>{renderAll();toast('Forward kinematics recalculated')};
-$('#saveBtn').onclick=()=>{localStorage.setItem('crayon-mdh-project',JSON.stringify({joints,currentPreset,toolOffset}));toast('Project saved in this browser')};
-$('#exportBtn').onclick=()=>download('crayon-mdh-project.json',JSON.stringify({convention:'Craig-style Modified DH',equation:'Rx(alpha[i-1]) Tx(a[i-1]) Rz(theta[i]) Tz(d[i])',currentPreset,joints,toolOffset_mm:toolOffset,transform:calc().T},null,2),'application/json');
+$('#saveBtn').onclick=()=>{localStorage.setItem('robolabs-project',JSON.stringify({joints,currentPreset,toolOffset}));toast('Project saved in this browser')};
+$('#exportBtn').onclick=()=>download('robolabs-project.json',JSON.stringify({convention:'Craig-style Modified DH',equation:'Rx(alpha[i-1]) Tx(a[i-1]) Rz(theta[i]) Tz(d[i])',currentPreset,joints,toolOffset_mm:toolOffset,transform:calc().T},null,2),'application/json');
 $('#jsonBtn').onclick=()=>$('#exportBtn').click();
 $('#csvBtn').onclick=()=>{let csv='i,name,a_(i-1)_mm,alpha_(i-1)_deg,theta_i_deg,d_i_mm,type,min,max\\n'+joints.map((j,i)=>[i+1,j.name,j.a,j.alpha,j.theta,j.d,j.type,j.min,j.max].join(',')).join('\\n');download('modified-dh-table.csv',csv,'text/csv')};
 $('#copyPoseBtn').onclick=()=>{let T=calc().T;let text=JSON.stringify({position_mm:pos(T),yaw_deg:yaw(T),T});navigator.clipboard?.writeText(text).then(()=>toast('Pose copied')).catch(()=>toast(text))};
@@ -809,24 +837,24 @@ $('#redoBtn').onclick=()=>{if(!future.length)return toast('Nothing to redo');his
 $('#solveIK').onclick=()=>{if(currentPreset!=='2r'&&!(joints.length===2&&joints.every(j=>j.type==='R'&&Math.abs(j.alpha)<1e-8))){$('#ikResult').textContent='The analytical solver assumes a 2R planar arm. Load the 2R Planar preset, or use the general position IK solver below.';return}if(joints.length<2){$('#ikResult').textContent='Load a 2R planar robot first.';return}let l1=joints[1].a||350,l2=toolOffset||joints[2]?.a||250,x=+$('#ikX').value,y=+$('#ikY').value,r2=x*x+y*y,c2=(r2-l1*l1-l2*l2)/(2*l1*l2);if(Math.abs(c2)>1){$('#ikResult').innerHTML='<div class="status" style="background:#ffe1dd">Target is unreachable for the approximate 2R link lengths.</div>';return}let t2=Math.acos(c2),sol=[t2,-t2].map(q=>{let t1=Math.atan2(y,x)-Math.atan2(l2*Math.sin(q),l1+l2*Math.cos(q));return [deg(t1),deg(q)]});$('#ikResult').innerHTML=`<div class="matrix-grid">${sol.map((s,i)=>`<div class="matrix-card"><h3>Solution ${i+1}</h3><p class="mono">θ₁ = ${fmt(s[0])}°<br>θ₂ = ${fmt(s[1])}°</p><button class="primary" data-applyik="${i}">Apply angles</button></div>`).join('')}</div>`;$$('[data-applyik]').forEach(b=>b.onclick=()=>{snap();joints[0].theta=sol[+b.dataset.applyik][0];joints[1].theta=sol[+b.dataset.applyik][1];renderAll();toast('IK solution applied')})};
 function solveLinear3(A,b){let M=A.map((r,i)=>r.slice().concat([b[i]]));for(let c=0;c<3;c++){let pivot=c;for(let r=c+1;r<3;r++)if(Math.abs(M[r][c])>Math.abs(M[pivot][c]))pivot=r;if(Math.abs(M[pivot][c])<1e-12)return null;[M[c],M[pivot]]=[M[pivot],M[c]];let d=M[c][c];for(let k=c;k<4;k++)M[c][k]/=d;for(let r=0;r<3;r++)if(r!==c){let f=M[r][c];for(let k=c;k<4;k++)M[r][k]-=f*M[c][k]}}return M.map(r=>r[3])}
 function solveGeneralPositionIK(target){let original=joints,originalOffset=toolOffset,candidate=structuredClone(joints),lambda=8,converged=false,error=Infinity,iterations=0;try{joints=candidate;for(iterations=0;iterations<250;iterations++){let p=pos(calc().T),e=target.map((v,k)=>v-p[k]);error=Math.hypot(...e);if(error<1){converged=true;break}let J=numericJacobian(),A=Array.from({length:3},(_,r)=>Array.from({length:3},(_,c)=>J[r].reduce((sum,v,i)=>sum+v*J[c][i],0)+(r===c?lambda*lambda:0))),y=solveLinear3(A,e);if(!y)break;let dq=J[0].map((_,i)=>J.reduce((sum,row,r)=>sum+row[i]*y[r],0));for(let i=0;i<candidate.length;i++){let j=candidate[i];dq[i]=Math.max(j.type==='R'?-.35:-20,Math.min(j.type==='R'?.35:20,dq[i]));let v=j.type==='R'?j.theta:j.d;v+=dq[i]*(j.type==='R'?180/Math.PI:1);v=Math.max(j.min,Math.min(j.max,v));if(j.type==='R')j.theta=v;else j.d=v}lambda=error>100?12:Math.max(1.5,lambda*.985)}return {joints:structuredClone(candidate),converged,error,iterations}}finally{joints=original;toolOffset=originalOffset}}
-$('#solveIK3D').onclick=()=>{let target=['ik3X','ik3Y','ik3Z'].map(id=>Number($('#'+id).value));if(target.some(v=>!Number.isFinite(v)))return $('#ik3Result').textContent='Enter finite X, Y and Z target coordinates.';let result=solveGeneralPositionIK(target);let pose=result.joints;let status=result.converged?`Converged in ${result.iterations} iterations; position error ${fmt(result.error,3)} mm.`:`Did not converge after ${result.iterations} iterations; final position error ${fmt(result.error,2)} mm. Try a reachable target or a different starting pose.`;$('#ik3Result').innerHTML=`<b>${result.converged?'✓ Target reached':'⚠ Target not reached'}</b><p>${status}</p><p class="mono">${pose.map((j,i)=>`${i+1}. ${j.name}: ${fmt(j.type==='R'?j.theta:j.d,2)} ${j.type==='R'?'°':'mm'}`).join('<br>')}</p>${result.converged?'<button class="primary" id="applyIK3">Apply solution</button>':''}`;let b=$('#applyIK3');if(b)b.onclick=()=>{snap();joints=structuredClone(result.joints);selected=0;tracePoints=[];trace3DPoints=[];renderAll();toast('Position IK solution applied')}};$('#jointSlider').oninput=()=>{};try{let saved=localStorage.getItem('crayon-mdh-project');if(saved){let d=JSON.parse(saved);if(d.joints?.length){joints=d.joints;currentPreset=d.currentPreset||'custom';toolOffset=Number(d.toolOffset)||0}}}catch(e){}
+$('#solveIK3D').onclick=()=>{let target=['ik3X','ik3Y','ik3Z'].map(id=>Number($('#'+id).value));if(target.some(v=>!Number.isFinite(v)))return $('#ik3Result').textContent='Enter finite X, Y and Z target coordinates.';let result=solveGeneralPositionIK(target);let pose=result.joints;let status=result.converged?`Converged in ${result.iterations} iterations; position error ${fmt(result.error,3)} mm.`:`Did not converge after ${result.iterations} iterations; final position error ${fmt(result.error,2)} mm. Try a reachable target or a different starting pose.`;$('#ik3Result').innerHTML=`<b>${result.converged?'✓ Target reached':'⚠ Target not reached'}</b><p>${status}</p><p class="mono">${pose.map((j,i)=>`${i+1}. ${j.name}: ${fmt(j.type==='R'?j.theta:j.d,2)} ${j.type==='R'?'°':'mm'}`).join('<br>')}</p>${result.converged?'<button class="primary" id="applyIK3">Apply solution</button>':''}`;let b=$('#applyIK3');if(b)b.onclick=()=>{snap();joints=structuredClone(result.joints);selected=0;tracePoints=[];trace3DPoints=[];renderAll();toast('Position IK solution applied')}};$('#jointSlider').oninput=()=>{};try{let saved=localStorage.getItem('robolabs-project');if(saved){let d=JSON.parse(saved);if(d.joints?.length){joints=d.joints;currentPreset=d.currentPreset||'custom';toolOffset=Number(d.toolOffset)||0}}}catch(e){}
 
 // --- Integrated 3D visualizer and analysis tools ---
 let scene3d=null,camera3d=null,renderer3d=null,robotGroup3d=null,frameGroup3d=null,drag3d=null,orbit3d={theta:-0.75,phi:0.95,r:1150,target:[180,0,80]},workspaceData=[],trajData=[],trajVelData=[],trajAccData=[],trajTimer=null,trace3DPoints=[];
-function init3D(){const canvas=$('#robot3d');if(!canvas||!window.THREE){if(canvas)canvas.style.display='none';$('#robotSvg').style.display='block';$('#webglFallback').style.display='block';return}try{scene3d=new THREE.Scene();scene3d.background=new THREE.Color('#f0f4fa');camera3d=new THREE.PerspectiveCamera(42,1,1,20000);camera3d.up.set(0,0,1);renderer3d=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});renderer3d.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer3d.setSize(canvas.clientWidth,canvas.clientHeight,false);renderer3d.outputEncoding=THREE.sRGBEncoding;scene3d.add(new THREE.HemisphereLight(0xffffff,0xc9d5e2,2));let light=new THREE.DirectionalLight(0xffffff,1.5);light.position.set(500,-700,1100);scene3d.add(light);let grid=new THREE.GridHelper(1800,36,0xb7c8d8,0xe0e7ef);grid.rotation.x=Math.PI/2;grid.position.z=-2;scene3d.add(grid);let axes=new THREE.AxesHelper(180);axes.material.depthTest=false;scene3d.add(axes);robotGroup3d=new THREE.Group();frameGroup3d=new THREE.Group();scene3d.add(robotGroup3d,frameGroup3d);updateCamera3D();canvas.addEventListener('pointerdown',e=>{drag3d={x:e.clientX,y:e.clientY,button:e.button,theta:orbit3d.theta,phi:orbit3d.phi,target:orbit3d.target.slice()};canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!drag3d)return;let dx=e.clientX-drag3d.x,dy=e.clientY-drag3d.y;if(drag3d.button===2||e.shiftKey){let k=orbit3d.r*.001;orbit3d.target[0]-=dx*k;orbit3d.target[1]+=dy*k}else{orbit3d.theta=drag3d.theta-dx*.008;orbit3d.phi=Math.max(.08,Math.min(Math.PI-.08,drag3d.phi+dy*.008))}updateCamera3D();});canvas.addEventListener('pointerup',()=>drag3d=null);canvas.addEventListener('pointercancel',()=>drag3d=null);canvas.addEventListener('contextmenu',e=>e.preventDefault());canvas.addEventListener('wheel',e=>{e.preventDefault();orbit3d.r=Math.max(250,Math.min(6000,orbit3d.r*Math.exp(e.deltaY*.001)));updateCamera3D()},{passive:false});if(window.ResizeObserver)new ResizeObserver(()=>{if(!renderer3d)return;let w=canvas.clientWidth,h=canvas.clientHeight;renderer3d.setSize(w,h,false);camera3d.aspect=w/Math.max(h,1);camera3d.updateProjectionMatrix()}).observe(canvas);(function loop(){if(!renderer3d)return;requestAnimationFrame(loop);renderer3d.render(scene3d,camera3d)})();render3D()}catch(e){console.warn('3D renderer unavailable',e);$('#robot3d').style.display='none';$('#robotSvg').style.display='block';$('#webglFallback').style.display='block'}}
+function init3D(){const canvas=$('#robot3d');if(!canvas||!window.THREE){if(canvas)canvas.style.display='none';$('#robotSvg').style.display='block';$('#webglFallback').style.display='block';return}try{scene3d=new THREE.Scene();scene3d.background=new THREE.Color('#e6f7f3');camera3d=new THREE.PerspectiveCamera(42,1,1,20000);camera3d.up.set(0,0,1);renderer3d=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});renderer3d.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer3d.setSize(canvas.clientWidth,canvas.clientHeight,false);renderer3d.outputEncoding=THREE.sRGBEncoding;scene3d.add(new THREE.HemisphereLight(0xffffff,0xc9d5e2,2));let light=new THREE.DirectionalLight(0xffffff,1.5);light.position.set(500,-700,1100);scene3d.add(light);let grid=new THREE.GridHelper(1800,36,0xb7c8d8,0xe0e7ef);grid.rotation.x=Math.PI/2;grid.position.z=-2;scene3d.add(grid);let axes=new THREE.AxesHelper(180);axes.material.depthTest=false;scene3d.add(axes);robotGroup3d=new THREE.Group();frameGroup3d=new THREE.Group();scene3d.add(robotGroup3d,frameGroup3d);updateCamera3D();canvas.addEventListener('pointerdown',e=>{drag3d={x:e.clientX,y:e.clientY,button:e.button,theta:orbit3d.theta,phi:orbit3d.phi,target:orbit3d.target.slice()};canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!drag3d)return;let dx=e.clientX-drag3d.x,dy=e.clientY-drag3d.y;if(drag3d.button===2||e.shiftKey){let k=orbit3d.r*.001;orbit3d.target[0]-=dx*k;orbit3d.target[1]+=dy*k}else{orbit3d.theta=drag3d.theta-dx*.008;orbit3d.phi=Math.max(.08,Math.min(Math.PI-.08,drag3d.phi+dy*.008))}updateCamera3D();});canvas.addEventListener('pointerup',()=>drag3d=null);canvas.addEventListener('pointercancel',()=>drag3d=null);canvas.addEventListener('contextmenu',e=>e.preventDefault());canvas.addEventListener('wheel',e=>{e.preventDefault();orbit3d.r=Math.max(250,Math.min(6000,orbit3d.r*Math.exp(e.deltaY*.001)));updateCamera3D()},{passive:false});if(window.ResizeObserver)new ResizeObserver(()=>{if(!renderer3d)return;let w=canvas.clientWidth,h=canvas.clientHeight;renderer3d.setSize(w,h,false);camera3d.aspect=w/Math.max(h,1);camera3d.updateProjectionMatrix()}).observe(canvas);(function loop(){if(!renderer3d)return;requestAnimationFrame(loop);renderer3d.render(scene3d,camera3d)})();render3D()}catch(e){console.warn('3D renderer unavailable',e);$('#robot3d').style.display='none';$('#robotSvg').style.display='block';$('#webglFallback').style.display='block'}}
 function updateCamera3D(){if(!camera3d)return;let [tx,ty,tz]=orbit3d.target,r=orbit3d.r,ph=orbit3d.phi,th=orbit3d.theta;camera3d.position.set(tx+r*Math.sin(ph)*Math.cos(th),ty+r*Math.sin(ph)*Math.sin(th),tz+r*Math.cos(ph));camera3d.lookAt(tx,ty,tz);camera3d.updateProjectionMatrix()}
 function cylBetween(a,b,radius,material){let A=new THREE.Vector3(...a),B=new THREE.Vector3(...b),d=new THREE.Vector3().subVectors(B,A),len=d.length();if(len<.001)return new THREE.Mesh(new THREE.SphereGeometry(radius,16,12),material);let m=new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,len,20),material);m.position.copy(A).add(B).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());return m}
-function render3D(){if(!scene3d||!robotGroup3d)return;while(robotGroup3d.children.length){let o=robotGroup3d.children.pop();o.traverse?.(x=>{x.geometry?.dispose?.();if(x.material){if(Array.isArray(x.material))x.material.forEach(m=>m.dispose());else x.material.dispose()}})}while(frameGroup3d.children.length){let o=frameGroup3d.children.pop();o.traverse?.(x=>{x.geometry?.dispose?.();x.material?.dispose?.()})}let Ts=calc().Ts,pts=Ts.map(pos);let baseMat=new THREE.MeshStandardMaterial({color:'#394150',metalness:.28,roughness:.42}),linkMats=[new THREE.MeshStandardMaterial({color:'#2878c8',metalness:.22,roughness:.32}),new THREE.MeshStandardMaterial({color:'#e65b45',metalness:.18,roughness:.34}),new THREE.MeshStandardMaterial({color:'#16856f',metalness:.2,roughness:.34}),new THREE.MeshStandardMaterial({color:'#805ad5',metalness:.2,roughness:.32})],jointMat=new THREE.MeshStandardMaterial({color:'#f3b51b',metalness:.28,roughness:.3}),toolMat=new THREE.MeshStandardMaterial({color:'#123d68',metalness:.32,roughness:.28});let base=new THREE.Mesh(new THREE.CylinderGeometry(115,135,35,40),baseMat);base.rotation.x=Math.PI/2;base.position.set(0,0,-22);robotGroup3d.add(base);let plinth=new THREE.Mesh(new THREE.BoxGeometry(150,150,32),baseMat);plinth.position.set(0,0,8);robotGroup3d.add(plinth);pts.forEach((p,i)=>{let sph=new THREE.Mesh(new THREE.SphereGeometry(i===pts.length-1?27:22,24,16),i===pts.length-1?toolMat:jointMat);sph.position.set(...p);robotGroup3d.add(sph);if(i<pts.length-1){robotGroup3d.add(cylBetween(p,pts[i+1],i===0?17:14,linkMats[i%linkMats.length]));}});if(showFrames){Ts.forEach((T,i)=>{let o=pos(T),len=70;for(let k=0;k<3;k++){let end=[o[0]+T[0][k]*len,o[1]+T[1][k]*len,o[2]+T[2][k]*len],mat=new THREE.LineBasicMaterial({color:['#e34843','#0c9b69','#2768d8'][k],depthTest:false}),geo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...o),new THREE.Vector3(...end)]);frameGroup3d.add(new THREE.Line(geo,mat))}})}if(pts.length){trace3DPoints.push(pts[pts.length-1].slice());if(trace3DPoints.length>150)trace3DPoints.shift()}if(trace&&trace3DPoints.length>1){let arr=trace3DPoints.map(p=>new THREE.Vector3(p[0],p[1],p[2]));frameGroup3d.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(arr),new THREE.LineBasicMaterial({color:'#9b80dd'})))}}
+function render3D(){if(!scene3d||!robotGroup3d)return;while(robotGroup3d.children.length){let o=robotGroup3d.children.pop();o.traverse?.(x=>{x.geometry?.dispose?.();if(x.material){if(Array.isArray(x.material))x.material.forEach(m=>m.dispose());else x.material.dispose()}})}while(frameGroup3d.children.length){let o=frameGroup3d.children.pop();o.traverse?.(x=>{x.geometry?.dispose?.();x.material?.dispose?.()})}let Ts=calc().Ts,pts=Ts.map(pos);let baseMat=new THREE.MeshStandardMaterial({color:'#2a505a',metalness:.28,roughness:.42}),linkMats=[new THREE.MeshStandardMaterial({color:'#1a8fd0',metalness:.22,roughness:.32}),new THREE.MeshStandardMaterial({color:'#e5484d',metalness:.18,roughness:.34}),new THREE.MeshStandardMaterial({color:'#16856f',metalness:.2,roughness:.34}),new THREE.MeshStandardMaterial({color:'#2e9e5b',metalness:.2,roughness:.32})],jointMat=new THREE.MeshStandardMaterial({color:'#4cc38a',metalness:.28,roughness:.3}),toolMat=new THREE.MeshStandardMaterial({color:'#0a4a5e',metalness:.32,roughness:.28});let base=new THREE.Mesh(new THREE.CylinderGeometry(115,135,35,40),baseMat);base.rotation.x=Math.PI/2;base.position.set(0,0,-22);robotGroup3d.add(base);let plinth=new THREE.Mesh(new THREE.BoxGeometry(150,150,32),baseMat);plinth.position.set(0,0,8);robotGroup3d.add(plinth);pts.forEach((p,i)=>{let sph=new THREE.Mesh(new THREE.SphereGeometry(i===pts.length-1?27:22,24,16),i===pts.length-1?toolMat:jointMat);sph.position.set(...p);robotGroup3d.add(sph);if(i<pts.length-1){robotGroup3d.add(cylBetween(p,pts[i+1],i===0?17:14,linkMats[i%linkMats.length]));}});if(showFrames){Ts.forEach((T,i)=>{let o=pos(T),len=70;for(let k=0;k<3;k++){let end=[o[0]+T[0][k]*len,o[1]+T[1][k]*len,o[2]+T[2][k]*len],mat=new THREE.LineBasicMaterial({color:['#e34843','#0c9b69','#2768d8'][k],depthTest:false}),geo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...o),new THREE.Vector3(...end)]);frameGroup3d.add(new THREE.Line(geo,mat))}})}if(pts.length){trace3DPoints.push(pts[pts.length-1].slice());if(trace3DPoints.length>150)trace3DPoints.shift()}if(trace&&trace3DPoints.length>1){let arr=trace3DPoints.map(p=>new THREE.Vector3(p[0],p[1],p[2]));frameGroup3d.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(arr),new THREE.LineBasicMaterial({color:'#4cb88a'})))}}
 function setCameraPreset(mode){if(!camera3d)return;if(mode==='top'){orbit3d.theta=-Math.PI/2;orbit3d.phi=.08}else if(mode==='front'){orbit3d.theta=-Math.PI/2;orbit3d.phi=Math.PI/2}else{orbit3d.theta=-.75;orbit3d.phi=.95}updateCamera3D()}
 function numericJacobian(){let base=calc().T,p0=pos(base),cols=[];for(let i=0;i<joints.length;i++){let j=joints[i],eps=j.type==='R'?.01:.1,old=j.type==='R'?j.theta:j.d;if(j.type==='R')j.theta=old+eps;else j.d=old+eps;let p1=pos(calc().T);if(j.type==='R')j.theta=old;else j.d=old;cols.push(p1.map((v,k)=>(v-p0[k])/(j.type==='R'?rad(eps):eps)))}return [0,1,2].map(r=>cols.map(c=>c[r]))}
 function symmetricEigenvalues3(A){let M=A.map(r=>r.slice());for(let k=0;k<18;k++){let p=0,q=1;if(Math.abs(M[0][2])>Math.abs(M[p][q])){p=0;q=2}if(Math.abs(M[1][2])>Math.abs(M[p][q])){p=1;q=2}if(Math.abs(M[p][q])<1e-10)break;let phi=.5*Math.atan2(2*M[p][q],M[q][q]-M[p][p]),c=Math.cos(phi),sn=Math.sin(phi),app=c*c*M[p][p]-2*sn*c*M[p][q]+sn*sn*M[q][q],aqq=sn*sn*M[p][p]+2*sn*c*M[p][q]+c*c*M[q][q];for(let r=0;r<3;r++)if(r!==p&&r!==q){let rp=c*M[r][p]-sn*M[r][q],rq=sn*M[r][p]+c*M[r][q];M[r][p]=M[p][r]=rp;M[r][q]=M[q][r]=rq}M[p][p]=app;M[q][q]=aqq;M[p][q]=M[q][p]=0}return [M[0][0],M[1][1],M[2][2]].map(v=>Math.max(0,v)).sort((a,b)=>b-a)}
 function renderJacobian(){let J=numericJacobian(),G=Array.from({length:3},(_,r)=>Array.from({length:3},(_,c)=>J[r].reduce((sum,v,i)=>sum+v*J[c][i],0))),ev=symmetricEigenvalues3(G),sv=ev.map(v=>Math.sqrt(v)),cond=sv[2]>1e-8?sv[0]/sv[2]:Infinity,manip=Math.sqrt(ev.reduce((a,b)=>a*b,1));$('#jacobianResult').innerHTML=`<table><thead><tr><th>Axis</th>${joints.map((j,i)=>`<th>J${i+1}</th>`).join('')}</tr></thead><tbody>${J.map((row,i)=>`<tr><td>${['X','Y','Z'][i]}</td>${row.map(v=>`<td>${fmt(v,4)}</td>`).join('')}</tr>`).join('')}</tbody></table><div class="pose-values" style="margin-top:12px"><span>σ₁ ${fmt(sv[0],3)}</span><span>σ₂ ${fmt(sv[1],3)}</span><span>σ₃ ${fmt(sv[2],3)}</span><span>Condition ${Number.isFinite(cond)?fmt(cond,2):'∞ (singular)'}</span><span>Manipulability ${fmt(manip,3)}</span></div><p class="tiny muted">Singularity indicators use the translational Jacobian Jv only; units vary with revolute/prismatic joint coordinates.</p>`;$('#rateInputs').innerHTML=joints.map((j,i)=>`<div class="field-row"><label>${j.name} rate (${j.type==='R'?'rad/s':'mm/s'})</label><input type="number" step="0.1" value="0" data-rate="${i}"></div>`).join('');updateVelocity()}
 function updateVelocity(){if(!$('#velocityResult'))return;let J=numericJacobian(),rates=joints.map((j,i)=>{let e=$(`[data-rate="${i}"]`);let v=e?Number(e.value)||0:0;return j.type==='R'?v:v});let v=[0,1,2].map(r=>J[r].reduce((sum,a,i)=>sum+a*rates[i],0));$('#velocityResult').innerHTML=`<b>TCP linear velocity</b><div class="pose-values" style="margin-top:8px"><span>Vx ${fmt(v[0])} mm/s</span><span>Vy ${fmt(v[1])} mm/s</span><span>Vz ${fmt(v[2])} mm/s</span></div>`}
 function refreshJointSelects(){['trajJoint','dynJoint'].forEach(id=>{let el=$('#'+id),old=el.value;el.innerHTML=joints.map((j,i)=>`<option value="${i}">${i+1}. ${j.name} (${j.type})</option>`).join('');if(old<joints.length)el.value=old});if($('#trajJoint')){let j=joints[Number($('#trajJoint').value)||0];$('#trajStart').value=j?(j.type==='R'?j.theta:j.d):0;$('#trajEnd').value=j?(j.type==='R'?Math.min(j.max,(j.type==='R'?j.theta:j.d)+45):Math.min(j.max,j.d+30)):0}}
-function drawLinePlot(canvas,points,color='#076397'){if(!canvas)return;let ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#fffefa';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#e1e5ed';ctx.lineWidth=1;for(let i=1;i<6;i++){ctx.beginPath();ctx.moveTo(35,i*h/6);ctx.lineTo(w-12,i*h/6);ctx.stroke()}if(!points.length)return;let xs=points.map(p=>p[0]),ys=points.map(p=>p[1]),xmin=Math.min(...xs),xmax=Math.max(...xs)||1,ymin=Math.min(...ys),ymax=Math.max(...ys);if(ymax===ymin){ymax+=1;ymin-=1}ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.beginPath();points.forEach((p,i)=>{let x=35+(p[0]-xmin)/(xmax-xmin||1)*(w-50),y=h-25-(p[1]-ymin)/(ymax-ymin)*(h-40);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();ctx.fillStyle='#626879';ctx.font='12px sans-serif';ctx.fillText(ymax.toFixed(1),4,18);ctx.fillText(ymin.toFixed(1),4,h-8);ctx.fillText('time / sample',w/2-35,h-5)}
-function generateTrajectory(){let i=Number($('#trajJoint').value)||0,j=joints[i],q0=Number($('#trajStart').value),q1=Number($('#trajEnd').value),duration=Math.max(.2,Math.min(60,Number($('#trajDuration').value)||4)),kind=$('#trajType')?.value||'cubic';if(!j||!Number.isFinite(q0)||!Number.isFinite(q1)){toast('Enter valid trajectory values');return}if(q0<j.min||q0>j.max||q1<j.min||q1>j.max){$('#trajStatus').textContent=`Target values must stay within joint limits [${j.min}, ${j.max}].`;return}trajData=[];trajVelData=[];trajAccData=[];let delta=q1-q0;for(let k=0;k<=100;k++){let t=duration*k/100,u=t/duration,q,qd,qdd;if(kind==='quintic'){q=q0+delta*(10*u**3-15*u**4+6*u**5);qd=delta/duration*(30*u**2-60*u**3+30*u**4);qdd=delta/(duration*duration)*(60*u-180*u**2+120*u**3)}else{q=q0+delta*(3*u*u-2*u*u*u);qd=delta/duration*(6*u-6*u*u);qdd=delta/(duration*duration)*(6-12*u)}trajData.push([t,q]);trajVelData.push([t,qd]);trajAccData.push([t,qdd])}drawLinePlot($('#trajPlot'),trajData,'#2878c8');drawLinePlot($('#trajVelPlot'),trajVelData,'#16856f');drawLinePlot($('#trajAccPlot'),trajAccData,'#e65b45');$('#trajStatus').textContent=`Generated 101 ${kind} samples for ${j.name}; duration ${duration.toFixed(2)} s.`}
+function drawLinePlot(canvas,points,color='#086b86'){if(!canvas)return;let ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#f3fcfb';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#d5e8e2';ctx.lineWidth=1;for(let i=1;i<6;i++){ctx.beginPath();ctx.moveTo(35,i*h/6);ctx.lineTo(w-12,i*h/6);ctx.stroke()}if(!points.length)return;let xs=points.map(p=>p[0]),ys=points.map(p=>p[1]),xmin=Math.min(...xs),xmax=Math.max(...xs)||1,ymin=Math.min(...ys),ymax=Math.max(...ys);if(ymax===ymin){ymax+=1;ymin-=1}ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.beginPath();points.forEach((p,i)=>{let x=35+(p[0]-xmin)/(xmax-xmin||1)*(w-50),y=h-25-(p[1]-ymin)/(ymax-ymin)*(h-40);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();ctx.fillStyle='#4a6b72';ctx.font='12px sans-serif';ctx.fillText(ymax.toFixed(1),4,18);ctx.fillText(ymin.toFixed(1),4,h-8);ctx.fillText('time / sample',w/2-35,h-5)}
+function generateTrajectory(){let i=Number($('#trajJoint').value)||0,j=joints[i],q0=Number($('#trajStart').value),q1=Number($('#trajEnd').value),duration=Math.max(.2,Math.min(60,Number($('#trajDuration').value)||4)),kind=$('#trajType')?.value||'cubic';if(!j||!Number.isFinite(q0)||!Number.isFinite(q1)){toast('Enter valid trajectory values');return}if(q0<j.min||q0>j.max||q1<j.min||q1>j.max){$('#trajStatus').textContent=`Target values must stay within joint limits [${j.min}, ${j.max}].`;return}trajData=[];trajVelData=[];trajAccData=[];let delta=q1-q0;for(let k=0;k<=100;k++){let t=duration*k/100,u=t/duration,q,qd,qdd;if(kind==='quintic'){q=q0+delta*(10*u**3-15*u**4+6*u**5);qd=delta/duration*(30*u**2-60*u**3+30*u**4);qdd=delta/(duration*duration)*(60*u-180*u**2+120*u**3)}else{q=q0+delta*(3*u*u-2*u*u*u);qd=delta/duration*(6*u-6*u*u);qdd=delta/(duration*duration)*(6-12*u)}trajData.push([t,q]);trajVelData.push([t,qd]);trajAccData.push([t,qdd])}drawLinePlot($('#trajPlot'),trajData,'#1a8fd0');drawLinePlot($('#trajVelPlot'),trajVelData,'#16856f');drawLinePlot($('#trajAccPlot'),trajAccData,'#e5484d');$('#trajStatus').textContent=`Generated 101 ${kind} samples for ${j.name}; duration ${duration.toFixed(2)} s.`}
 function sampleWorkspace(){let count=Number($('#workspaceSamples').value)||1000,proj=$('#workspaceProjection').value;workspaceData=[];let originals=joints.map(j=>({...j}));for(let n=0;n<count;n++){joints.forEach(j=>{let q=j.min+Math.random()*(j.max-j.min);if(j.type==='R')j.theta=q;else j.d=q});let p=pos(calc().T);workspaceData.push(p)}joints=originals;let ix=proj==='xy'?[0,1]:proj==='xz'?[0,2]:[1,2],pts=workspaceData.map(p=>[p[ix[0]],p[ix[1]]]);drawWorkspaceCanvas($('#workspacePlot'),pts);$('#workspaceSummary').textContent=`Sampled ${count.toLocaleString()} configurations. Approximate bounds: ${['X','Y','Z'].map((n,i)=>`${n} ${Math.min(...workspaceData.map(p=>p[i])).toFixed(1)} to ${Math.max(...workspaceData.map(p=>p[i])).toFixed(1)} mm`).join(' · ')}.`;renderAll(false)}
-function drawWorkspaceCanvas(canvas,pts){let ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#fffefa';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#e1e5ed';for(let i=1;i<10;i++){ctx.beginPath();ctx.moveTo(i*w/10,0);ctx.lineTo(i*w/10,h);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i*h/10);ctx.lineTo(w,i*h/10);ctx.stroke()}if(!pts.length)return;let xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),xmin=Math.min(...xs),xmax=Math.max(...xs),ymin=Math.min(...ys),ymax=Math.max(...ys);let dx=xmax-xmin||1,dy=ymax-ymin||1;ctx.fillStyle='#076397aa';pts.forEach(p=>{let x=15+(p[0]-xmin)/dx*(w-30),y=h-15-(p[1]-ymin)/dy*(h-30);ctx.fillRect(x,y,2.5,2.5)});ctx.fillStyle='#626879';ctx.font='13px sans-serif';ctx.fillText('Reachable TCP projection · mm',12,18)}
+function drawWorkspaceCanvas(canvas,pts){let ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#f3fcfb';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#d5e8e2';for(let i=1;i<10;i++){ctx.beginPath();ctx.moveTo(i*w/10,0);ctx.lineTo(i*w/10,h);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i*h/10);ctx.lineTo(w,i*h/10);ctx.stroke()}if(!pts.length)return;let xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),xmin=Math.min(...xs),xmax=Math.max(...xs),ymin=Math.min(...ys),ymax=Math.max(...ys);let dx=xmax-xmin||1,dy=ymax-ymin||1;ctx.fillStyle='#086b86aa';pts.forEach(p=>{let x=15+(p[0]-xmin)/dx*(w-30),y=h-15-(p[1]-ymin)/dy*(h-30);ctx.fillRect(x,y,2.5,2.5)});ctx.fillStyle='#4a6b72';ctx.font='13px sans-serif';ctx.fillText('Reachable TCP projection · mm',12,18)}
 function calcDynamics(){let i=Number($('#dynJoint').value)||0,j=joints[i],m=Math.max(0,Number($('#dynMass').value)||0),r=Math.max(0,Number($('#dynArm').value)||0),acc=Number($('#dynAccel').value)||0,I=Math.max(0,Number($('#dynInertia').value)||0);if(j.type==='R'){let tau=m*9.81*r*Math.abs(Math.sin(rad(j.theta)))+I*acc;$('#dynResult').innerHTML=`<h3>Estimated joint torque</h3><p class="mono" style="font-size:24px;margin:8px 0">${tau.toFixed(3)} N·m</p><p>Gravity component: ${(m*9.81*r*Math.abs(Math.sin(rad(j.theta)))).toFixed(3)} N·m</p><p>Inertial component: ${(I*acc).toFixed(3)} N·m</p><p class="muted tiny">Uses |sin(θ)| for a simplified planar gravity moment; actual torque depends on link orientation and mass distribution.</p>`}else{let force=m*(9.81+acc);$('#dynResult').innerHTML=`<h3>Estimated prismatic force</h3><p class="mono" style="font-size:24px;margin:8px 0">${force.toFixed(3)} N</p><p>Equivalent load m(g+a), assuming vertical motion and positive downward gravity.</p>`}}
 function bindAdvancedTools(){init3D();$('#jacobianRefresh').onclick=renderJacobian;$('#zeroRates').onclick=()=>{$$('[data-rate]').forEach(e=>e.value=0);updateVelocity()};$('#rateInputs').addEventListener('input',updateVelocity);$('#trajGenerate').onclick=generateTrajectory;$('#trajJoint').onchange=()=>{let j=joints[Number($('#trajJoint').value)||0];if(j){$('#trajStart').value=j.type==='R'?j.theta:j.d;$('#trajEnd').value=Math.max(j.min,Math.min(j.max,(j.type==='R'?j.theta:j.d)+(j.type==='R'?45:30)))}};$('#trajPlay').onclick=()=>{if(!trajData.length)generateTrajectory();if(!trajData.length)return;clearInterval(trajTimer);let k=0,i=Number($('#trajJoint').value)||0;trajTimer=setInterval(()=>{if(k>=trajData.length){clearInterval(trajTimer);return}let j=joints[i],q=trajData[k++][1];if(j.type==='R')j.theta=q;else j.d=q;selected=i;renderAll(false)},Math.max(15,Number($('#trajDuration').value)*1000/100))};$('#trajStop').onclick=()=>{clearInterval(trajTimer);trajTimer=null};$('#workspaceRun').onclick=sampleWorkspace;$('#workspaceCsv').onclick=()=>{if(!workspaceData.length)return toast('Sample the workspace first');download('workspace-points.csv','x_mm,y_mm,z_mm\n'+workspaceData.map(p=>p.join(',')).join('\n'),'text/csv')};$('#dynCalculate').onclick=calcDynamics;['dynJoint','dynMass','dynArm','dynAccel','dynInertia'].forEach(id=>$('#'+id).addEventListener('change',calcDynamics));$$('[data-view]').forEach(b=>b.addEventListener('click',()=>setCameraPreset(b.dataset.view)));$('#fitView').addEventListener('click',()=>{orbit3d.target=[180,0,80];orbit3d.r=1150;updateCamera3D()});$$('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.page==='jacobian')renderJacobian();if(b.dataset.page==='trajectory')refreshJointSelects();if(b.dataset.page==='dynamics'){refreshJointSelects();calcDynamics()}if(b.dataset.page==='workspaceAnalysis'){$('#workspaceSummary').textContent=workspaceData.length?$('#workspaceSummary').textContent:'Run sampling to estimate the workspace.'}}));}
 // Hook 3D rendering into the existing Modified-DH refresh cycle without changing its math.
@@ -841,7 +869,7 @@ renderAll();
 (()=>{
 const D2R=Math.PI/180,f=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):'∞',TS='style="min-width:0"';
 const tbl=(h,rows)=>`<div class="table-wrap"><table ${TS}><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
-const toRL=()=>{const r={convention:'mdh',id:'crayon',name:'Crayon robot',gravity:[0,0,-9.81],tool:[toolOffset/1000,0,(window.toolOffsetZ||0)/1000],home:joints.map(()=>0),joints:joints.map(j=>{const R=j.type==='R';return RL.makeJoint({name:j.name,type:j.type,a:j.a/1000,alpha:j.alpha,d:R?j.d/1000:0,theta:R?0:j.theta,qmin:R?j.min:j.min/1000,qmax:R?j.max:j.max/1000,mass:j.mass??1})})};r.joints.forEach((_,i)=>RL.autoInertialAt(r,i));return r};
+const toRL=()=>{const r={convention:'mdh',id:'robolabs',name:'Ken’s RoboLabs robot',gravity:[0,0,-9.81],tool:[toolOffset/1000,0,(window.toolOffsetZ||0)/1000],home:joints.map(()=>0),joints:joints.map(j=>{const R=j.type==='R';return RL.makeJoint({name:j.name,type:j.type,a:j.a/1000,alpha:j.alpha,d:R?j.d/1000:0,theta:R?0:j.theta,qmin:R?j.min:j.min/1000,qmax:R?j.max:j.max/1000,mass:j.mass??1})})};r.joints.forEach((_,i)=>RL.autoInertialAt(r,i));return r};
 const qNow=()=>joints.map(j=>j.type==='R'?j.theta*D2R:j.d/1000);
 const applyQ=q=>{joints.forEach((j,i)=>{if(j.type==='R')j.theta=q[i]/D2R;else j.d=q[i]*1000});renderAll(true)};
 const disp=(j,v)=>j.type==='R'?v/D2R:v*1000, unit=j=>j.type==='R'?'°':' mm';
@@ -876,11 +904,11 @@ const dynInit=()=>{const p=$('#dynamicsPage');if(!p.dataset.v3){p.dataset.v3=1;p
 const rd=k=>joints.map((j,i)=>(+$(`[data-${k}="${i}"]`)?.value||0)*(j.type==='R'?D2R:.001)),gv=()=>GV[$('#dynG').value];
 function dynCalc(){const r=toRL(),q=qNow(),R=RL.inverseDynamics(r,q,rd('dq'),rd('dqq'),gv()),E=RL.energy(r,q,rd('dq'),gv()),u=j=>j.type==='R'?' N·m':' N';
  $('#dynOut').innerHTML=tbl(['Joint','τ total','M q̈','C q̇','g(q)'],joints.map((j,i)=>[`${i+1}. ${j.name}`,`<b>${f(R.tau[i],3)}${u(j)}</b>`,f(R.Mqdd[i],3),f(R.Cqd[i],3),f(R.G[i],3)]))+`<h3 style="margin:12px 0 6px">Mass matrix M(q)</h3>`+tbl(['',...joints.map((_,i)=>i+1)],R.M.map((row,i)=>[i+1,...row.map(v=>f(v,4))]))+`<div class="pose-values" style="margin-top:10px"><span>Kinetic ${f(E.K,4)} J</span><span>Potential ${f(E.U,4)} J</span></div>`+(joints.every(j=>j.type==='R'&&Math.abs(j.alpha)<1e-9)&&$('#dynG').value==='z'?'<p class="tiny muted">All joint axes are parallel to gravity (planar arm in the XY plane), so g(q) is zero — choose −Y to hang it in a vertical plane.</p>':'')}
-function dynSim(){try{const r=toRL(),s=RL.simulateForward(r,qNow(),rd('dq'),joints.map(()=>0),2,.002,gv());window._sim=s;const i=Math.min(Number($('#dynJoint').value)||0,joints.length-1);drawLinePlot($('#dynSimPlot'),s.t.map((t,k)=>[t,disp(joints[i],s.q[k][i])]),'#2878c8');drawLinePlot($('#dynEPlot'),s.t.map((t,k)=>[t,s.energy[k]]),'#16856f');const e0=s.energy[0],dr=Math.max(...s.energy.map(e=>Math.abs(e-e0)))/Math.max(Math.abs(e0),1e-9);$('#dynOut').innerHTML+=`<div class="status">Torque-free simulation: 1000 RK4 steps (2 ms). Max energy drift ${dr.toExponential(1)} (relative) — a conservation check.${dr>1e-2?' ⚠ The motion is numerically stiff (very small link inertia); treat this result with caution.':''}</div>`}catch(e){$('#dynOut').innerHTML=`<div class="status" style="background:#ffe1dd">${e.message}</div>`}}
+function dynSim(){try{const r=toRL(),s=RL.simulateForward(r,qNow(),rd('dq'),joints.map(()=>0),2,.002,gv());window._sim=s;const i=Math.min(Number($('#dynJoint').value)||0,joints.length-1);drawLinePlot($('#dynSimPlot'),s.t.map((t,k)=>[t,disp(joints[i],s.q[k][i])]),'#1a8fd0');drawLinePlot($('#dynEPlot'),s.t.map((t,k)=>[t,s.energy[k]]),'#16856f');const e0=s.energy[0],dr=Math.max(...s.energy.map(e=>Math.abs(e-e0)))/Math.max(Math.abs(e0),1e-9);$('#dynOut').innerHTML+=`<div class="status">Torque-free simulation: 1000 RK4 steps (2 ms). Max energy drift ${dr.toExponential(1)} (relative) — a conservation check.${dr>1e-2?' ⚠ The motion is numerically stiff (very small link inertia); treat this result with caution.':''}</div>`}catch(e){$('#dynOut').innerHTML=`<div class="status" style="background:#ffe1dd">${e.message}</div>`}}
 /* ---------- Trajectory: synchronised multi-joint to last IK solution ---------- */
 $('#trajStop').insertAdjacentHTML('afterend','<button class="soft" id="trajAll">All joints → last IK solution</button>');
 $('#trajAll').onclick=()=>{if(!lastIK)return toast('Solve IK first, then plan to it');const r=toRL(),T=+$('#trajDuration').value||4,tr=RL.jointTrajectory({type:$('#trajType').value,q0:qNow(),qf:lastIK,T,dt:T/100}),i=Math.min(Number($('#trajJoint').value)||0,joints.length-1),j=joints[i],sc=j.type==='R'?1/D2R:1000;
- trajData=tr.t.map((t,k)=>[t,tr.q[k][i]*sc]);trajVelData=tr.t.map((t,k)=>[t,tr.qd[k][i]*sc]);trajAccData=tr.t.map((t,k)=>[t,tr.qdd[k][i]*sc]);drawLinePlot($('#trajPlot'),trajData,'#2878c8');drawLinePlot($('#trajVelPlot'),trajVelData,'#16856f');drawLinePlot($('#trajAccPlot'),trajAccData,'#e65b45');
+ trajData=tr.t.map((t,k)=>[t,tr.q[k][i]*sc]);trajVelData=tr.t.map((t,k)=>[t,tr.qd[k][i]*sc]);trajAccData=tr.t.map((t,k)=>[t,tr.qdd[k][i]*sc]);drawLinePlot($('#trajPlot'),trajData,'#1a8fd0');drawLinePlot($('#trajVelPlot'),trajVelData,'#16856f');drawLinePlot($('#trajAccPlot'),trajAccData,'#e5484d');
  const w=RL.trajectoryChecks(r,tr),n=Array.isArray(w)?w.length:0;$('#trajStatus').textContent=`Synchronised ${$('#trajType').value} move of all ${joints.length} joints (plot shows ${j.name}). ${n?'⚠ '+n+' limit warning(s).':'Within joint limits.'}`;
  clearInterval(trajTimer);let k=0;trajTimer=setInterval(()=>{if(k>=tr.q.length){clearInterval(trajTimer);return}applyQ(tr.q[k++])},Math.max(15,T*10))};
 /* ---------- Self-tests, import, live refresh ---------- */
@@ -888,7 +916,7 @@ $('#learnPage').insertAdjacentHTML('beforeend','<div class="panel" style="margin
 $('#runTests').onclick=()=>{const t=RL.selfTests(),ok=t.filter(x=>x.pass).length;$('#testOut').innerHTML=`<div class="status" style="${ok===t.length?'':'background:#ffe1dd'}">${ok}/${t.length} checks passed</div>`+tbl(['','Check','Detail'],t.map(x=>[x.pass?'<span class="check">PASS</span>':'FAIL',x.name,`<span class="tiny muted">${x.detail||''}</span>`]))};
 $('#exportBtn').insertAdjacentHTML('afterend','<button class="soft hide-mobile" id="importBtn">↑ Import</button><input type="file" id="importFile" accept=".json" hidden>');
 $('#importBtn').onclick=()=>$('#importFile').click();
-$('#importFile').onchange=e=>{const fl=e.target.files[0];if(!fl)return;fl.text().then(t=>{const d=JSON.parse(t);if(!Array.isArray(d.joints)||!d.joints.length||d.joints.length>12||d.joints.some(j=>!['R','P'].includes(j.type)||![j.a,j.alpha,j.theta,j.d,j.min,j.max].every(Number.isFinite)))throw new Error('Not a valid Crayon project file');snap();joints=d.joints;toolOffset=Number(d.toolOffset_mm??d.toolOffset)||0;currentPreset=d.currentPreset||'custom';selected=0;renderAll();toast('Project imported')}).catch(x=>toast(x.message));e.target.value=''};
+$('#importFile').onchange=e=>{const fl=e.target.files[0];if(!fl)return;fl.text().then(t=>{const d=JSON.parse(t);if(!Array.isArray(d.joints)||!d.joints.length||d.joints.length>12||d.joints.some(j=>!['R','P'].includes(j.type)||![j.a,j.alpha,j.theta,j.d,j.min,j.max].every(Number.isFinite)))throw new Error('Not a valid Ken’s RoboLabs project file');snap();joints=d.joints;toolOffset=Number(d.toolOffset_mm??d.toolOffset)||0;currentPreset=d.currentPreset||'custom';selected=0;renderAll();toast('Project imported')}).catch(x=>toast(x.message));e.target.value=''};
 const _ra=renderAll;renderAll=function(u){_ra(u);try{if(visible('jacobianPage'))renderJacobian();if(visible('dynamicsPage')&&$('#dynamicsPage').dataset.v3)dynCalc()}catch(e){}};
 $$('[data-page]').forEach(b=>b.addEventListener('click',()=>setTimeout(()=>{try{if(b.dataset.page==='jacobian')renderJacobian();if(b.dataset.page==='dynamics'){dynInit();dynCalc()}}catch(e){console.error(e)}},0)));
 $('#jacobianRefresh').onclick=renderJacobian;$('#rateInputs').addEventListener('input',updateVelocity);$('#zeroRates').onclick=()=>{$$('[data-rate]').forEach(e=>e.value=0);updateVelocity()};
@@ -926,7 +954,7 @@ const th=$('#dhTableBody').closest('table').querySelector('thead');
 th.innerHTML='<tr><th>i</th><th>Joint</th><th>Type</th><th class="hk al">α<sub>i−1</sub> [°]</th><th class="hk a">a<sub>i−1</sub> [mm]</th><th class="hk th">θ<sub>i</sub> [°]</th><th class="hk d">d<sub>i</sub> [mm]</th><th>Limits (min · max)</th><th>Row tools</th></tr>';
 const pan=$('#dhTableBody').closest('.panel')||$('#dhTableBody').closest('section');
 if(!$('#mdhBanner')){pan.insertAdjacentHTML('afterbegin',`<div id="mdhBanner"><div class="formula-banner">ⁱ⁻¹Tᵢ = R<sub>x</sub>(α<sub>i−1</sub>) · T<sub>x</sub>(a<sub>i−1</sub>) · R<sub>z</sub>(θ<sub>i</sub>) · T<sub>z</sub>(d<sub>i</sub>)</div><div class="legend2"><span class="lg2 a">a<sub>i−1</sub> link length · along x<sub>i−1</sub></span><span class="lg2 al">α<sub>i−1</sub> link twist · about x<sub>i−1</sub></span><span class="lg2 th">θ<sub>i</sub> joint angle · about z<sub>i</sub></span><span class="lg2 d">d<sub>i</sub> joint offset · along z<sub>i</sub></span><span class="lg2 v">■ highlighted cell = joint variable q<sub>i</sub></span></div><div class="button-row" id="mdhTools"><select id="loadRobot" title="Load any robot"></select><button class="soft" id="zeroPose">Zero pose</button><button class="soft" id="randPose">Random pose</button><button class="soft" id="mdhCsv">CSV</button><span class="pill blue" id="mdhSummary"></span></div></div>`);
- const st=document.createElement('style');st.textContent=`.formula-banner{background:#fff6d9;border:1px solid #e0c35d;box-shadow:2px 2px 0 #927a2f;border-radius:12px;padding:10px 14px;font:600 14px 'JetBrains Mono',monospace;margin-bottom:10px}.legend2{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.lg2{font:11px 'JetBrains Mono',monospace;padding:5px 8px;border-radius:7px;color:#191b25}.lg2.a{background:#d9f6e8}.lg2.al{background:#ffe9a8}.lg2.th{background:#e9e0ff}.lg2.d{background:#ffe1dd}.lg2.v{background:#fff;border:1.5px dashed #7c5cd6}th.hk.a{background:#d9f6e8!important}th.hk.al{background:#ffe9a8!important}th.hk.th{background:#e9e0ff!important}th.hk.d{background:#ffe1dd!important}td.var input{background:#e9e0ff!important;border:1.5px solid #7c5cd6!important;font-weight:700}td.fix input{background:#fff}tr.toolrow td{background:#f3f2ff;font-style:italic}td.lim input{width:64px}.rt{display:flex;gap:3px}.rt button{padding:5px 7px;min-width:28px}#mdhTools{margin:10px 0;align-items:center}input.bad{outline:2px solid #ff8e80}`;document.head.appendChild(st)}
+ const st=document.createElement('style');st.textContent=`.formula-banner{background:#e6f8ee;border:1px solid #8fd3ac;box-shadow:2px 2px 0 #2f7a5a;border-radius:12px;padding:10px 14px;font:600 14px 'JetBrains Mono',monospace;margin-bottom:10px}.legend2{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.lg2{font:11px 'JetBrains Mono',monospace;padding:5px 8px;border-radius:7px;color:#0b2e3a}.lg2.a{background:#d9f6e8}.lg2.al{background:#c6f0f4}.lg2.th{background:#dff3c4}.lg2.d{background:#ffe1dd}.lg2.v{background:#fff;border:1.5px dashed #1f9d6a}th.hk.a{background:#d9f6e8!important}th.hk.al{background:#c6f0f4!important}th.hk.th{background:#dff3c4!important}th.hk.d{background:#ffe1dd!important}td.var input{background:#dff3c4!important;border:1.5px solid #1f9d6a!important;font-weight:700}td.fix input{background:#fff}tr.toolrow td{background:#e3f5ee;font-style:italic}td.lim input{width:64px}.rt{display:flex;gap:3px}.rt button{padding:5px 7px;min-width:28px}#mdhTools{margin:10px 0;align-items:center}input.bad{outline:2px solid #4cc38a}`;document.head.appendChild(st)}
 $('#loadRobot').innerHTML='<option value="">Load a robot…</option>'+['2r','3r','4r','5r','6r','scara','cartesian',...Object.keys(P),'custom'].map(k=>`<option value="${k}">${(P[k]||{}).t||META[k][0]}</option>`).join('');
 $('#loadRobot').onchange=e=>{if(e.target.value)setPreset(e.target.value);e.target.value=''};
 $('#zeroPose').onclick=()=>{snap();joints.forEach(j=>{const v=Math.min(j.max,Math.max(j.min,0));if(j.type==='R')j.theta=v;else j.d=v});renderAll();toast('Zero pose (clamped to limits)')};
@@ -937,7 +965,7 @@ renderTable=function(){const n=joints.length,R=joints.map(j=>j.type);
  $('#dhTableBody').innerHTML=joints.map((j,i)=>{const r=j.type==='R';return `<tr class="${i===selected?'selected':''}"><td>${i+1}</td><td><input data-i="${i}" data-k="name" value="${j.name}"></td><td><select data-i="${i}" data-k="type"><option value="R" ${r?'selected':''}>R</option><option value="P" ${r?'':'selected'}>P</option></select></td>${numIn(i,'alpha',j.alpha,'fix')}${numIn(i,'a',j.a,'fix')}${numIn(i,'theta',j.theta,r?'var':'fix')}${numIn(i,'d',j.d,r?'fix':'var')}<td class="lim"><input type="number" data-i="${i}" data-k="min" value="${j.min}"> <input type="number" data-i="${i}" data-k="max" value="${j.max}"></td><td><div class="rt"><button class="soft" data-up="${i}" ${i?'':'disabled'} title="Move up">↑</button><button class="soft" data-dn="${i}" ${i<n-1?'':'disabled'} title="Move down">↓</button><button class="soft" data-dup="${i}" title="Duplicate">⧉</button><button class="soft" data-ins="${i}" title="Insert after">＋</button><button class="danger" data-del="${i}" ${n===1?'disabled':''} title="Delete">×</button></div></td></tr>`}).join('')+
  `<tr class="toolrow"><td>T</td><td>Tool / TCP frame</td><td>fixed</td><td>0</td>${numIn('t','tx',toolOffset,'fix').replace('data-k="tx"','data-k="tx" data-tool="1"')}<td>0</td>${numIn('t','tz',toolOffsetZ,'fix').replace('data-k="tz"','data-k="tz" data-tool="1"')}<td colspan="2" class="tiny muted">a<sub>n</sub> and d<sub>n+1</sub> of an extra fixed frame</td></tr>`;
  $('#dhTableBody').querySelectorAll('[data-k]').forEach(el=>el.addEventListener('change',()=>{snap();const k=el.dataset.k;if(el.dataset.tool){const v=Number(el.value)||0;if(k==='tx')toolOffset=v;else toolOffsetZ=v;renderAll();return}
-  const i=+el.dataset.i,j=joints[i];if(k==='name')j.name=el.value.trim()||('Joint '+(i+1));else if(k==='type'){j.type=el.value;j.min=el.value==='P'?0:-180;j.max=el.value==='P'?300:180;if(el.value==='P'){j.theta=0;j.d=Math.max(j.min,Math.min(j.max,j.d))}else{j.d=j.d;j.theta=0}}
+  const i=+el.dataset.i,j=joints[i];if(k==='name')j.name=robolabsSafeName(el.value,'Joint '+(i+1));else if(k==='type'){j.type=el.value;j.min=el.value==='P'?0:-180;j.max=el.value==='P'?300:180;if(el.value==='P'){j.theta=0;j.d=Math.max(j.min,Math.min(j.max,j.d))}else{j.d=j.d;j.theta=0}}
   else{let v=Number(el.value);if(!Number.isFinite(v))v=0;j[k]=v;if(k==='min'||k==='max'){if(j.min>=j.max){if(k==='min')j.min=j.max-1;else j.max=j.min+1;toast('Limits corrected: min must be below max')}const q=j.type==='R'?'theta':'d';j[q]=Math.min(j.max,Math.max(j.min,j[q]))}else if((k==='theta'&&j.type==='R')||(k==='d'&&j.type==='P'))j[k]=Math.min(j.max,Math.max(j.min,v))}
   selected=i;renderAll()}));
  const mv=(i,fn)=>{snap();fn(i);selected=Math.min(selected,joints.length-1);renderAll()};
@@ -955,10 +983,10 @@ lib.innerHTML=[...['2r','3r','4r','5r','6r','scara','cartesian'],...Object.keys(
 $$('[data-lib]').forEach(b=>b.onclick=()=>{setPreset(b.dataset.lib);const nav=document.querySelector('[data-page="workspace"]');nav&&nav.click()});
 /* ---------- export / CSV / import with the full MDH model ---------- */
 const mdhRows=()=>joints.map((j,i)=>({i:i+1,name:j.name,type:j.type,alpha_prev_deg:j.alpha,a_prev_mm:j.a,theta_deg:j.theta,d_mm:j.d,variable:j.type==='R'?'theta':'d',min:j.min,max:j.max}));
-$('#exportBtn').onclick=()=>download('crayon-mdh-project.json',JSON.stringify({convention:'Craig-style Modified DH',equation:'Rx(alpha[i-1]) Tx(a[i-1]) Rz(theta[i]) Tz(d[i])',currentPreset,mdh_table:mdhRows(),joints,toolOffset_mm:toolOffset,toolOffsetZ_mm:toolOffsetZ,transform:calc().T},null,2),'application/json');
+$('#exportBtn').onclick=()=>download('robolabs-project.json',JSON.stringify({convention:'Craig-style Modified DH',equation:'Rx(alpha[i-1]) Tx(a[i-1]) Rz(theta[i]) Tz(d[i])',currentPreset,mdh_table:mdhRows(),joints,toolOffset_mm:toolOffset,toolOffsetZ_mm:toolOffsetZ,transform:calc().T},null,2),'application/json');
 const csv=()=>download('modified-dh-table.csv','i,name,type,alpha_(i-1)_deg,a_(i-1)_mm,theta_i_deg,d_i_mm,variable,min,max\n'+mdhRows().map(r=>[r.i,'"'+r.name.replace(/"/g,'""')+'"',r.type,r.alpha_prev_deg,r.a_prev_mm,r.theta_deg,r.d_mm,r.variable,r.min,r.max].join(',')).join('\n')+`\ntool,"Tool frame",fixed,0,${toolOffset},0,${toolOffsetZ},fixed,,`,'text/csv');
 $('#csvBtn').onclick=csv;$('#mdhCsv').onclick=csv;
-const _imp=$('#importFile').onchange;$('#importFile').onchange=e=>{const fl=e.target.files[0];if(!fl)return;fl.text().then(tx=>{const d=JSON.parse(tx);if(!Array.isArray(d.joints)||!d.joints.length||d.joints.length>12||d.joints.some(j=>!['R','P'].includes(j.type)||![j.a,j.alpha,j.theta,j.d,j.min,j.max].every(Number.isFinite)||j.min>=j.max))throw new Error('Not a valid Crayon project file');snap();joints=d.joints.map(j=>({name:String(j.name||'Joint').slice(0,40),...j}));toolOffset=Number(d.toolOffset_mm??d.toolOffset)||0;toolOffsetZ=Number(d.toolOffsetZ_mm)||0;currentPreset=d.currentPreset||'custom';if(Number.isFinite(d.baseHeight_mm))baseH=d.baseHeight_mm;selected=0;renderAll();toast('Project imported')}).catch(x=>toast(x.message));e.target.value=''};
+const _imp=$('#importFile').onchange;$('#importFile').onchange=e=>{const fl=e.target.files[0];if(!fl)return;fl.text().then(tx=>{const d=JSON.parse(tx);if(!Array.isArray(d.joints)||!d.joints.length||d.joints.length>12||d.joints.some(j=>!['R','P'].includes(j.type)||![j.a,j.alpha,j.theta,j.d,j.min,j.max].every(Number.isFinite)||j.min>=j.max))throw new Error('Not a valid Ken’s RoboLabs project file');snap();joints=d.joints.map((j,i)=>({...j,name:robolabsSafeName(j.name,'Joint '+(i+1))}));toolOffset=Number(d.toolOffset_mm??d.toolOffset)||0;toolOffsetZ=Number(d.toolOffsetZ_mm)||0;currentPreset=d.currentPreset||'custom';if(Number.isFinite(d.baseHeight_mm))baseH=d.baseHeight_mm;selected=0;renderAll();toast('Project imported')}).catch(x=>toast(x.message));e.target.value=''};
 renderAll();
 })();
 
@@ -969,7 +997,7 @@ renderAll();
 const f1=v=>Number.isFinite(v)?(+v.toFixed(1)).toString():'—';
 /* ---- one validated edit path for table + inspector ---- */
 window.setParam=function(i,k,raw){const j=joints[i];if(!j)return;
- if(k==='name'){j.name=String(raw).trim().slice(0,40)||('Joint '+(i+1));return}
+ if(k==='name'){j.name=robolabsSafeName(raw,'Joint '+(i+1));return}
  if(k==='type'){if(raw===j.type||!['R','P'].includes(raw))return;const R=raw==='R';j.type=raw;j.min=R?-180:0;j.max=R?180:300;j.theta=0;if(!R)j.d=Math.min(300,Math.max(0,j.d))}
  else{let v=Number(raw);if(!Number.isFinite(v))v=0;j[k]=v;if(k==='min'||k==='max'){if(j.min>=j.max){if(k==='min')j.min=j.max-1;else j.max=j.min+1;toast('Limits corrected: min must be below max')}}}
  const q=j.type==='R'?'theta':'d';j[q]=Math.min(j.max,Math.max(j.min,j[q]))};
@@ -988,15 +1016,15 @@ renderJoints=function(){$('#dofBadge').textContent='DOF: '+joints.length;
  $('#jointList').innerHTML=joints.map((j,i)=>{const R=j.type==='R',v=R?j.theta:j.d,pc=Math.max(0,Math.min(100,100*(v-j.min)/((j.max-j.min)||1))),lim=v<=j.min+1e-9||v>=j.max-1e-9,u=R?'°':' mm',c=(l,x,uu,vv)=>`<span class="chip2${vv?' v':''}"><b>${l}</b> ${f1(x)}${uu}</span>`;
   return `<div class="joint-card ${i===selected?'selected':''}" data-select="${i}"><div class="row"><span style="display:flex;align-items:center;gap:7px"><span class="joint-number">${i+1}</span><b>${j.name}</b></span><span class="badge ${lim?'warn':''}">${R?'REVOLUTE':'PRISMATIC'}${lim?' · AT LIMIT':''}</span></div><div class="joint-meta">${c('α'+sub(i),j.alpha,'°')}${c('a'+sub(i),j.a,' mm')}${c('θ'+sub(i+1),j.theta,'°',R)}${c('d'+sub(i+1),j.d,' mm',!R)}</div><div class="rangebar"><i style="width:${pc}%"></i></div><div class="tiny muted">q ${f1(v)}${u} · range ${j.min} … ${j.max}${u}</div></div>`}).join('');
  $$('[data-select]').forEach(el=>el.onclick=()=>{selected=+el.dataset.select;renderAll()})};
-const st=document.createElement('style');st.textContent=`.chip2{font:11px 'JetBrains Mono',monospace;padding:3px 7px;border-radius:7px;background:#ededfb}.chip2.v{background:#e9e0ff;border:1.5px solid #7c5cd6;font-weight:700}.joint-meta{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.rangebar{height:6px;border-radius:9999px;background:#e1e1f0;overflow:hidden}.rangebar i{display:block;height:100%;background:#76b9f2}.badge.warn{background:#ffe1dd;color:#852b21}.nudge button{min-width:44px}`;document.head.appendChild(st);
+const st=document.createElement('style');st.textContent=`.chip2{font:11px 'JetBrains Mono',monospace;padding:3px 7px;border-radius:7px;background:#d6efe6}.chip2.v{background:#dff3c4;border:1.5px solid #1f9d6a;font-weight:700}.joint-meta{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.rangebar{height:6px;border-radius:9999px;background:#cfe6dc;overflow:hidden}.rangebar i{display:block;height:100%;background:#2fbfd9}.badge.warn{background:#ffe1dd;color:#852b21}.nudge button{min-width:44px}`;document.head.appendChild(st);
 /* ---- 3D: real a(i-1) / d(i) geometry, prismatic rails, carriages, limit stops ---- */
 window.linkPlan=function(Ts){const col=(T,k)=>[T[0][k],T[1][k],T[2][k]],add=(a,s,b)=>a.map((v,i)=>v+s*b[i]);
  return joints.map((j,i)=>{const oP=pos(Ts[i]),xP=col(Ts[i],0),oI=pos(Ts[i+1]),zI=col(Ts[i+1],2),mid=add(oP,j.a,xP),P=j.type==='P';
   return{i,type:j.type,oP,mid,oI,zI,a0:P?add(mid,j.min,zI):null,a1:P?add(mid,j.max,zI):null}})};
 render3D=function(){if(!scene3d||!robotGroup3d)return;
  [robotGroup3d,frameGroup3d].forEach(g=>{while(g.children.length){const o=g.children.pop();o.traverse?.(x=>{x.geometry?.dispose?.();const m=x.material;if(m)(Array.isArray(m)?m:[m]).forEach(y=>y.dispose?.())})}});
- const{Ts}=calc(),Mt=(c,o={})=>new THREE.MeshStandardMaterial({color:c,metalness:.2,roughness:.35,...o}),mats=['#2878c8','#e65b45','#16856f','#805ad5'].map(c=>Mt(c)),base=Mt('#394150'),jm=Mt('#f3b51b'),sel=Mt('#ffd23f',{emissive:'#7a5c00',emissiveIntensity:.6}),pm=Mt('#ff6f5e'),ghost=Mt('#9aa3b5',{transparent:true,opacity:.5}),stop=Mt('#c4473a'),tm=Mt('#123d68'),hitM=Mt('#ff3b30',{emissive:'#661008',emissiveIntensity:.5}),G=robotGroup3d;
- const fz=-(window.baseH||0),gr=scene3d.children&&scene3d.children.find(o=>o.type==='GridHelper');if(gr)gr.position.z=fz-1;const fl=new THREE.Mesh(new THREE.PlaneGeometry(2600,2600),Mt('#eceefa',{transparent:true,opacity:.85,side:THREE.DoubleSide}));fl.position.set(300,0,fz-2);G.add(fl);if((window.baseH||0)>45)G.add(cylBetween([0,0,fz],[0,0,-40],70,Mt('#c9cbe0')));
+ const{Ts}=calc(),Mt=(c,o={})=>new THREE.MeshStandardMaterial({color:c,metalness:.2,roughness:.35,...o}),mats=['#1a8fd0','#e5484d','#16856f','#2e9e5b'].map(c=>Mt(c)),base=Mt('#2a505a'),jm=Mt('#4cc38a'),sel=Mt('#7ff0c0',{emissive:'#0a6b50',emissiveIntensity:.6}),pm=Mt('#ff6f5e'),ghost=Mt('#7fa5a8',{transparent:true,opacity:.5}),stop=Mt('#c4473a'),tm=Mt('#0a4a5e'),hitM=Mt('#ff3b30',{emissive:'#661008',emissiveIntensity:.5}),G=robotGroup3d;
+ const fz=-(window.baseH||0),gr=scene3d.children&&scene3d.children.find(o=>o.type==='GridHelper');if(gr)gr.position.z=fz-1;const fl=new THREE.Mesh(new THREE.PlaneGeometry(2600,2600),Mt('#dbf1e9',{transparent:true,opacity:.85,side:THREE.DoubleSide}));fl.position.set(300,0,fz-2);G.add(fl);if((window.baseH||0)>45)G.add(cylBetween([0,0,fz],[0,0,-40],70,Mt('#a9d3c3')));
  const seg=(a,b,r,m)=>G.add(cylBetween(a,b,r,m)),along=(p,z,len,r,m)=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(r,r,len,28),m);c.position.set(p[0],p[1],p[2]);c.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),new THREE.Vector3(z[0],z[1],z[2]).normalize());G.add(c)},ball=(p,r,m)=>{const s=new THREE.Mesh(new THREE.SphereGeometry(r,24,16),m);s.position.set(p[0],p[1],p[2]);G.add(s)};
  const b0=new THREE.Mesh(new THREE.CylinderGeometry(115,135,35,40),base);b0.rotation.x=Math.PI/2;b0.position.set(0,0,-22);G.add(b0);const pl=new THREE.Mesh(new THREE.BoxGeometry(150,150,32),base);pl.position.set(0,0,8);G.add(pl);
  const n=joints.length;
@@ -1007,14 +1035,14 @@ render3D=function(){if(!scene3d||!robotGroup3d)return;
  const tip=pos(Ts[Ts.length-1]);if(Ts.length>n+1)seg(pos(Ts[n]),tip,10,tm);ball(tip,24,tm);
  if(showFrames)Ts.forEach((T,i)=>{const o=pos(T);for(let k=0;k<3;k++){const e=[o[0]+T[0][k]*70,o[1]+T[1][k]*70,o[2]+T[2][k]*70];frameGroup3d.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...o),new THREE.Vector3(...e)]),new THREE.LineBasicMaterial({color:['#e34843','#0c9b69','#2768d8'][k],depthTest:false})))}});
  trace3DPoints.push(tip.slice());if(trace3DPoints.length>150)trace3DPoints.shift();
- if(trace&&trace3DPoints.length>1)frameGroup3d.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(trace3DPoints.map(p=>new THREE.Vector3(p[0],p[1],p[2]))),new THREE.LineBasicMaterial({color:'#9b80dd'})))};
+ if(trace&&trace3DPoints.length>1)frameGroup3d.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(trace3DPoints.map(p=>new THREE.Vector3(p[0],p[1],p[2]))),new THREE.LineBasicMaterial({color:'#4cb88a'})))};
 /* ---- undo/redo/save that include the tool frame; sanitize stored state ---- */
 const st0=()=>JSON.stringify({j:joints,tx:toolOffset,tz:toolOffsetZ}),ld=s=>{const d=JSON.parse(s);if(Array.isArray(d)){joints=d}else{joints=d.j;toolOffset=d.tx||0;toolOffsetZ=d.tz||0}selected=Math.min(selected,joints.length-1)};
 snap=function(){history.push(st0());if(history.length>80)history.shift();future=[]};
 $('#undoBtn').onclick=()=>{if(!history.length)return toast('Nothing to undo');future.push(st0());ld(history.pop());renderAll();toast('Undo')};
 $('#redoBtn').onclick=()=>{if(!future.length)return toast('Nothing to redo');history.push(st0());ld(future.pop());renderAll();toast('Redo')};
-$('#saveBtn').onclick=()=>{localStorage.setItem('crayon-mdh-project',JSON.stringify({joints,currentPreset,toolOffset,toolOffsetZ}));toast('Project saved in this browser')};
-try{const d=JSON.parse(localStorage.getItem('crayon-mdh-project')||'{}');toolOffsetZ=Number(d.toolOffsetZ)||0}catch(e){}
+$('#saveBtn').onclick=()=>{localStorage.setItem('robolabs-project',JSON.stringify({joints,currentPreset,toolOffset,toolOffsetZ}));toast('Project saved in this browser')};
+try{const d=JSON.parse(localStorage.getItem('robolabs-project')||'{}');toolOffsetZ=Number(d.toolOffsetZ)||0}catch(e){}
 const okJ=j=>j&&['R','P'].includes(j.type)&&[j.a,j.alpha,j.theta,j.d,j.min,j.max].every(Number.isFinite)&&j.min<j.max;
 if(!joints.length||!joints.every(okJ)){joints=structuredClone(defaults['3r']);toolOffset=0;toolOffsetZ=0;currentPreset='3r'}
 else joints.forEach((j,i)=>{j.name=j.name||('Joint '+(i+1));const q=j.type==='R'?'theta':'d';j[q]=Math.min(j.max,Math.max(j.min,j[q]))});
@@ -1066,15 +1094,15 @@ sampleWorkspace=function(){const N=+$('#workspaceSamples').value||1000,pr=$('#wo
 $('#workspaceRun').onclick=sampleWorkspace;
 /* ---- scrollable, responsive layout ---- */
 const st=document.createElement('style');st.textContent=`
-html{scroll-behavior:smooth;scroll-padding-top:78px}*{scrollbar-width:thin;scrollbar-color:#c3c5d8 transparent}
-::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:#c3c5d8;border-radius:9px;border:2px solid transparent;background-clip:padding-box}::-webkit-scrollbar-thumb:hover{background:#9aa0bf;background-clip:padding-box;border:2px solid transparent}
+html{scroll-behavior:smooth;scroll-padding-top:78px}*{scrollbar-width:thin;scrollbar-color:#a9d3c3 transparent}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:#a9d3c3;border-radius:9px;border:2px solid transparent;background-clip:padding-box}::-webkit-scrollbar-thumb:hover{background:#7fa5a8;background-clip:padding-box;border:2px solid transparent}
 .appbar{overflow-x:auto;scrollbar-width:none}.topnav{flex-wrap:nowrap;overflow-x:auto;max-width:100%}.topnav>*{flex:0 0 auto}
 aside{position:sticky;top:62px;height:calc(100vh - 62px);overflow-y:auto;overscroll-behavior:contain;align-self:start}
 .workspace>.panel:first-child{position:sticky;top:76px;max-height:calc(100vh - 92px);overflow:auto;overscroll-behavior:contain}
 .workspace>.viewport-panel{position:sticky;top:76px}
 .right-col{position:sticky;top:76px;max-height:calc(100vh - 92px);overflow:auto;overscroll-behavior:contain;align-content:start}
 .canvas{height:clamp(300px,52vh,600px)}.panel.lower{grid-column:1/-1}
-.tabcontent{max-height:64vh;overflow:auto}.tabcontent table thead th,.table-wrap thead th{position:sticky;top:0;z-index:2;background:#ededfb}
+.tabcontent{max-height:64vh;overflow:auto}.tabcontent table thead th,.table-wrap thead th{position:sticky;top:0;z-index:2;background:#d6efe6}
 .table-wrap{max-width:100%;max-height:64vh;overflow:auto}.analysis-output{overflow-x:auto;max-height:62vh;overflow-y:auto}
 canvas.plot-box,#workspacePlot{width:100%;height:auto;max-width:100%}.pose-values,.pills,.button-row{max-width:100%}
 .advanced-grid{display:grid;grid-template-columns:minmax(260px,1fr) minmax(300px,1.6fr);gap:18px;align-items:start}
@@ -1100,14 +1128,14 @@ const st0=()=>JSON.stringify({j:joints,tx:toolOffset,tz:toolOffsetZ,bh:baseH}),l
 snap=function(){history.push(st0());if(history.length>80)history.shift();future=[]};
 const undo=()=>{if(!history.length)return toast('Nothing to undo');future.push(st0());ld(history.pop());renderAll();toast('Undo')},redo=()=>{if(!future.length)return toast('Nothing to redo');history.push(st0());ld(future.pop());renderAll();toast('Redo')};
 $('#undoBtn').onclick=undo;$('#redoBtn').onclick=redo;
-$('#saveBtn').onclick=()=>{localStorage.setItem('crayon-mdh-project',JSON.stringify({joints,currentPreset,toolOffset,toolOffsetZ,baseH}));toast('Project saved in this browser')};
-try{const d=JSON.parse(localStorage.getItem('crayon-mdh-project')||'{}');if(Number.isFinite(d.baseH)){baseH=d.baseH;$('#baseH').value=baseH;renderAll()}}catch(e){}
-const _dl=download;download=function(n,c,t){if(n==='crayon-mdh-project.json'){try{const o=JSON.parse(c);o.baseHeight_mm=baseH;c=JSON.stringify(o,null,2)}catch(e){}}_dl(n,c,t)};
+$('#saveBtn').onclick=()=>{localStorage.setItem('robolabs-project',JSON.stringify({joints,currentPreset,toolOffset,toolOffsetZ,baseH}));toast('Project saved in this browser')};
+try{const d=JSON.parse(localStorage.getItem('robolabs-project')||'{}');if(Number.isFinite(d.baseH)){baseH=d.baseH;$('#baseH').value=baseH;renderAll()}}catch(e){}
+const _dl=download;download=function(n,c,t){if(n==='robolabs-project.json'){try{const o=JSON.parse(c);o.baseHeight_mm=baseH;c=JSON.stringify(o,null,2)}catch(e){}}_dl(n,c,t)};
 $('#randPose').onclick=()=>{snap();const keep=vars();for(let n=0;n<80;n++){joints.forEach(j=>{j[varK(j)]=+(j.min+Math.random()*(j.max-j.min)).toFixed(1)});if(!collisionReport().hit)break;if(n===79)joints.forEach((j,i)=>j[varK(j)]=keep[i])}renderAll()};
 $('#zeroPose').onclick=()=>{snap();joints.forEach(j=>{j[varK(j)]=clampJ(j,0,0)});if(collisionReport().hit){baseH=Math.max(baseH,autoBase());$('#baseH').value=baseH;toast('Base height raised to '+baseH+' mm so the zero pose is clear')}else toast('Zero pose');renderAll()};
 /* ---- 1. share link ---- */
 const enc=()=>btoa(unescape(encodeURIComponent(JSON.stringify({j:joints,tx:toolOffset,tz:toolOffsetZ,bh:baseH}))));window.shareURL=()=>{const c=document.querySelector('link[rel=canonical]'),base=location.protocol==='file:'&&c?c.href:location.href.split('#')[0];return base+'#s='+enc()};
-function fromHash(){if(!location.hash.startsWith('#s='))return;try{const d=JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(3)))));if(!Array.isArray(d.j)||!d.j.length||d.j.length>12||!d.j.every(okJ))throw 0;snap();joints=d.j.map((j,i)=>({...j,name:String(j.name||'Joint '+(i+1)).slice(0,40)}));toolOffset=+d.tx||0;toolOffsetZ=+d.tz||0;if(Number.isFinite(d.bh))baseH=d.bh;$('#baseH').value=baseH;selected=0;renderAll();toast('Shared robot loaded')}catch(e){toast('That share link is not valid')}}
+function fromHash(){if(!location.hash.startsWith('#s='))return;try{const d=JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(3)))));if(!Array.isArray(d.j)||!d.j.length||d.j.length>12||!d.j.every(okJ))throw 0;snap();joints=d.j.map((j,i)=>({...j,name:robolabsSafeName(j.name,'Joint '+(i+1))}));toolOffset=+d.tx||0;toolOffsetZ=+d.tz||0;if(Number.isFinite(d.bh))baseH=d.bh;$('#baseH').value=baseH;selected=0;renderAll();toast('Shared robot loaded')}catch(e){toast('That share link is not valid')}}
 $('#importBtn').insertAdjacentHTML('afterend','<button class="soft hide-mobile" id="shareBtn" title="Copy a link to this exact robot">🔗 Share</button><button class="soft hide-mobile" id="presentBtn" title="Presentation mode (P)">⛶ Present</button>');
 $('#shareBtn').onclick=()=>{window.history.replaceState(null,'','#s='+enc());(navigator.clipboard?navigator.clipboard.writeText(location.href):Promise.reject()).then(()=>toast('Link copied — it contains the whole robot'),()=>toast('Link is in the address bar — copy it from there'))};
 addEventListener('hashchange',fromHash);fromHash();
@@ -1120,7 +1148,7 @@ let lastSnap=0;addEventListener('keydown',e=>{const tg=e.target.tagName;if(/INPU
  if(k==='ArrowLeft'||k==='ArrowRight'){e.preventDefault();const j=joints[selected],R=j.type==='R',s=(k==='ArrowRight'?1:-1)*(e.shiftKey?10:1)*(R?1:5);if(Date.now()-lastSnap>500)snap();lastSnap=Date.now();j[varK(j)]=clampJ(j,0,j[varK(j)]+s);renderAll(false)}});
 $('#mdhTools').insertAdjacentHTML('afterend','<p class="tiny muted" style="margin:0 0 8px">Keys: ← / → move the selected joint (Shift ×10) · [ ] choose joint · Ctrl+Z / Ctrl+Y undo / redo · P presentation mode</p>');
 /* ---- 3. presentation mode ---- */
-const css=document.createElement('style');css.textContent='body.present aside,body.present .hero,body.present .hide-mobile{display:none!important}body.present .shell{grid-template-columns:1fr}body.present .canvas{height:min(72vh,720px)}body.present{font-size:16px}body.present::after{content:"Presentation mode — press P or Esc to exit";position:fixed;right:12px;bottom:10px;font:11px "JetBrains Mono",monospace;color:#626879}.quiz-in{width:110px;padding:6px;border:1px solid var(--line);border-radius:8px;font-family:"JetBrains Mono",monospace}';document.head.appendChild(css);
+const css=document.createElement('style');css.textContent='body.present aside,body.present .hero,body.present .hide-mobile{display:none!important}body.present .shell{grid-template-columns:1fr}body.present .canvas{height:min(72vh,720px)}body.present{font-size:16px}body.present::after{content:"Presentation mode — press P or Esc to exit";position:fixed;right:12px;bottom:10px;font:11px "JetBrains Mono",monospace;color:#4a6b72}.quiz-in{width:110px;padding:6px;border:1px solid var(--line);border-radius:8px;font-family:"JetBrains Mono",monospace}';document.head.appendChild(css);
 $('#presentBtn').onclick=()=>document.body.classList.add('present');
 /* ---- 4. payload test (Dynamics page) ---- */
 $('#dynamicsPage').insertAdjacentHTML('beforeend','<div class="panel" id="payloadPanel"><div class="panel-head"><h2>⚖ Payload test</h2></div><p class="muted tiny">Adds a mass at the tool and shows the extra torque (N·m) or force (N) each joint must supply to hold the current pose, using the Jacobian transpose.</p><div class="pills"><label>Payload <input id="payKg" type="number" min="0" step="0.5" value="5" class="quiz-in"> kg</label><button class="primary" id="payGo">Compute payload loads</button></div><div id="payOut" class="analysis-output"></div></div>');
@@ -1141,9 +1169,9 @@ quizNew();window.__Q=()=>Q;window.quizNew=quizNew;
 </script>
 <script>
 /* ===== v8 (app v2): Export & Report — print-ready report, LaTeX, Markdown, MATLAB, Python, PNG, CSV ===== */
-window.APP_VERSION='2.0.1';
+window.APP_VERSION='3.0.0';
 (()=>{
-const D2=Math.PI/180,V='Crayon Robotics Lab v'+APP_VERSION,esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const D2=Math.PI/180,V='Ken’s RoboLabs v'+APP_VERSION,esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const F=(v,d)=>{v=Math.abs(v)<5*10**-(d+3)?0:v;return v.toFixed(d)},rn=()=>(typeof currentPreset!=='undefined'&&currentPreset)||'custom',rt=()=>typeof robotTitle==='function'?robotTitle(rn()):rn(),tool=()=>toolOffset||toolOffsetZ?[[1,0,0,toolOffset],[0,1,0,0],[0,0,1,toolOffsetZ],[0,0,0,1]]:null;
 const SECS=[['table','MDH table'],['deriv','Worked derivation (matrices)'],['jac','Jacobian'],['dyn','Gravity torques'],['traj','Trajectory'],['ws','Workspace'],['fig','3D figure']];
 const O=()=>({d:+$('#exDec').value,title:$('#exTitle').value||'Robot kinematics report',name:$('#exName').value,course:$('#exCourse').value,s:Object.fromEntries(SECS.map(([k])=>[k,$('#ex_'+k).checked]))});
@@ -1176,8 +1204,8 @@ function report(o){const c=calc(),d=o.d,n=joints.length,P=pos(c.T),tl=tool(),R=r
  if(o.s.traj&&typeof trajData!=='undefined'&&trajData&&trajData.length){const st=Math.max(1,Math.floor(trajData.length/12));h+=num('Joint trajectory')+`<table><tr><th>t (s)</th><th>q</th><th>q̇</th><th>q̈</th></tr>${trajData.filter((_,i)=>i%st===0).map(p=>{const i=trajData.indexOf(p);return`<tr><td>${F(p[0],2)}</td><td>${F(p[1],d)}</td><td>${F((trajVelData[i]||[0,0])[1],d)}</td><td>${F((trajAccData[i]||[0,0])[1],d)}</td></tr>`}).join('')}</table>`+['trajPlot','trajVelPlot','trajAccPlot'].map(canvasPng).filter(Boolean).map((u,i)=>`<figure><img src="${u}"><figcaption>Figure: ${['position','velocity','acceleration'][i]} profile</figcaption></figure>`).join('')}
  if(o.s.ws&&typeof workspaceData!=='undefined'&&workspaceData&&workspaceData.length){const b=[0,1,2].map(i=>[Math.min(...workspaceData.map(p=>p[i])),Math.max(...workspaceData.map(p=>p[i]))]);h+=num('Workspace')+`<p>${workspaceData.length} sampled poses. Bounds: ${['X','Y','Z'].map((a,i)=>`${a} ${F(b[i][0],0)} to ${F(b[i][1],0)} mm`).join(' · ')}.</p>`+(canvasPng('workspacePlot')?`<figure><img src="${canvasPng('workspacePlot')}"><figcaption>Figure: sampled workspace</figcaption></figure>`:'')}
  const t=RL.selfTests(),ok=t.filter(x=>x.pass).length;
- return h+`<hr><p class="foot">Generated by ${V} · ${new Date().toLocaleString()} · engine self-tests ${ok}/${t.length} passed<br><a href="${shareURL()}">Open this exact robot in Crayon Robotics Lab ↗</a> <span class="note">(the link contains the full robot definition)</span></p>`}
-const doc=o=>`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${esc(o.title)}</title><style>@page{size:A4;margin:16mm}body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font:11pt/1.45 "Outfit",Segoe UI,Arial,sans-serif;color:#191b25;max-width:820px;margin:24px auto;padding:0 18px}h1{font-size:22pt;margin:0 0 4px}h2{font-size:14pt;border-bottom:2px solid #76b9f2;padding-bottom:3px;margin-top:22px;break-after:avoid}h3{font-size:11pt;margin:14px 0 4px;break-after:avoid}table{border-collapse:collapse;margin:8px 0;font-size:10pt}th,td{border:1px solid #c3c5d8;padding:4px 9px;text-align:right}th{background:#ededfb}td:nth-child(2){text-align:left}table.m{border:0;border-left:2px solid #191b25;border-right:2px solid #191b25;font:10pt "JetBrains Mono",Consolas,monospace;margin:4px 0 8px}table.m td{border:0;padding:2px 9px}.eq{font:10.5pt "JetBrains Mono",Consolas,monospace;background:#fff6d9;padding:6px 10px;border-radius:6px}.meta,.note,.foot{color:#626879;font-size:9.5pt}figure{margin:10px 0;break-inside:avoid}img{max-width:100%}figcaption{font-size:9.5pt;color:#626879}.np{position:fixed;top:10px;right:14px}button{padding:8px 14px;border:0;border-radius:8px;background:#76b9f2;font-weight:600;cursor:pointer}sup,sub{line-height:0}.blk{break-inside:avoid}@media print{.np{display:none}}</style></head><body><div class="np"><button onclick="print()">Print / Save as PDF</button></div>${report(o)}</body></html>`;
+ return h+`<hr><p class="foot">Generated by ${V} · ${new Date().toLocaleString()} · engine self-tests ${ok}/${t.length} passed<br><a href="${shareURL()}">Open this exact robot in Ken’s RoboLabs ↗</a> <span class="note">(the link contains the full robot definition)</span></p>`}
+const doc=o=>`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${esc(o.title)}</title><style>@page{size:A4;margin:16mm}body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font:11pt/1.45 "Outfit",Segoe UI,Arial,sans-serif;color:#0b2e3a;max-width:820px;margin:24px auto;padding:0 18px}h1{font-size:22pt;margin:0 0 4px}h2{font-size:14pt;border-bottom:2px solid #2fbfd9;padding-bottom:3px;margin-top:22px;break-after:avoid}h3{font-size:11pt;margin:14px 0 4px;break-after:avoid}table{border-collapse:collapse;margin:8px 0;font-size:10pt}th,td{border:1px solid #a9d3c3;padding:4px 9px;text-align:right}th{background:#d6efe6}td:nth-child(2){text-align:left}table.m{border:0;border-left:2px solid #0b2e3a;border-right:2px solid #0b2e3a;font:10pt "JetBrains Mono",Consolas,monospace;margin:4px 0 8px}table.m td{border:0;padding:2px 9px}.eq{font:10.5pt "JetBrains Mono",Consolas,monospace;background:#e6f8ee;padding:6px 10px;border-radius:6px}.meta,.note,.foot{color:#4a6b72;font-size:9.5pt}figure{margin:10px 0;break-inside:avoid}img{max-width:100%}figcaption{font-size:9.5pt;color:#4a6b72}.np{position:fixed;top:10px;right:14px}button{padding:8px 14px;border:0;border-radius:8px;background:#2fbfd9;font-weight:600;cursor:pointer}sup,sub{line-height:0}.blk{break-inside:avoid}@media print{.np{display:none}}</style></head><body><div class="np"><button onclick="print()">Print / Save as PDF</button></div>${report(o)}</body></html>`;
 /* ---- text exports ---- */
 const bm=(M,d)=>`\\begin{bmatrix}${M.map(r=>r.map(v=>F(v,d)).join(' & ')).join(' \\\\ ')}\\end{bmatrix}`,te=s=>String(s).replace(/[&%#_$]/g,'\\$&');
 function latex(o){const d=o.d,c=calc(),n=joints.length;return `% ${V}\n\\begin{table}[h]\\centering\\caption{Modified DH parameters (${te(rt())})}\n\\begin{tabular}{clcrrrr}\\hline\n$i$ & Joint & Type & $\\alpha_{i-1}$ ($^\\circ$) & $a_{i-1}$ (mm) & $\\theta_i$ ($^\\circ$) & $d_i$ (mm)\\\\\\hline\n${joints.map((j,i)=>`${i+1} & ${te(j.name)} & ${j.type} & ${F(j.alpha,d)} & ${F(j.a,d)} & ${F(j.theta,d)}${j.type==='R'?'$^*$':''} & ${F(j.d,d)}${j.type==='P'?'$^*$':''}\\\\`).join('\n')}\n\\hline\\end{tabular}\\\\{\\small $^*$ joint variable. Tool: $a_n=${F(toolOffset,d)}$ mm, $d_{n+1}=${F(toolOffsetZ,d)}$ mm.}\n\\end{table}\n\n\\[ {}^{i-1}T_i = R_x(\\alpha_{i-1})\\,T_x(a_{i-1})\\,R_z(\\theta_i)\\,T_z(d_i) \\]\n\n${c.As.map((A,i)=>`\\[ {}^{${i}}T_{${i+1}} = ${bm(A,d)} \\]`).join('\n')}\n\n\\[ {}^{0}T_{\\mathrm{tool}} = ${bm(c.T,d)} \\]\n`}
@@ -1214,5 +1242,658 @@ $$('[data-png]').forEach(b=>b.onclick=()=>{const u=canvasPng(b.dataset.png);u?dl
 $$('[data-csv]').forEach(b=>b.onclick=()=>{const s=CSV[b.dataset.csv]();s?download(`${b.dataset.csv}-${slug()}.csv`,s,'text/csv'):toast('Generate a trajectory first')});
 })();
 
+</script>
+<script>
+/* ============================================================================
+   v3.0.0 — Trust & Polish
+   - sanitises user-controlled names/numbers before every render
+   - mobile bottom navigation + all-sections sheet
+   - five-step first-run tour with spotlight and keyboard support
+   - ARIA landmarks/live regions, skip link, focus management
+   - viewport HUD, 3D boot state, ripple feedback, reduced-motion respect
+   No engine maths is changed in this release.
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  var doc = document;
+  var $ = function (s, root) { return (root || doc).querySelector(s); };
+  var $$ = function (s, root) { return Array.prototype.slice.call((root || doc).querySelectorAll(s)); };
+  var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var TOUR_KEY = 'robolabs-tour-v3';
+  var VERSION = '3.0.0';
+
+  window.ROBOLABS_VERSION = VERSION;
+
+  function cleanName(value, fallback) {
+    return window.robolabsSafeName ? window.robolabsSafeName(value, fallback) : String(value == null ? fallback || 'Joint' : value);
+  }
+  function cleanNumber(value, fallback, min, max) {
+    return window.robolabsSafeNumber ? window.robolabsSafeNumber(value, fallback, min, max) : Number(value) || fallback;
+  }
+  function currentPage() {
+    var active = $('aside .navitem.active');
+    return active ? active.dataset.page : 'workspace';
+  }
+
+  /* ---------- 1. security: sanitise before every render ------------------ */
+  try {
+    var originalRenderAll = window.renderAll || (typeof renderAll === 'function' ? renderAll : null);
+    if (typeof originalRenderAll === 'function' && !originalRenderAll.__v3Wrapped) {
+      var wrappedRenderAll = function () {
+        try {
+          if (typeof joints !== 'undefined' && Array.isArray(joints)) {
+            joints.forEach(function (joint, i) {
+              if (joint) joint.name = cleanName(joint.name, 'Joint ' + (i + 1));
+            });
+          }
+          if (typeof toolOffset !== 'undefined') toolOffset = cleanNumber(toolOffset, 0, -1e6, 1e6);
+          if (typeof toolOffsetZ !== 'undefined') toolOffsetZ = cleanNumber(toolOffsetZ, 0, -1e6, 1e6);
+          if (typeof baseH !== 'undefined') baseH = cleanNumber(baseH, 0, 0, 1e6);
+        } catch (error) {
+          console.warn('[v3] state sanitisation skipped', error);
+        }
+        return originalRenderAll.apply(this, arguments);
+      };
+      wrappedRenderAll.__v3Wrapped = true;
+      window.renderAll = wrappedRenderAll;
+      try { renderAll = wrappedRenderAll; } catch (error) { /* global lexical binding */ }
+    }
+    if (typeof joints !== 'undefined' && Array.isArray(joints)) {
+      joints.forEach(function (joint, i) { if (joint) joint.name = cleanName(joint.name, 'Joint ' + (i + 1)); });
+    }
+    if (typeof window.renderAll === 'function') window.renderAll(false);
+  } catch (error) {
+    console.warn('[v3] render guard unavailable', error);
+  }
+
+  /* ---------- 2. accessibility baseline ---------------------------------- */
+  var toast = $('#toast');
+  if (toast) {
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.setAttribute('aria-atomic', 'true');
+  }
+  ['ikResult', 'ik3Result', 'dynOut', 'trajStatus', 'workspaceSummary', 'statusBox', 'testOut', 'qOut']
+    .forEach(function (id) {
+      var el = $('#' + id);
+      if (el) { el.setAttribute('aria-live', 'polite'); el.setAttribute('aria-atomic', 'true'); }
+    });
+  [
+    ['undoBtn', 'Undo last change'],
+    ['redoBtn', 'Redo change'],
+    ['saveBtn', 'Save project in this browser'],
+    ['exportBtn', 'Export project JSON'],
+    ['fitView', 'Fit the robot in the viewport'],
+    ['toggleFrames', 'Toggle coordinate frames'],
+    ['traceBtn', 'Toggle TCP trace'],
+    ['animateBtn', 'Animate the robot']
+  ].forEach(function (pair) {
+    var el = $('#' + pair[0]);
+    if (el && !el.getAttribute('aria-label')) el.setAttribute('aria-label', pair[1]);
+  });
+  var aside = $('aside');
+  var topnav = $('.topnav');
+  if (aside) { aside.setAttribute('role', 'navigation'); aside.setAttribute('aria-label', 'Main sections'); }
+  if (topnav) topnav.setAttribute('aria-label', 'Primary pages');
+
+  /* Dynamic tables and inspectors have visible labels that are not associated
+     with their controls. Add accessible names without changing the layout. */
+  var ID_LABELS = {
+    jointSlider: 'Selected joint value',
+    toolOffsetInput: 'Tool offset along local X in millimetres',
+    baseH: 'Base height in millimetres',
+    dynJoint: 'Joint to plot',
+    dynG: 'Gravity direction',
+    dynMass: 'Downstream equivalent mass in kilograms',
+    dynArm: 'Effective lever arm in metres',
+    dynAccel: 'Joint acceleration',
+    dynInertia: 'Equivalent inertia',
+    dynSim: 'Run the forward simulation',
+    trajJoint: 'Joint to plan',
+    trajStart: 'Trajectory start value',
+    trajEnd: 'Trajectory end value',
+    trajDuration: 'Trajectory duration in seconds',
+    trajType: 'Trajectory profile',
+    workspaceSamples: 'Workspace sample count',
+    workspaceProjection: 'Workspace projection plane',
+    qx: 'Quiz answer X in millimetres',
+    qy: 'Quiz answer Y in millimetres',
+    qz: 'Quiz answer Z in millimetres',
+    exTitle: 'Report title',
+    exName: 'Student name',
+    exCourse: 'Course name',
+    exDec: 'Report decimal places'
+  };
+  var PARAM_LABELS = {
+    a: 'Link length a(i-1) in millimetres',
+    alpha: 'Link twist alpha(i-1) in degrees',
+    d: 'Joint offset d(i) in millimetres',
+    theta: 'Joint angle theta(i) in degrees',
+    min: 'Joint minimum limit',
+    max: 'Joint maximum limit',
+    type: 'Joint type'
+  };
+  function labelOne(el, text) {
+    if (!el || !text) return;
+    if (el.getAttribute('aria-label') || el.getAttribute('aria-labelledby')) return;
+    if (el.closest && el.closest('label')) return;
+    el.setAttribute('aria-label', text);
+  }
+  function labelControls() {
+    try {
+      Object.keys(ID_LABELS).forEach(function (id) { labelOne($('#' + id), ID_LABELS[id]); });
+      var slider = $('#jointSlider');
+      if (slider) {
+        var variable = $('#jointVariableLabel');
+        if (variable && variable.textContent) slider.setAttribute('aria-label', variable.textContent + ' slider');
+      }
+      $$('#paramFields [data-param]').forEach(function (el) {
+        labelOne(el, PARAM_LABELS[el.dataset.param] || 'Joint parameter');
+      });
+      $$('#dhTableBody input, #dhTableBody select').forEach(function (el) {
+        var key = el.dataset.k;
+        var index = el.dataset.i;
+        var prefix = index === 't' ? 'Tool frame' : 'Joint ' + (Number(index) + 1);
+        var labels = {
+          name: prefix + ' name',
+          alpha: prefix + ' link twist alpha(i-1) in degrees',
+          a: prefix + ' link length a(i-1) in millimetres',
+          theta: prefix + ' joint angle theta(i) in degrees',
+          d: prefix + ' joint offset d(i) in millimetres',
+          min: prefix + ' minimum limit',
+          max: prefix + ' maximum limit',
+          type: prefix + ' type'
+        };
+        labelOne(el, labels[key] || prefix + ' parameter');
+      });
+      $$('#dynInputs input').forEach(function (el) {
+        var i = Number(el.dataset.m != null ? el.dataset.m : el.dataset.dq != null ? el.dataset.dq : el.dataset.dqq);
+        var prefix = 'Joint ' + (Number.isFinite(i) ? i + 1 : '');
+        if (el.dataset.m != null) labelOne(el, prefix + ' mass in kilograms');
+        else if (el.dataset.dq != null) labelOne(el, prefix + ' velocity');
+        else if (el.dataset.dqq != null) labelOne(el, prefix + ' acceleration');
+      });
+      $$('[data-rate]').forEach(function (el) {
+        labelOne(el, 'Joint ' + (Number(el.dataset.rate) + 1) + ' rate');
+      });
+    } catch (error) { /* labels are progressive enhancement */ }
+  }
+  var labelTimer = null;
+  if (window.MutationObserver) {
+    new MutationObserver(function () {
+      if (labelTimer) clearTimeout(labelTimer);
+      labelTimer = setTimeout(labelControls, 30);
+    }).observe(doc.body, { childList: true, subtree: true });
+  }
+  labelControls();
+
+  /* ---------- 3. navigation: aria-current + mobile bar + sheet ---------- */
+  var PAGES = [
+    ['workspace', '▦', 'Modified DH'],
+    ['library', '⌘', 'Robot Library'],
+    ['frames', '⊙', 'Coordinate Frames'],
+    ['fk', '⚙', 'Forward Kinematics'],
+    ['ik', '⌖', 'Inverse Kinematics'],
+    ['learn', '▤', 'Learning Center'],
+    ['jacobian', '∂', 'Jacobian'],
+    ['trajectory', '⌁', 'Trajectory'],
+    ['workspaceAnalysis', '◌', 'Workspace'],
+    ['dynamics', '⚖', 'Dynamics'],
+    ['export', '⎙', 'Export & Report']
+  ];
+
+  function go(page) {
+    var target = $('aside .navitem[data-page="' + page + '"]') || $('[data-page="' + page + '"]');
+    if (target) target.click();
+    syncNav();
+    try { window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); } catch (error) { window.scrollTo(0, 0); }
+  }
+
+  function syncNav() {
+    var page = currentPage();
+    $$('.navitem, .topnav button').forEach(function (button) {
+      if (button.dataset.page === page) button.setAttribute('aria-current', 'page');
+      else button.removeAttribute('aria-current');
+    });
+    $$('.v3-mobile-nav [data-go]').forEach(function (button) {
+      var on = button.dataset.go === page;
+      button.classList.toggle('active', on);
+      if (on) button.setAttribute('aria-current', 'page');
+      else button.removeAttribute('aria-current');
+    });
+    $$('.v3-sheet-grid [data-go]').forEach(function (button) {
+      var on = button.dataset.go === page;
+      button.classList.toggle('active', on);
+      if (on) button.setAttribute('aria-current', 'page');
+      else button.removeAttribute('aria-current');
+    });
+  }
+
+  var mobileNav = doc.createElement('nav');
+  mobileNav.className = 'v3-mobile-nav';
+  mobileNav.setAttribute('aria-label', 'Primary mobile navigation');
+  mobileNav.innerHTML =
+    '<button type="button" data-go="workspace"><span class="navicon" aria-hidden="true">▦</span>Workspace</button>' +
+    '<button type="button" data-go="library"><span class="navicon" aria-hidden="true">⌘</span>Library</button>' +
+    '<button type="button" data-go="learn"><span class="navicon" aria-hidden="true">▤</span>Learn</button>' +
+    '<button type="button" data-go="jacobian"><span class="navicon" aria-hidden="true">∂</span>Analyze</button>' +
+    '<button type="button" data-more="1" aria-expanded="false" aria-haspopup="dialog"><span class="navicon" aria-hidden="true">⋯</span>More</button>';
+  doc.body.appendChild(mobileNav);
+
+  var sheet = doc.createElement('div');
+  sheet.className = 'v3-sheet';
+  sheet.id = 'v3Sheet';
+  sheet.setAttribute('role', 'dialog');
+  sheet.setAttribute('aria-modal', 'true');
+  sheet.setAttribute('aria-label', 'All sections');
+  sheet.innerHTML =
+    '<div class="v3-sheet-backdrop" data-close="1"></div>' +
+    '<div class="v3-sheet-panel">' +
+      '<div class="v3-sheet-head"><b>All sections</b><button type="button" class="v3-sheet-close" data-close="1" aria-label="Close section list">×</button></div>' +
+      '<div class="v3-sheet-grid">' +
+        PAGES.map(function (page) {
+          return '<button type="button" data-go="' + page[0] + '"><span class="navicon" aria-hidden="true">' + page[1] + '</span>' + page[2] + '</button>';
+        }).join('') +
+      '</div>' +
+      '<div class="v3-sheet-actions">' +
+        '<button type="button" class="primary" data-act="tour">Quick tour</button>' +
+        '<button type="button" class="soft" data-act="present">Present</button>' +
+        '<button type="button" class="soft" data-act="share">Share robot</button>' +
+      '</div>' +
+    '</div>';
+  doc.body.appendChild(sheet);
+
+  var sheetTrigger = null;
+  function openSheet(trigger) {
+    sheetTrigger = trigger || doc.activeElement;
+    sheet.classList.add('open');
+    doc.body.classList.add('v3-sheet-open');
+    var more = $('.v3-mobile-nav [data-more]');
+    if (more) more.setAttribute('aria-expanded', 'true');
+    var close = sheet.querySelector('.v3-sheet-close');
+    if (close && close.focus) setTimeout(function () { close.focus(); }, 40);
+  }
+  function closeSheet() {
+    sheet.classList.remove('open');
+    doc.body.classList.remove('v3-sheet-open');
+    var more = $('.v3-mobile-nav [data-more]');
+    if (more) more.setAttribute('aria-expanded', 'false');
+    if (sheetTrigger && sheetTrigger.focus && sheetTrigger.offsetParent !== null) {
+      sheetTrigger.focus();
+    } else {
+      var fallback = $('#v3TourBtn') || $('#mainContent');
+      if (fallback && fallback.focus) fallback.focus();
+    }
+    sheetTrigger = null;
+  }
+
+  mobileNav.addEventListener('click', function (event) {
+    var more = event.target.closest('[data-more]');
+    if (more) { openSheet(more); return; }
+    var page = event.target.closest('[data-go]');
+    if (page) go(page.dataset.go);
+  });
+  sheet.addEventListener('click', function (event) {
+    if (event.target.closest('[data-close]')) { closeSheet(); return; }
+    var page = event.target.closest('[data-go]');
+    if (page) { go(page.dataset.go); closeSheet(); return; }
+    var action = event.target.closest('[data-act]');
+    if (!action) return;
+    var act = action.dataset.act;
+    closeSheet();
+    if (act === 'tour') { startTour(true); return; }
+    if (act === 'present') { var present = $('#presentBtn'); if (present) present.click(); else doc.body.classList.toggle('present'); return; }
+    if (act === 'share') {
+      var share = $('#shareBtn');
+      if (share) share.click();
+      else if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(function () { toast && toast('Link copied'); }, function () { toast && toast('Copy the link from the address bar'); });
+      return;
+    }
+  });
+  doc.addEventListener('click', function (event) {
+    if (event.target.closest('[data-page]')) setTimeout(syncNav, 0);
+  });
+
+  /* ---------- 4. first-run tour ----------------------------------------- */
+  var STEPS = [
+    {
+      target: '.brand',
+      title: 'Welcome to Ken’s RoboLabs v3',
+      text: 'A browser-based manipulator studio. This short tour shows where to build a robot, inspect the maths and learn the method. You can leave at any time.'
+    },
+    {
+      target: '#jointList',
+      title: '1 · Start with the kinematic tree',
+      text: 'Each card is one joint. Select a card to edit its Modified-DH parameters, type, limits and current value in the inspector.'
+    },
+    {
+      target: '.viewport-panel',
+      title: '2 · See the real geometry',
+      text: 'The workcell is built from the same Modified-DH transforms as the numbers. Drag to orbit, scroll to zoom, and toggle frames or the TCP trace.'
+    },
+    {
+      target: '#dhTableBody',
+      title: '3 · Read the MDH table',
+      text: 'Columns follow Craig order: α(i−1), a(i−1), θ(i), d(i). The lavender cell is the joint variable; the tool row is an extra fixed frame.'
+    },
+    {
+      target: '#paramFields',
+      title: '4 · Verify in the inspector',
+      text: 'Change a value and watch the matrices, pose and 3D view update together. Limits are validated so the joint cannot leave its range.'
+    },
+    {
+      target: '#learnPage .matrix-grid',
+      title: '5 · Learn the why',
+      text: 'The Learning Center explains each parameter, the transformation order and the common mistakes. The quick quiz checks your forward kinematics by hand.',
+      page: 'learn'
+    }
+  ];
+
+  var tour = doc.createElement('div');
+  tour.className = 'v3-tour';
+  tour.style.display = 'none';
+  tour.innerHTML =
+    '<div class="v3-tour-lock" aria-hidden="true"></div>' +
+    '<div class="v3-tour-spot" aria-hidden="true"></div>' +
+    '<div class="v3-tour-card" role="dialog" aria-modal="true" aria-labelledby="v3TourTitle" aria-describedby="v3TourText">' +
+      '<div class="v3-tour-kicker"><span id="v3TourKicker">Quick tour</span><span id="v3TourCount"></span></div>' +
+      '<h3 id="v3TourTitle"></h3>' +
+      '<p id="v3TourText"></p>' +
+      '<div class="v3-tour-dots" id="v3TourDots" aria-hidden="true"></div>' +
+      '<div class="v3-tour-actions">' +
+        '<button type="button" class="soft" id="v3TourBack">Back</button>' +
+        '<button type="button" class="primary v3-grow" id="v3TourNext">Next</button>' +
+        '<button type="button" class="soft" id="v3TourSkip">Skip</button>' +
+      '</div>' +
+    '</div>';
+  doc.body.appendChild(tour);
+
+  var tourOpen = false;
+  var tourIndex = 0;
+  var tourTrigger = null;
+  var tourCard = tour.querySelector('.v3-tour-card');
+  var tourSpot = tour.querySelector('.v3-tour-spot');
+
+  function renderTourStep() {
+    var step = STEPS[tourIndex];
+    if (!step) return;
+    if (step.page && currentPage() !== step.page) go(step.page);
+    $('#v3TourTitle').textContent = step.title;
+    $('#v3TourText').textContent = step.text;
+    $('#v3TourKicker').textContent = 'Quick tour';
+    $('#v3TourCount').textContent = (tourIndex + 1) + ' / ' + STEPS.length;
+    $('#v3TourDots').innerHTML = STEPS.map(function (_, i) {
+      return '<i class="' + (i === tourIndex ? 'on' : '') + '"></i>';
+    }).join('');
+    $('#v3TourBack').disabled = tourIndex === 0;
+    $('#v3TourNext').textContent = tourIndex === STEPS.length - 1 ? 'Start exploring' : 'Next';
+
+    var target = $(step.target);
+    if (target && target.scrollIntoView) {
+      try { target.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' }); } catch (error) { target.scrollIntoView(); }
+    }
+    doc.body.classList.add('v3-tour-open');
+    setTimeout(positionTour, 30);
+    setTimeout(positionTour, 220);
+  }
+
+  function positionTour() {
+    if (!tourOpen) return;
+    var step = STEPS[tourIndex];
+    var target = step ? $(step.target) : null;
+    var rect = target ? target.getBoundingClientRect() : null;
+    var pad = 8;
+    var cardWidth = tourCard.offsetWidth || 340;
+    var cardHeight = tourCard.offsetHeight || 230;
+    var vw = window.innerWidth || 1024;
+    var vh = window.innerHeight || 768;
+
+    if (!rect || rect.width < 2 || rect.height < 2) {
+      tourSpot.style.display = 'none';
+      tourCard.style.left = Math.max(14, (vw - cardWidth) / 2) + 'px';
+      tourCard.style.top = Math.max(14, (vh - cardHeight) / 2) + 'px';
+      return;
+    }
+
+    tourSpot.style.display = 'block';
+    tourSpot.style.left = Math.max(4, rect.left - pad) + 'px';
+    tourSpot.style.top = Math.max(4, rect.top - pad) + 'px';
+    tourSpot.style.width = Math.min(vw - 8, rect.width + pad * 2) + 'px';
+    tourSpot.style.height = Math.min(vh - 8, rect.height + pad * 2) + 'px';
+
+    var left = Math.min(Math.max(rect.left, 14), vw - cardWidth - 14);
+    var top = rect.bottom + 18;
+    if (top + cardHeight > vh - 14) top = rect.top - cardHeight - 18;
+    if (top < 14) top = Math.max(14, (vh - cardHeight) / 2);
+    tourCard.style.left = Math.max(14, left) + 'px';
+    tourCard.style.top = top + 'px';
+  }
+
+  function startTour(manual) {
+    if (tourOpen) return;
+    tourOpen = true;
+    tourIndex = 0;
+    tourTrigger = manual && doc.activeElement ? doc.activeElement : $('#v3TourBtn');
+    tour.style.display = 'block';
+    doc.body.classList.add('v3-tour-open');
+    renderTourStep();
+    setTimeout(function () {
+      var next = $('#v3TourNext');
+      if (next && next.focus) next.focus();
+    }, 60);
+  }
+
+  function closeTour(finished) {
+    if (!tourOpen) return;
+    tourOpen = false;
+    tour.style.display = 'none';
+    doc.body.classList.remove('v3-tour-open');
+    try { localStorage.setItem(TOUR_KEY, '1'); } catch (error) { /* private mode */ }
+    if (finished) go('workspace');
+    if (tourTrigger && tourTrigger.focus) tourTrigger.focus();
+    tourTrigger = null;
+  }
+
+  $('#v3TourBack').addEventListener('click', function () {
+    if (tourIndex > 0) { tourIndex -= 1; renderTourStep(); }
+  });
+  $('#v3TourNext').addEventListener('click', function () {
+    if (tourIndex >= STEPS.length - 1) closeTour(true);
+    else { tourIndex += 1; renderTourStep(); }
+  });
+  $('#v3TourSkip').addEventListener('click', function () { closeTour(false); });
+  tour.querySelector('.v3-tour-lock').addEventListener('click', function () { closeTour(false); });
+
+  window.startRoboLabsTour = function () { startTour(true); };
+
+  doc.addEventListener('keydown', function (event) {
+    if (tourOpen) {
+      if (event.key === 'Escape') { event.preventDefault(); closeTour(false); return; }
+      if (event.key === 'ArrowRight') { event.preventDefault(); $('#v3TourNext').click(); return; }
+      if (event.key === 'ArrowLeft') { event.preventDefault(); $('#v3TourBack').click(); return; }
+      if (event.key === 'Tab') {
+        var focusables = $$('button:not([disabled])', tourCard);
+        if (!focusables.length) return;
+        var first = focusables[0];
+        var last = focusables[focusables.length - 1];
+        if (event.shiftKey && doc.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && doc.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
+      return;
+    }
+    if (event.key === 'Escape' && sheet.classList.contains('open')) {
+      event.preventDefault();
+      closeSheet();
+      return;
+    }
+    if (event.key === 'Tab' && sheet.classList.contains('open')) {
+      var sheetFocusables = $$('button:not([disabled])', sheet);
+      if (!sheetFocusables.length) return;
+      var sheetFirst = sheetFocusables[0];
+      var sheetLast = sheetFocusables[sheetFocusables.length - 1];
+      if (event.shiftKey && doc.activeElement === sheetFirst) { event.preventDefault(); sheetLast.focus(); }
+      else if (!event.shiftKey && doc.activeElement === sheetLast) { event.preventDefault(); sheetFirst.focus(); }
+      return;
+    }
+    var tag = event.target && event.target.tagName ? event.target.tagName : '';
+    if (event.key === '?' && !/INPUT|SELECT|TEXTAREA/.test(tag)) {
+      event.preventDefault();
+      startTour(true);
+    }
+  });
+
+  window.addEventListener('resize', function () {
+    if (tourOpen) positionTour();
+  }, { passive: true });
+  window.addEventListener('scroll', function () {
+    if (tourOpen) positionTour();
+  }, { passive: true });
+
+  /* ---------- 5. help button & auto-tour -------------------------------- */
+  var saveButton = $('#saveBtn');
+  if (saveButton && saveButton.parentElement) {
+    saveButton.parentElement.insertAdjacentHTML('afterbegin',
+      '<button type="button" class="soft v3-help hide-mobile" id="v3TourBtn" title="Quick tour (?)" aria-label="Start the quick tour">?</button>');
+  }
+  var tourButton = $('#v3TourBtn');
+  if (tourButton) tourButton.addEventListener('click', function () { startTour(true); });
+
+  var params = new URLSearchParams(location.search);
+  var tourParam = params.get('tour');
+  var seen = false;
+  try { seen = localStorage.getItem(TOUR_KEY) === '1'; } catch (error) { seen = false; }
+  var probe = $('.brand');
+  var canLayout = !!(probe && probe.getBoundingClientRect().width > 0);
+  if (tourParam !== '0' && (tourParam === '1' || !seen) && canLayout && window.innerWidth >= 900 && !location.hash.startsWith('#s=') && (tourParam === '1' || !reduce)) {
+    setTimeout(function () {
+      if (!tourOpen && !sheet.classList.contains('open') && !doc.body.classList.contains('present')) startTour(false);
+    }, 1600);
+  }
+
+  /* ---------- 6. pointer ripple ----------------------------------------- */
+  if (!reduce && window.PointerEvent) {
+    doc.addEventListener('pointerdown', function (event) {
+      var button = event.target.closest('button');
+      if (!button || button.disabled) return;
+      var rect = button.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      var size = Math.max(rect.width, rect.height) * 1.15;
+      var ripple = doc.createElement('span');
+      ripple.className = 'v3-ripple' + (button.classList.contains('primary') || button.classList.contains('gold') ? '' : ' dark');
+      ripple.style.width = size + 'px';
+      ripple.style.height = size + 'px';
+      ripple.style.left = (event.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (event.clientY - rect.top - size / 2) + 'px';
+      button.appendChild(ripple);
+      setTimeout(function () { if (ripple.parentNode) ripple.parentNode.removeChild(ripple); }, 700);
+    }, { passive: true });
+  }
+
+  /* ---------- 7. viewport HUD + boot state ------------------------------ */
+  var canvas3d = $('#robot3d');
+  if (canvas3d && canvas3d.parentElement) {
+    var wrap = canvas3d.parentElement;
+    wrap.insertAdjacentHTML('beforeend',
+      '<div class="v3-hud" aria-hidden="true">' +
+        '<span class="v3-live"><i></i>LIVE MDH</span>' +
+        '<span class="v3-hud-right"><span class="v3-axis"><b style="color:#e34843">X</b><b style="color:#0c9b69">Y</b><b style="color:#2768d8">Z</b></span><span class="v3-hint">drag to orbit · scroll to zoom</span></span>' +
+      '</div>' +
+      '<div class="v3-boot-label">Initialising 3D workcell…</div>');
+    wrap.classList.add('v3-booting');
+    var bootDone = function () {
+      wrap.classList.remove('v3-booting');
+      var label = wrap.querySelector('.v3-boot-label');
+      if (label && label.parentNode) label.parentNode.removeChild(label);
+    };
+    var bootTries = 0;
+    var bootTimer = setInterval(function () {
+      bootTries += 1;
+      var ready = false;
+      try { ready = typeof renderer3d !== 'undefined' && !!renderer3d; } catch (error) { ready = false; }
+      if (ready || bootTries > 20) { clearInterval(bootTimer); bootDone(); }
+    }, 250);
+    setTimeout(function () { clearInterval(bootTimer); bootDone(); }, 6000);
+  }
+
+  /* ---------- 8. app bar elevation + version note ----------------------- */
+  var appbar = $('.appbar');
+  var onScroll = function () {
+    if (appbar) appbar.classList.toggle('v3-scrolled', (window.scrollY || 0) > 8);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var note = $('.aside-note');
+  if (note) {
+    note.insertAdjacentHTML('beforeend',
+      '<div class="caps" style="margin-top:9px;color:#086b86">v' + VERSION + ' · trust &amp; polish</div>');
+  }
+
+
+  /* ---------- 10. learning outcomes (A3.3) + frame checklist (A3.4) ------- */
+  (function(){
+    var OUT = {
+      workspacePage: 'Edit a Modified-DH table and see the robot, its link matrices and its tool position update together.',
+      libraryPage: 'Load any of 16 teaching robots and read its DOF, joint string and reach before you modify it.',
+      framesPage: 'Read each joint frame (X red, Y green, Z blue) and tell whether a DH row places it correctly.',
+      fkPage: 'Multiply the link transforms in order and predict the tool pose by hand, then check it here.',
+      ikPage: 'Solve for joint angles that reach a target, compare distinct solutions and recognise why a solver fails.',
+      learnPage: 'Name the four Modified-DH parameters, state the transform order and assign frames using the checklist below.',
+      jacobianPage: 'Relate joint rates to tool velocity, and spot a singular pose from the singular values.',
+      trajectoryPage: 'Plan a smooth cubic or quintic move and check velocity and acceleration against limits.',
+      workspaceAnalysisPage: 'Estimate the reachable volume of a robot and see how joint limits and collisions shape it.',
+      dynamicsPage: 'Estimate gravity torque, and run a simulation, to see how pose and payload load each joint.',
+      exportPage: 'Turn the robot on screen into a worked derivation, LaTeX, code or CSV for a lab report.'
+    };
+    function addOutcomes(){
+      Object.keys(OUT).forEach(function(id){
+        var sec = document.getElementById(id);
+        if (!sec || sec.querySelector('.v3-outcome')) return;
+        var hero = sec.querySelector('.hero');
+        if (!hero) return;
+        var d = document.createElement('p');
+        d.className = 'v3-outcome';
+        d.innerHTML = '<b>After this page you can:</b> ' + OUT[id];
+        hero.insertAdjacentElement('afterend', d);
+      });
+    }
+    var CHECK = [
+      'Number the joints 1…n from the base. Frame {0} is the fixed base frame.',
+      'Draw each joint axis and label it Z<sub>i</sub> (rotation axis for revolute, sliding direction for prismatic).',
+      'For Z<sub>i</sub> and Z<sub>i+1</sub>, find the common normal. Where they intersect, the link length is 0.',
+      'Place the origin of frame {i} where the common normal meets Z<sub>i</sub>.',
+      'Point X<sub>i</sub> along the common normal toward Z<sub>i+1</sub>. If the axes intersect, X<sub>i</sub> = Z<sub>i</sub> × Z<sub>i+1</sub>.',
+      'Complete Y<sub>i</sub> = Z<sub>i</sub> × X<sub>i</sub> so the frame is right-handed.',
+      'Read a<sub>i−1</sub> (along X<sub>i−1</sub>), α<sub>i−1</sub> (about X<sub>i−1</sub>), d<sub>i</sub> (along Z<sub>i</sub>), θ<sub>i</sub> (about Z<sub>i</sub>).',
+      'Check: at the zero pose, does the table reproduce the tool position you can see in the sketch?'
+    ];
+    function addChecklist(){
+      var sec = document.getElementById('learnPage');
+      if (!sec || sec.querySelector('#v3FrameChecklist')) return;
+      var grid = sec.querySelector('.matrix-grid') || sec;
+      var p = document.createElement('div');
+      p.className = 'panel';
+      p.id = 'v3FrameChecklist';
+      p.innerHTML = '<h2>Frame-assignment checklist</h2><p class="footer-note">Follow Craig’s steps for each link. Tick as you go; this panel prints cleanly.</p><ol class="v3-checklist">' +
+        CHECK.map(function(t,i){ return '<li><label><input type="checkbox" aria-label="Step ' + (i+1) + '"> <span>' + t + '</span></label></li>'; }).join('') +
+        '</ol><button type="button" class="soft v3-print-check" id="v3PrintCheck">Print checklist</button>';
+      grid.appendChild(p);
+      var b = p.querySelector('#v3PrintCheck');
+      b.addEventListener('click', function(){
+        document.body.classList.add('v3-print-checklist');
+        var done = function(){ document.body.classList.remove('v3-print-checklist'); window.removeEventListener('afterprint', done); };
+        window.addEventListener('afterprint', done);
+        window.print();
+      });
+    }
+    addOutcomes();
+    addChecklist();
+  })();
+
+  /* ---------- 9. initial state ------------------------------------------ */
+  syncNav();
+  doc.documentElement.setAttribute('data-robolabs-version', VERSION);
+})();
 </script>
 </body></html>

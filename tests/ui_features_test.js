@@ -33,6 +33,6 @@ setTimeout(()=>{
  ev("setPreset('puma')");const b=ev('baseH');ev('snap();baseH=900;document.querySelector("#baseH").value=900');ev("document.querySelector('#undoBtn').click()");T('undo restores base height',ev('baseH')===b,ev('baseH')+' vs '+b);
  let moved=0;for(let i=0;i<30;i++){const b4=ev('JSON.stringify(joints)');ev("document.querySelector('#randPose').click()");if(ev('JSON.stringify(joints)')!==b4&&!ev('collisionReport().hit'))moved++}T('Random pose always finds a clear pose (PUMA)',moved===30,moved+'/30');
  ev("document.querySelector('#zeroPose').click()");T('Zero pose applied and clear (PUMA, base raised if needed)',!ev('collisionReport().hit')&&ev('joints.every(j=>(j.type==="R"?j.theta:j.d)===Math.min(j.max,Math.max(j.min,0)))'),'base '+ev('baseH'));
- ev("document.querySelector('#saveBtn').click()");T('save stores base height',JSON.parse(w.localStorage.getItem('crayon-mdh-project')).baseH===ev('baseH'));
+ ev("document.querySelector('#saveBtn').click()");T('save stores base height',JSON.parse(w.localStorage.getItem('robolabs-project')).baseH===ev('baseH'));
  let dl;w.URL.createObjectURL=x=>{dl=x;return 'b'};w.URL.revokeObjectURL=()=>{};w.HTMLAnchorElement.prototype.click=function(){};ev("document.querySelector('#exportBtn').click()");
  dl.text().then(tx=>{T('export includes baseHeight_mm',JSON.parse(tx).baseHeight_mm===ev('baseH'));console.log(out.join('\n'));console.log('JS errors:',errs.length?errs.slice(0,3):'none');process.exit(0)})},400);

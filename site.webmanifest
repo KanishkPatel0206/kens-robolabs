@@ -1,0 +1,36 @@
+{
+  "name": "Ken’s RoboLabs — Manipulator Kinematics Studio",
+  "short_name": "Ken’s RoboLabs",
+  "description": "Browser-based Modified-DH manipulator kinematics, dynamics and teaching studio.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f2fbf7",
+  "theme_color": "#f2fbf7",
+  "categories": [
+    "education",
+    "engineering",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

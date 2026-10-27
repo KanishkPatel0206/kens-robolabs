@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kanishkpatel0206.github.io/kens-robolabs/sitemap.xml

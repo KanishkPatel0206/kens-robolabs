@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Ken’s RoboLabs">
+  <rect x="4" y="4" width="56" height="56" rx="15" fill="#2fbfd9" stroke="#0b2e3a" stroke-width="4"/>
+  <circle cx="32" cy="27" r="12" fill="#ffd95a" stroke="#0b2e3a" stroke-width="3"/>
+  <g fill="none" stroke="#0b2e3a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 11v32M16 27h32M21 16l22 22M43 16L21 38"/>
+  </g>
+  <circle cx="32" cy="27" r="4" fill="#1fa86a" stroke="#0b2e3a" stroke-width="2.5"/>
+  <path d="M10 48c5-5 9-5 14 0s9 5 14 0 9-5 16 0" fill="none" stroke="#f2fbf7" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M10 55c5-4 9-4 14 0s9 4 14 0 9-4 16 0" fill="none" stroke="#1fa86a" stroke-width="3" stroke-linecap="round"/>
+</svg>

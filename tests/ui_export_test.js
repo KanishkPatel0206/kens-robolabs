@@ -1,18 +1,18 @@
-const {JSDOM,VirtualConsole}=require('jsdom');const fs=require('fs');const {execFileSync}=require('child_process');const errs=[];const vc=new VirtualConsole();vc.on('jsdomError',e=>{if(!/Not implemented/.test(e.message))errs.push(e.message.slice(0,200))});
+const {JSDOM,VirtualConsole}=require('jsdom');const fs=require('fs');const os=require('os');const path=require('path');const {execFileSync}=require('child_process');const PYTHON=process.platform==='win32'?'python':'python3',TMP_PY=path.join(os.tmpdir(),'robolabs-gen.py');const errs=[];const vc=new VirtualConsole();vc.on('jsdomError',e=>{if(!/Not implemented/.test(e.message))errs.push(e.message.slice(0,200))});
 const html=fs.readFileSync(__dirname+'/../index.html','utf8').replace(/<script src="https:[^>]*><\/script>/,'').replace('<div class="toast" id="toast"></div>','<div class="toast" id="toast"></div><script>window.structuredClone=o=>JSON.parse(JSON.stringify(o))</script>');
 const w=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc,url:'http://localhost/'}).window;
 w.HTMLCanvasElement.prototype.getContext=()=>new Proxy({}, {get:()=>()=>{},set:()=>true});w.scrollTo=()=>{};w.addEventListener('error',e=>errs.push(String(e.error&&e.error.stack||e.message).slice(0,300)));
 const ev=c=>w.eval(c),out=[],T=(n,ok,d='')=>out.push((ok?'PASS ':'FAIL ')+n+(d!==''?'  '+d:''));
 setTimeout(()=>{
- T('version label shows v2',/v2/.test(w.document.querySelector('.tag').textContent)&&ev('APP_VERSION')==='2.0.0');
+ T('version label shows v3',/v3/.test(w.document.querySelector('.tag').textContent)&&ev('APP_VERSION')==='3.0.0');
  // navigation
  ev("document.querySelector('[data-page=\"export\"]').click()");T('Export page opens, others hide',!w.document.querySelector('#exportPage').classList.contains('hidden')&&w.document.querySelector('#workspacePage').classList.contains('hidden'));
  ev("document.querySelector('.navitem[data-page=\"library\"]').click()");T('leaving Export page hides it again',w.document.querySelector('#exportPage').classList.contains('hidden')&&!w.document.querySelector('#libraryPage').classList.contains('hidden'));
  // python reproduces the page FK for every robot (numerical round trip)
  let worst=0,n=0;const ids=ev('Object.keys(defaults)');
  for(const k of ids){ev(`setPreset('${k}');joints.forEach(j=>{const v=j.min+(j.max-j.min)*0.37;if(j.type==='R')j.theta=+v.toFixed(2);else j.d=+v.toFixed(2)})`);ev('renderAll()');
-  const pg=ev('pos(calc().T)'),code=ev('__export.python()');fs.writeFileSync('/tmp/gen.py',code);
-  const o=execFileSync('python3',['/tmp/gen.py']).toString(),m=(o.split('TCP =')[1].split('mm')[0].match(/-?\d+(?:\.\d*)?(?:e[-+]?\d+)?/gi)||[]).map(Number),m0=null;const py=m;worst=Math.max(worst,Math.hypot(...pg.map((v,i)=>v-py[i])));n++}
+  const pg=ev('pos(calc().T)'),code=ev('__export.python()');fs.writeFileSync(TMP_PY,code);
+  const o=execFileSync(PYTHON,[TMP_PY]).toString(),m=(o.split('TCP =')[1].split('mm')[0].match(/-?\d+(?:\.\d*)?(?:e[-+]?\d+)?/gi)||[]).map(Number),m0=null;const py=m;worst=Math.max(worst,Math.hypot(...pg.map((v,i)=>v-py[i])));n++}
  T('generated Python reproduces the page FK on all '+n+' robots (mm)',worst<1e-3,worst.toExponential(1));
  // other text formats
  ev("setPreset('stanford')");const o=ev('__export.O()');
@@ -28,7 +28,7 @@ setTimeout(()=>{
  // report
  ev("setPreset('irb120')");const rep=ev('__export.doc(__export.O())');const d=new JSDOM(rep).window.document;
  T('report: valid HTML with title, DH table, 6 link matrices + final',!!d.querySelector('h1')&&d.querySelectorAll('table.m').length>=7&&/Modified DH parameters/.test(d.body.textContent));
- T('report: footer has share link, version and 30/30 self-tests',/v2\.0\.0/.test(d.body.textContent)&&/#s=/.test(d.body.innerHTML)&&/30\/30/.test(d.body.textContent));
+ T('report: footer has share link, version and 30/30 self-tests',/v3\.0\.0/.test(d.body.textContent)&&/#s=/.test(d.body.innerHTML)&&/30\/30/.test(d.body.textContent));
  const F=(v)=>v.toFixed(3);const P=ev('pos(calc().T)');T('report: final tool position printed correctly',d.body.textContent.includes('X = '+F(P[0])+' mm'));
  ev("document.querySelector('[data-page=\"trajectory\"]').click();document.querySelector('#trajGenerate')&&document.querySelector('#trajGenerate').click()");
  const rep2=ev('(()=>{const o=__export.O();o.s.traj=true;return __export.report(o)})()');T('report: trajectory section present after generating one',ev('trajData.length')>10&&/Joint trajectory/.test(rep2)&&/<img/.test(rep2)||ev('trajData.length')>10&&/Joint trajectory/.test(rep2),ev('trajData.length')+' samples');

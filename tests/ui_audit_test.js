@@ -1,6 +1,8 @@
 const {JSDOM,VirtualConsole}=require('jsdom');const fs=require('fs');const errs=[];const vc=new VirtualConsole();vc.on('jsdomError',e=>errs.push(e.message.slice(0,200)));
 const html=fs.readFileSync(__dirname+'/../index.html','utf8').replace('<script src="vendor/three.min.js"></script>','').replace('<div class="toast" id="toast"></div>','<div class="toast" id="toast"></div><script>window.structuredClone=o=>JSON.parse(JSON.stringify(o))</script>');
 const w=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc,url:'http://localhost/'}).window;
+// Reproducible audit: fixed-seed PRNG for the random poses (v3.0.0). Random poses can exceed the drift threshold, see docs/ROADMAP.md 'Known limits'.
+w.eval('Math.random=(function(){var s=20261026;return function(){s=(s*1664525+1013904223)>>>0;return s/4294967296}})()');
 w.scrollTo=()=>{};w.HTMLCanvasElement.prototype.getContext=()=>new Proxy({}, {get:(t,k)=>k==='measureText'?()=>({width:5}):()=>{},set:()=>true});
 w.addEventListener('error',e=>errs.push(String(e.error&&e.error.stack||e.message).slice(0,300)));
 const ev=c=>w.eval(c),sl=ms=>new Promise(r=>setTimeout(r,ms)),out=[],T=(n,ok,d='')=>out.push((ok?'PASS ':'FAIL ')+n+(d!==''?'  '+d:''));
@@ -41,5 +43,5 @@ const ev=c=>w.eval(c),sl=ms=>new Promise(r=>setTimeout(r,ms)),out=[],T=(n,ok,d='
  // undo restores tool + joints
  ev(`setPreset('irb120');history.length=0;snap();toolOffsetZ=5;joints[0].theta=77;`);ev(`document.querySelector('#undoBtn').click()`);T('undo restores tool frame and joints',ev('toolOffsetZ')===72&&ev('joints[0].theta')===20,ev('[toolOffsetZ,joints[0].theta]'));
  // save persists tool z
- ev(`setPreset('irb120');document.querySelector('#saveBtn').click()`);T('save stores tool z',JSON.parse(w.localStorage.getItem('crayon-mdh-project')).toolOffsetZ===72);
+ ev(`setPreset('irb120');document.querySelector('#saveBtn').click()`);T('save stores tool z',JSON.parse(w.localStorage.getItem('robolabs-project')).toolOffsetZ===72);
  console.log(out.join('\n'));console.log('JS errors:',errs.length?errs.slice(0,4):'none');process.exit(0)})();

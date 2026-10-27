@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Page not found — Ken’s RoboLabs</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{--paper:#f2fbf7;--ink:#0b2e3a;--muted:#4a6b72;--line:#c5e3d6;--blue:#2fbfd9;--blue-dark:#086b86;--yellow:#ffd95a;--mono:'JetBrains Mono',Consolas,monospace;--sans:'Outfit',Segoe UI,Arial,sans-serif}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(900px 500px at 12% -10%,#d4f4f8,transparent 62%),radial-gradient(800px 480px at 100% 0%,#fff4d6,transparent 58%),var(--paper);color:var(--ink);font-family:var(--sans)}
+  main{width:min(560px,100%);background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px;box-shadow:5px 5px 0 #4f8a8c;text-align:center}
+  .logo{display:grid;place-items:center;width:56px;height:56px;margin:0 auto 14px;border:2px solid var(--ink);border-radius:15px;background:var(--yellow);box-shadow:3px 3px 0 var(--ink);font-size:28px}
+  h1{font-size:24px;margin:0 0 8px}
+  p{color:var(--muted);line-height:1.6;margin:0 0 18px}
+  code{font-family:var(--mono);font-size:13px;background:#e3f5ee;padding:3px 6px;border-radius:6px}
+  a{display:inline-block;padding:11px 18px;border-radius:10px;background:var(--blue);border:1px solid var(--blue-dark);box-shadow:2px 2px 0 var(--blue-dark);color:var(--ink);font-weight:700;text-decoration:none}
+  a:hover{transform:translateY(-1px);box-shadow:3px 3px 0 var(--blue-dark)}
+  small{display:block;margin-top:16px;color:var(--muted);font-size:11px}
+</style>
+</head>
+<body>
+<main>
+  <div class="logo" aria-hidden="true">🌺</div>
+  <h1>That page took a wrong joint</h1>
+  <p>The address <code id="path">/</code> is not part of the lab. The workspace, robot library and Learning Center are all still one click away.</p>
+  <a href="./">Back to Ken’s RoboLabs</a>
+  <small>Ken’s RoboLabs v3 · Manipulator Kinematics Studio</small>
+</main>
+<script>
+  var path = document.getElementById('path');
+  if (path) path.textContent = location.pathname || '/';
+</script>
+</body>
+</html>
