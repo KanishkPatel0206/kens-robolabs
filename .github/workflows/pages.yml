@@ -50,10 +50,28 @@ jobs:
         uses: actions/configure-pages@v5
       # Publish only the static site. tests/, node_modules/ and docs/ sources
       # are not part of the deployed artifact.
+      # vendor/ must be listed here: index.html loads vendor/three.min.js, and
+      # dropping it silently degrades the 3D viewport to the 2D SVG fallback.
       - name: Stage site files
         run: |
           mkdir -p _site
-          cp -r index.html 404.html favicon.svg robots.txt sitemap.xml site.webmanifest assets _site/
+          cp -r index.html 404.html favicon.svg robots.txt sitemap.xml site.webmanifest assets vendor _site/
+      # Guard: every locally-referenced asset must exist in the artifact, so a
+      # missing directory fails the build instead of breaking the page in prod.
+      - name: Verify every local asset is staged
+        run: |
+          missing=0
+          for ref in $(grep -hoE '(src|href)="[^"]+"' index.html 404.html \
+            | sed -E 's/^(src|href)="//; s/"$//' \
+            | grep -vE '^(https?:|#|mailto:|data:|javascript:|\$)' \
+            | sort -u); do
+            if [ ! -e "_site/$ref" ]; then
+              echo "::error::referenced asset missing from the deployed artifact: $ref"
+              missing=1
+            fi
+          done
+          [ "$missing" -eq 0 ] || exit 1
+          echo "All referenced assets are present in _site."
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
