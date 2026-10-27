@@ -30,6 +30,9 @@ jobs:
           cache: npm
       - name: Install
         run: npm ci --no-audit --no-fund
+      # The generated-Python export test executes real NumPy code.
+      - name: Install NumPy for the export test
+        run: python3 -m pip install --break-system-packages --quiet numpy
       - name: Run the full suite
         run: npm test
 
