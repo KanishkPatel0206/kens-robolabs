@@ -46,8 +46,6 @@ The first release positioned as a professional learning product rather than a fe
 ### Fixed
 - Navigation is reachable on phones below 800 px (the sidebar and top nav were both hidden).
 - Mobile content no longer sits under the fixed bottom bar.
-- Between 801 and 1100 px the top tabs plus the app-bar actions overflowed the app bar and pushed Save/Export out of view. The top tabs are now hidden there too, because the sidebar (or its horizontal tablet strip) already carries navigation.
-- `assets/v3.css` is linked with a version query (`?v=3.0.0`) so a stale cached stylesheet cannot hide the v3 layout after an update.
 
 ### Release hygiene
 - `LICENSE` now credits Kanishk Patel (the `<YOUR NAME>` placeholder is gone).
@@ -55,18 +53,14 @@ The first release positioned as a professional learning product rather than a fe
 - The v2–v7 development log moved from `README.md` to `docs/HISTORY.md`.
 
 ### Verification (2026-10-26)
-- Suite: **142/142 checks pass** with no JS errors — engine 30, smoke 24, audit 14, features 20, export 19, collision 10, snapshot 13, v3 12. Run with Node 24.22.1 and jsdom 30.1.3.
-- Lighthouse (desktop, local static server): **Accessibility 100, Best Practices 100, SEO 100**, zero failures.
-- Layout matrix at 360, 390, 768, 800, 801, 900, 1000, 1001, 1100, 1101, 1280 and 1440 px: no horizontal document overflow, no app-bar overflow, 44 px bottom-nav targets at 360 px, and the More sheet and tour card both fit inside a 360 px viewport.
-- All 11 pages render with their learning-outcome banner; the frame checklist and live 3D engine are present.
+- Engine self-tests 30/30; smoke, audit, features, export, collision, snapshot and v3 suites pass with no JS errors (Node 22, jsdom).
 
 ### Known limit found during release verification
 - The dynamics simulation (fixed 2 ms RK4) can drift more than 1e-3 in relative energy on some random poses (up to about 4e-3 observed on the UR5-style arm over a 2 s free swing). The earlier “worst 5.5e-4” figure held only for the poses tested then. v3 leaves the engine untouched, so `tests/ui_audit_test.js` now uses a fixed random seed and is reproducible; an adaptive or smaller step for stiff poses is planned for v3.1/v4.
 
 ### Notes
 - Engine mathematics (FK, IK, Jacobian, dynamics, collision) is unchanged in v3.
-- The release was verified locally on a static server. The public GitHub Pages URL still has to be pointed at this repository before the demo link in the README resolves.
-- The previous `.github/workflows/static.yml` was removed. A replacement Pages workflow is planned for v3.1/v4.
+- The working tree previously showed `.github/workflows/static.yml` deleted but uncommitted. Decide intentionally: restore it or replace it with a tested Pages workflow in v4.
 
 ## [2.0.1] — previous
 

@@ -55,63 +55,31 @@ v3 does not add new robotics mathematics. It makes the existing studio safe, nav
 
 ## Verification
 
-### Automated suite
+### Browser (manual)
+
+- [ ] Load with the console open: no uncaught errors.
+- [ ] Navigate all 11 pages on desktop.
+- [ ] At 360 px: bottom bar works; More sheet reaches every page; content is not obscured.
+- [ ] Tour opens with `?`, can be completed, skipped and reopened.
+- [ ] `Esc` closes the sheet and the tour.
+- [ ] Renaming a joint with HTML renders as plain text in the tree, table, inspector, dynamics and payload views.
+- [ ] A crafted `#s=` share link loads without executing markup.
+- [ ] 3D view shows the boot shimmer then the robot.
+- [ ] Reduced-motion mode removes transitions.
+- [ ] Print preview of the report is unchanged and clean.
+
+### Engine
 
 ```bash
 npm i
-npm test            # engine + all seven UI suites
+npm test            # everything
+node tests/run_selftests.js
+node tests/ui_v3_test.js
+node tests/ui_smoke_test.js
+node tests/ui_audit_test.js
 ```
 
-Result on 2026-10-26 with **Node 24.22.1** and **jsdom 30.1.3**:
-
-| Suite | Checks |
-| --- | --- |
-| Engine self-tests | 30/30 |
-| Smoke | 24/24 |
-| Audit | 14/14 |
-| Features | 20/20 |
-| Export | 19/19 |
-| Collision | 10/10 |
-| Snapshot | 13/13 |
-| v3 release checks | 12/12 |
-| **Total** | **142/142** |
-
-No JavaScript errors were reported by any suite.
-
-### Lighthouse (desktop, local static server)
-
-| Category | Score |
-| --- | --- |
-| Accessibility | 100 |
-| Best Practices | 100 |
-| SEO | 100 |
-
-No failures.
-
-### Layout matrix
-
-Tested at 360, 390, 768, 800, 801, 900, 1000, 1001, 1100, 1101, 1280 and 1440 px:
-
-- no horizontal document overflow;
-- no app-bar overflow (top tabs hidden at ≤ 1100 px, where the sidebar or its tablet strip carries navigation);
-- 44 px bottom-nav targets at 360 px;
-- the “All sections” sheet and tour card both fit inside a 360 px viewport;
-- all 11 pages render with their outcome banner, and the 3D engine stays live.
-
-### Browser (manual)
-
-- [x] Load with the console open: no uncaught errors.
-- [x] Navigate all 11 pages on desktop.
-- [x] At 360 px: bottom bar works; More sheet reaches every page; content is not obscured.
-- [x] Tour opens with `?`, can be completed, skipped and reopened.
-- [x] `Esc` closes the sheet and the tour.
-- [x] Renaming a joint with HTML renders as plain text in the tree, table, inspector, dynamics and payload views.
-- [x] A crafted `#s=` share link loads without executing markup.
-- [x] 3D view shows the boot shimmer then the robot.
-- [x] Reduced-motion mode removes transitions.
-- [x] Print preview of the report is unchanged and clean.
-
-The suite requires Node 18+ (`npm i` installs jsdom).
+Expected: 30/30 engine checks and no UI regressions. These commands require Node 18+.
 
 ---
 
@@ -141,7 +109,6 @@ See [`docs/ROADMAP.md`](./ROADMAP.md) for the complete task plan.
 
 ## Still to do after deployment
 
-- Point the live GitHub Pages URL at this repository and re-run Lighthouse there (local desktop already scores 100/100/100).
+- Run Lighthouse on the live site (target mobile performance ≥ 90, accessibility 100).
 - Two-user pilot: one student and one instructor.
 - Real-browser (Playwright/axe) pass, scheduled with CI in v3.1/v4.
-- Add a mobile Lighthouse/performance run once the site is hosted.
