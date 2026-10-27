@@ -114,7 +114,7 @@ setTimeout(()=>{
 
     // The library offers BOTH forms for every model (link/skeleton + 3D model),
     // and the matched teaching robot is still loadable by its own preset key.
-    const lib=document.querySelectorAll('#libraryPage [data-v5-load]');
+    const lib=d.querySelectorAll('#libraryPage [data-v5-load]');
     const missing=[];
     if(UI){
       for(const m of models){

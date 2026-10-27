@@ -647,7 +647,11 @@ const RL5 = (function () {
       else { tj = Math.sqrt(vp / J); ta = 0; }
       const v1 = 0.5 * J * tj * tj, d1 = J * tj * tj * tj / 6;
       const v2 = v1 + A * ta, d2 = v1 * ta + 0.5 * A * ta * ta;
-      const d3 = v2 * tj + 0.5 * A * tj * tj - J * tj * tj * tj / 6;
+      // The mirrored jerk phase starts at the acceleration the ramp actually
+      // reached, J*tj - which equals A only when the peak acceleration was
+      // reached (ta > 0). Using A here made short, triangular moves finish
+      // short of the target.
+      const d3 = v2 * tj + J * tj * tj * tj / 3;
       return { tj, ta, d: d1 + d2 + d3, v: vp };
     }
     // peak velocity: vmax if the move is long enough, otherwise the vp that
