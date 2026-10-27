@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-label="SCARA RRPR (4-DOF) wireframe drawn from its Modified-DH parameters">
+<style>
+.bg{fill:#ffffff}.grid{stroke:#dceee7;stroke-width:1}
+.link{stroke:#0b7a5c;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.shadow{stroke:#0b7a5c;opacity:.14;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.base{fill:#164049}.j{fill:#2273ca;stroke:#fff;stroke-width:1.6}.tcp{fill:#c92b34;stroke:#fff;stroke-width:1.6}
+.lbl{font:600 10px 'JetBrains Mono',monospace;fill:#2c5866}.title{font:700 13px Outfit,sans-serif;fill:#164049}
+.sub{font:500 10px 'JetBrains Mono',monospace;fill:#5b7f86}
+</style>
+<defs><clipPath id="c"><rect x="6" y="6" width="468" height="348" rx="8"/></clipPath></defs>
+<rect class="bg" width="480" height="360" rx="10"/>
+<g clip-path="url(#c)"><g class="grid"><line x1="-189.7" y1="165.2" x2="-507.8" y2="368.7"/><line x1="-189.7" y1="165.2" x2="789.1" y2="231.3"/><line x1="55" y1="181.7" x2="-263.1" y2="385.2"/><line x1="-269.2" y1="216.1" x2="709.6" y2="282.2"/><line x1="299.7" y1="198.2" x2="-18.4" y2="401.8"/><line x1="-348.7" y1="266.9" x2="630.1" y2="333.1"/><line x1="544.4" y1="214.8" x2="226.4" y2="418.3"/><line x1="-428.3" y1="317.8" x2="550.6" y2="383.9"/><line x1="789.1" y1="231.3" x2="471.1" y2="434.8"/><line x1="-507.8" y1="368.7" x2="471.1" y2="434.8"/></g></g>
+<circle class="base" cx="140.7" cy="307" r="11"/>
+<g clip-path="url(#c)"><path class="shadow" d="M 140.7 300 L 140.7 58 M 140.7 58 L 339.3 103.9 M 339.3 103.9 L 262.9 152.8 M 262.9 152.8 L 262.9 249.6" transform="translate(3 5)"/><path class="link" d="M 140.7 300 L 140.7 58 M 140.7 58 L 339.3 103.9 M 339.3 103.9 L 262.9 152.8 M 262.9 152.8 L 262.9 249.6"/></g>
+<circle cx="140.7" cy="300" r="5.5" class="j"/><text x="148.7" y="294" class="lbl">base</text><circle cx="140.7" cy="58" r="5" class="j"/><text x="148.7" y="52" class="lbl">J1</text><circle cx="339.3" cy="103.9" r="5" class="j"/><text x="347.3" y="97.9" class="lbl">J2</text><circle cx="262.9" cy="152.8" r="5" class="j"/><text x="270.9" y="146.8" class="lbl">J3</text>
+<circle class="tcp" cx="262.9" cy="249.6" r="4.5"/><text x="270.9" y="263.6" class="lbl">TCP</text>
+<text x="14" y="24" class="title">SCARA RRPR (4-DOF)</text>
+<text x="14" y="40" class="sub">4 DOF · RRPR · drawn from its DH table</text>
+<text x="14" y="348" class="sub">reach ≈ 950 mm · Educational</text>
+</svg>

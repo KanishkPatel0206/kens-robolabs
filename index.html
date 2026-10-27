@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ken’s RoboLabs v5 — Manipulator Kinematics Studio</title>
+<title>Ken’s RoboLabs v6 — Manipulator Kinematics Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -27,9 +27,10 @@
 </style>
 <link rel="stylesheet" href="assets/v3.css">
 <link rel="stylesheet" href="assets/v5.css">
-<meta name="description" content="Ken’s RoboLabs v5: a professional, browser-based Modified-DH manipulator kinematics, dynamics and teaching studio with URDF interop, premade 3D robot models, 3D visualisation, inverse kinematics, Jacobian, trajectories, collision checking and teaching tools.">
-<meta name="application-version" content="5.0.0">
-<meta name="theme-color" content="#eef8f4"><meta property="og:title" content="Ken’s RoboLabs v5 — Manipulator Kinematics Studio"><meta property="og:description" content="Interactive Modified Denavit–Hartenberg robot kinematics, dynamics and teaching studio."><meta property="og:type" content="website"><meta property="og:url" content="https://kanishkpatel0206.github.io/kens-robolabs/"><link rel="canonical" href="https://kanishkpatel0206.github.io/kens-robolabs/">
+<link rel="stylesheet" href="assets/practice.css">
+<meta name="description" content="Ken’s RoboLabs v6: a professional, browser-based Modified-DH manipulator kinematics, dynamics and teaching studio with self-study practice modules, URDF interop, premade 3D robot models, 3D visualisation, inverse kinematics, Jacobian, trajectories, collision checking and teaching tools.">
+<meta name="application-version" content="6.0.0">
+<meta name="theme-color" content="#eef8f4"><meta property="og:title" content="Ken’s RoboLabs v6 — Manipulator Kinematics Studio"><meta property="og:description" content="Interactive Modified Denavit–Hartenberg robot kinematics, dynamics and teaching studio with self-study practice modules."><meta property="og:type" content="website"><meta property="og:url" content="https://kanishkpatel0206.github.io/kens-robolabs/"><link rel="canonical" href="https://kanishkpatel0206.github.io/kens-robolabs/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="site.webmanifest">
 <link rel="apple-touch-icon" href="favicon.svg">
@@ -38,7 +39,7 @@
 <script>try{var _o=localStorage.getItem('crayon-mdh-project');if(_o&&!localStorage.getItem('robolabs-project'))localStorage.setItem('robolabs-project',_o)}catch(e){}</script>
 <a class="skip-link" href="#mainContent">Skip to main content</a>
 <header class="appbar">
-  <div class="brand"><div class="logo" aria-hidden="true">🌺</div><span>Ken’s RoboLabs</span><span class="tag">MODIFIED DH · v5</span></div>
+  <div class="brand"><div class="logo" aria-hidden="true">🌺</div><span>Ken’s RoboLabs</span><span class="tag">MODIFIED DH · v6</span></div>
   <div class="topnav"><button class="active" data-page="workspace">Workspace</button><button data-page="library">Robot Library</button><button data-page="learn">Learning Center</button><button data-page="pro">Professional</button></div>
   <div style="display:flex;gap:7px;align-items:center"><button class="soft hide-mobile" id="undoBtn" title="Undo">↶</button><button class="soft hide-mobile" id="redoBtn" title="Redo">↷</button><button class="gold" id="saveBtn">▣ Save</button><button class="soft hide-mobile" id="exportBtn">↓ Export</button></div>
 </header>
@@ -90,7 +91,7 @@
 <section id="framesPage" class="hidden"><div class="hero"><h1>Coordinate Frames</h1><p>Frame axes are drawn from the cumulative homogeneous transformations. Red = X, green = Y, blue = Z.</p></div><div class="panel"><h2>Frame transforms</h2><div class="matrix-grid" id="frameGrid"></div></div></section>
 <section id="fkPage" class="hidden"><div class="hero"><h1>Forward Kinematics</h1><p>Compute the base-to-tool pose by multiplying the selected Modified DH transforms in sequence.</p></div><div class="panel"><div id="fkSummary"></div><button class="primary" id="fkGo">Recalculate forward kinematics</button></div><div class="panel"><h2>Final transform</h2><div id="fkMatrix"></div></div></section>
 <section id="ikPage" class="hidden"><div class="hero"><h1>Inverse Kinematics</h1><p>Use the analytic 2R solver for planar arms, or damped least-squares position IK for the currently loaded Modified-DH robot.</p></div><div class="panel"><h2>Analytical planar 2R</h2><p class="muted tiny">For a two-link planar arm. Applies joint angles to joints 1 and 2 only.</p><div class="pills"><label>Target X (mm) <input id="ikX" type="number" value="350" style="width:110px;padding:8px;border:1px solid var(--line);border-radius:8px"></label><label>Target Y (mm) <input id="ikY" type="number" value="150" style="width:110px;padding:8px;border:1px solid var(--line);border-radius:8px"></label><button class="primary" id="solveIK">Solve 2R IK</button></div><div id="ikResult" style="margin-top:14px"></div></div><div class="panel" style="margin-top:14px"><h2>General IK · Damped least squares (position or full pose)</h2><p class="muted tiny">Verified damped-least-squares solver with multi-start, joint limits and optional orientation matching, using the analytic geometric Jacobian. Every answer is re-checked with forward kinematics; unreachable or singular targets are reported honestly.</p><div class="pills"><label>Target X (mm) <input id="ik3X" type="number" value="350" style="width:100px;padding:8px;border:1px solid var(--line);border-radius:8px"></label><label>Target Y (mm) <input id="ik3Y" type="number" value="150" style="width:100px;padding:8px;border:1px solid var(--line);border-radius:8px"></label><label>Target Z (mm) <input id="ik3Z" type="number" value="0" style="width:100px;padding:8px;border:1px solid var(--line);border-radius:8px"></label><button class="primary" id="solveIK3D">Solve position IK</button></div><div id="ik3Result" class="analysis-output" style="margin-top:14px">Choose a robot in Robot Library, enter a target and solve.</div></div></section>
-<section id="learnPage" class="hidden"><div class="hero"><h1>Learning Center</h1><p>Learn the parameters and understand how the transformation is built.</p></div><div class="matrix-grid"><div class="panel"><h2>1. Link length · aᵢ₋₁</h2><p>Translation along the previous frame's X axis. It represents the common-normal distance between adjacent joint axes.</p></div><div class="panel"><h2>2. Link twist · αᵢ₋₁</h2><p>Rotation about the previous frame's X axis, describing the angle between the adjacent Z axes.</p></div><div class="panel"><h2>3. Joint angle · θᵢ</h2><p>Rotation about the current joint Z axis. It is variable for revolute joints.</p></div><div class="panel"><h2>4. Joint offset · dᵢ</h2><p>Translation along the current joint Z axis. It is variable for prismatic joints.</p></div><div class="panel"><h2>Your chosen transformation order</h2><code class="mono">T = Rx(αᵢ₋₁) Tx(aᵢ₋₁) Rz(θᵢ) Tz(dᵢ)</code><p class="footer-note">The first two operations commute because both act along/about X. The row indexing and frame assignment still matter.</p></div><div class="panel"><h2>How to check your answer</h2><p>1. Validate every frame assignment. 2. Build each 4×4 matrix. 3. Multiply left-to-right. 4. Read the final matrix's last column for position. 5. Check units and joint-axis signs.</p></div></div></section>
+<section id="learnPage" class="hidden"><div class="hero"><h1>Learning Center</h1><p>Self-study practice modules: reference documentation, a generated quiz and a worked solution for each topic. Read the reference, then prove you can use it &mdash; every answer is derived from the real Modified-DH maths.</p></div><div id="practiceModules"></div></section>
 <section id="jacobianPage" class="hidden">
  <div class="hero"><div class="hero-top"><div><h1>∂ Jacobian & Velocity Analysis</h1><div class="muted">Full 6×n geometric Jacobian of the active Modified-DH model, validated against finite differences.</div></div><span class="pill blue">LIVE MODEL</span></div></div>
  <div class="panel"><div class="panel-head"><h2>Linear Jacobian Jv</h2><button class="primary" id="jacobianRefresh">Recalculate</button></div><p class="muted tiny">Computed analytically (cross-checked against finite differences). Revolute columns are mm/rad; prismatic columns are mm/mm. Rows 1–3 are linear velocity, rows 4–6 angular velocity.</p><div class="analysis-output" id="jacobianResult">Recalculate to view the Jacobian.</div><div class="field-row"><label>Joint rates (active unit/s)</label><button class="soft" id="zeroRates">Set all rates to zero</button></div><div id="rateInputs"></div><div class="analysis-output" id="velocityResult">TCP linear velocity will appear here.</div></div>
@@ -895,8 +896,54 @@ function updateVelocity(){if(!$('#velocityResult'))return;let J=numericJacobian(
 function refreshJointSelects(){['trajJoint','dynJoint'].forEach(id=>{let el=$('#'+id),old=el.value;el.innerHTML=joints.map((j,i)=>`<option value="${i}">${i+1}. ${j.name} (${j.type})</option>`).join('');if(old<joints.length)el.value=old});if($('#trajJoint')){let j=joints[Number($('#trajJoint').value)||0];$('#trajStart').value=j?(j.type==='R'?j.theta:j.d):0;$('#trajEnd').value=j?(j.type==='R'?Math.min(j.max,(j.type==='R'?j.theta:j.d)+45):Math.min(j.max,j.d+30)):0}}
 function drawLinePlot(canvas,points,color='#06617c'){if(!canvas)return;let ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#ffffff';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#c2d9d2';ctx.lineWidth=1;for(let i=1;i<6;i++){ctx.beginPath();ctx.moveTo(35,i*h/6);ctx.lineTo(w-12,i*h/6);ctx.stroke()}if(!points.length)return;let xs=points.map(p=>p[0]),ys=points.map(p=>p[1]),xmin=Math.min(...xs),xmax=Math.max(...xs)||1,ymin=Math.min(...ys),ymax=Math.max(...ys);if(ymax===ymin){ymax+=1;ymin-=1}ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();points.forEach((p,i)=>{let x=35+(p[0]-xmin)/(xmax-xmin||1)*(w-50),y=h-25-(p[1]-ymin)/(ymax-ymin)*(h-40);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();ctx.fillStyle='#1f4a54';ctx.font='12px sans-serif';ctx.fillText(ymax.toFixed(1),4,18);ctx.fillText(ymin.toFixed(1),4,h-8);ctx.fillText('time / sample',w/2-35,h-5)}
 function generateTrajectory(){let i=Number($('#trajJoint').value)||0,j=joints[i],q0=Number($('#trajStart').value),q1=Number($('#trajEnd').value),duration=Math.max(.2,Math.min(60,Number($('#trajDuration').value)||4)),kind=$('#trajType')?.value||'cubic';if(!j||!Number.isFinite(q0)||!Number.isFinite(q1)){toast('Enter valid trajectory values');return}if(q0<j.min||q0>j.max||q1<j.min||q1>j.max){$('#trajStatus').textContent=`Target values must stay within joint limits [${j.min}, ${j.max}].`;return}trajData=[];trajVelData=[];trajAccData=[];let delta=q1-q0;for(let k=0;k<=100;k++){let t=duration*k/100,u=t/duration,q,qd,qdd;if(kind==='quintic'){q=q0+delta*(10*u**3-15*u**4+6*u**5);qd=delta/duration*(30*u**2-60*u**3+30*u**4);qdd=delta/(duration*duration)*(60*u-180*u**2+120*u**3)}else{q=q0+delta*(3*u*u-2*u*u*u);qd=delta/duration*(6*u-6*u*u);qdd=delta/(duration*duration)*(6-12*u)}trajData.push([t,q]);trajVelData.push([t,qd]);trajAccData.push([t,qdd])}drawLinePlot($('#trajPlot'),trajData,'#1a73c7');drawLinePlot($('#trajVelPlot'),trajVelData,'#0f7a5f');drawLinePlot($('#trajAccPlot'),trajAccData,'#d1373f');$('#trajStatus').textContent=`Generated 101 ${kind} samples for ${j.name}; duration ${duration.toFixed(2)} s.`}
-function sampleWorkspace(){let count=Number($('#workspaceSamples').value)||1000,proj=$('#workspaceProjection').value;workspaceData=[];let originals=joints.map(j=>({...j}));for(let n=0;n<count;n++){joints.forEach(j=>{let q=j.min+Math.random()*(j.max-j.min);if(j.type==='R')j.theta=q;else j.d=q});let p=pos(calc().T);workspaceData.push(p)}joints=originals;let ix=proj==='xy'?[0,1]:proj==='xz'?[0,2]:[1,2],pts=workspaceData.map(p=>[p[ix[0]],p[ix[1]]]);drawWorkspaceCanvas($('#workspacePlot'),pts);$('#workspaceSummary').textContent=`Sampled ${count.toLocaleString()} configurations. Approximate bounds: ${['X','Y','Z'].map((n,i)=>`${n} ${Math.min(...workspaceData.map(p=>p[i])).toFixed(1)} to ${Math.max(...workspaceData.map(p=>p[i])).toFixed(1)} mm`).join(' · ')}.`;renderAll(false)}
-function drawWorkspaceCanvas(canvas,pts){let ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#ffffff';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#c2d9d2';for(let i=1;i<10;i++){ctx.beginPath();ctx.moveTo(i*w/10,0);ctx.lineTo(i*w/10,h);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i*h/10);ctx.lineTo(w,i*h/10);ctx.stroke()}if(!pts.length)return;let xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),xmin=Math.min(...xs),xmax=Math.max(...xs),ymin=Math.min(...ys),ymax=Math.max(...ys);let dx=xmax-xmin||1,dy=ymax-ymin||1;ctx.fillStyle='#0a5f78';pts.forEach(p=>{let x=15+(p[0]-xmin)/dx*(w-30),y=h-15-(p[1]-ymin)/dy*(h-30);ctx.fillRect(x,y,3,3)});ctx.fillStyle='#1f4a54';ctx.font='13px sans-serif';ctx.fillText('Reachable TCP projection · mm',12,18)}
+function sampleWorkspace(){let count=Number($('#workspaceSamples').value)||1000,proj=$('#workspaceProjection').value;workspaceData=[];let originals=joints.map(j=>({...j}));for(let n=0;n<count;n++){joints.forEach(j=>{let q=j.min+Math.random()*(j.max-j.min);if(j.type==='R')j.theta=q;else j.d=q});let p=pos(calc().T);workspaceData.push(p)}joints=originals;let ix=proj==='xy'?[0,1]:proj==='xz'?[0,2]:[1,2],pts=workspaceData.map(p=>[p[ix[0]],p[ix[1]]]),cur=pos(calc().T);drawWorkspaceCanvas($('#workspacePlot'),pts,{plane:proj,current:[cur[ix[0]],cur[ix[1]]]});$('#workspaceSummary').textContent=`Sampled ${count.toLocaleString()} configurations. Approximate bounds: ${['X','Y','Z'].map((n,i)=>`${n} ${Math.min(...workspaceData.map(p=>p[i])).toFixed(1)} to ${Math.max(...workspaceData.map(p=>p[i])).toFixed(1)} mm`).join(' · ')}.`;renderAll(false)}
+function niceStep(range){const raw=Math.max(1e-9,range)/6,p=Math.pow(10,Math.floor(Math.log10(raw))),n=raw/p;return (n<=1?1:n<=2?2:n<=5?5:10)*p}
+/* Equal-aspect, retina-crisp scatter for the workspace page. `opts.plane` is
+   'xy'|'xz'|'yz' and `opts.current` is the live TCP projected the same way, so
+   the figure always matches the robot on screen. One scale is used for both
+   axes, so the sampled shape is never stretched to fill the box. */
+function drawWorkspaceCanvas(canvas,pts,opts){
+  opts=opts||{};const plane=opts.plane||'xy';
+  const AX={xy:{h:'X',v:'Y',t:'XY · top view'},xz:{h:'X',v:'Z',t:'XZ · front view'},yz:{h:'Y',v:'Z',t:'YZ · side view'}}[plane]||{h:'X',v:'Y',t:'XY'};
+  const dpr=Math.min(2,window.devicePixelRatio||1);
+  const cssW=Math.max(320,Math.round(canvas.clientWidth||canvas.width||900)),cssH=Math.max(240,Math.round(cssW*0.44));
+  const bw=Math.round(cssW*dpr),bh=Math.round(cssH*dpr);
+  if(canvas.width!==bw||canvas.height!==bh){canvas.width=bw;canvas.height=bh}
+  const ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height;
+  ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,W,H);ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
+  const padL=Math.round(66*dpr),padR=Math.round(20*dpr),padT=Math.round(42*dpr),padB=Math.round(48*dpr),pw=W-padL-padR,ph=H-padT-padB;
+  if(!pts||!pts.length){ctx.fillStyle='#5b7f86';ctx.font=(13*dpr)+'px ui-monospace,monospace';ctx.textAlign='center';ctx.fillText('No points yet — run “Sample workspace”.',W/2,H/2);ctx.textAlign='left';return}
+  let xmin=Infinity,xmax=-Infinity,ymin=Infinity,ymax=-Infinity,kept=0;
+  for(const p of pts){if(!Number.isFinite(p[0])||!Number.isFinite(p[1]))continue;kept++;if(p[0]<xmin)xmin=p[0];if(p[0]>xmax)xmax=p[0];if(p[1]<ymin)ymin=p[1];if(p[1]>ymax)ymax=p[1]}
+  if(!kept)return;
+  if(opts.current&&Number.isFinite(opts.current[0])){xmin=Math.min(xmin,opts.current[0]);xmax=Math.max(xmax,opts.current[0]);ymin=Math.min(ymin,opts.current[1]);ymax=Math.max(ymax,opts.current[1])}
+  let sx=xmax-xmin,sy=ymax-ymin;if(sx<=0){xmin-=.5;xmax+=.5;sx=1}if(sy<=0){ymin-=.5;ymax+=.5;sy=1}
+  const mg=0.05;xmin-=sx*mg;xmax+=sx*mg;ymin-=sy*mg;ymax+=sy*mg;sx=xmax-xmin;sy=ymax-ymin;
+  const s=Math.min(pw/sx,ph/sy),ox=padL+(pw-sx*s)/2,oy=padT+(ph-sy*s)/2;
+  const X=v=>ox+(v-xmin)*s,Y=v=>oy+(ymax-v)*s;
+  const stepX=niceStep(sx),stepY=niceStep(sy);
+  ctx.lineWidth=dpr;ctx.strokeStyle='#e3f1ec';ctx.fillStyle='#5b7f86';ctx.font=(11*dpr)+'px ui-monospace,monospace';
+  for(let v=Math.ceil(xmin/stepX)*stepX;v<=xmax+1e-9;v+=stepX){const x=Math.round(X(v))+.5;ctx.beginPath();ctx.moveTo(x,padT);ctx.lineTo(x,padT+ph);ctx.stroke();ctx.textAlign='center';ctx.fillText(v.toFixed(0),x,padT+ph+18*dpr)}
+  for(let v=Math.ceil(ymin/stepY)*stepY;v<=ymax+1e-9;v+=stepY){const y=Math.round(Y(v))+.5;ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(padL+pw,y);ctx.stroke();ctx.textAlign='right';ctx.fillText(v.toFixed(0),padL-8*dpr,y+4*dpr)}
+  ctx.textAlign='left';ctx.strokeStyle='#a9cfc6';
+  if(0>=xmin&&0<=xmax){const x=Math.round(X(0))+.5;ctx.beginPath();ctx.moveTo(x,padT);ctx.lineTo(x,padT+ph);ctx.stroke()}
+  if(0>=ymin&&0<=ymax){const y=Math.round(Y(0))+.5;ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(padL+pw,y);ctx.stroke()}
+  ctx.fillStyle='rgba(11,122,92,.55)';const r=Math.max(1.1,1.5)*dpr;
+  for(const p of pts){if(!Number.isFinite(p[0])||!Number.isFinite(p[1]))continue;ctx.beginPath();ctx.arc(X(p[0]),Y(p[1]),r,0,6.2832);ctx.fill()}
+  if(opts.current&&Number.isFinite(opts.current[0])){const x=X(opts.current[0]),y=Y(opts.current[1]),k=7*dpr;ctx.strokeStyle='#c92b34';ctx.lineWidth=1.8*dpr;ctx.beginPath();ctx.moveTo(x-k,y);ctx.lineTo(x+k,y);ctx.moveTo(x,y-k);ctx.lineTo(x,y+k);ctx.stroke();ctx.beginPath();ctx.arc(x,y,5*dpr,0,6.2832);ctx.stroke()}
+  ctx.fillStyle='#164049';ctx.font='700 '+(14*dpr)+'px Outfit,system-ui,sans-serif';ctx.fillText('Reachable workspace · '+AX.t,10*dpr,22*dpr);
+  ctx.fillStyle='#5b7f86';ctx.font=(11*dpr)+'px ui-monospace,monospace';ctx.fillText(AX.h+' vs '+AX.v+' (mm) · '+kept.toLocaleString()+' samples · equal aspect'+(opts.current?' · ✚ current TCP':''),10*dpr,38*dpr);
+}
+/* Redraw the workspace scatter from the points we already sampled, using the
+   currently selected projection and the live tool-tip position. Safe to call
+   when nothing has been sampled yet or when the panel is still hidden. */
+function redrawWorkspace(){
+  if(!workspaceData||!workspaceData.length)return;
+  const plane=($('#workspaceProjection')||{value:'xy'}).value;
+  const ix=plane==='xy'?[0,1]:plane==='xz'?[0,2]:[1,2];
+  let cur=null;try{const t=pos(calc().T);cur=[t[ix[0]],t[ix[1]]]}catch(e){}
+  drawWorkspaceCanvas($('#workspacePlot'),workspaceData.map(p=>[p[ix[0]],p[ix[1]]]),{plane,current:cur});
+}
 function calcDynamics(){let i=Number($('#dynJoint').value)||0,j=joints[i],m=Math.max(0,Number($('#dynMass').value)||0),r=Math.max(0,Number($('#dynArm').value)||0),acc=Number($('#dynAccel').value)||0,I=Math.max(0,Number($('#dynInertia').value)||0);if(j.type==='R'){let tau=m*9.81*r*Math.abs(Math.sin(rad(j.theta)))+I*acc;$('#dynResult').innerHTML=`<h3>Estimated joint torque</h3><p class="mono" style="font-size:24px;margin:8px 0">${tau.toFixed(3)} N·m</p><p>Gravity component: ${(m*9.81*r*Math.abs(Math.sin(rad(j.theta)))).toFixed(3)} N·m</p><p>Inertial component: ${(I*acc).toFixed(3)} N·m</p><p class="muted tiny">Uses |sin(θ)| for a simplified planar gravity moment; actual torque depends on link orientation and mass distribution.</p>`}else{let force=m*(9.81+acc);$('#dynResult').innerHTML=`<h3>Estimated prismatic force</h3><p class="mono" style="font-size:24px;margin:8px 0">${force.toFixed(3)} N</p><p>Equivalent load m(g+a), assuming vertical motion and positive downward gravity.</p>`}}
 function bindAdvancedTools(){init3D();$('#jacobianRefresh').onclick=renderJacobian;$('#zeroRates').onclick=()=>{$$('[data-rate]').forEach(e=>e.value=0);updateVelocity()};$('#rateInputs').addEventListener('input',updateVelocity);$('#trajGenerate').onclick=generateTrajectory;$('#trajJoint').onchange=()=>{let j=joints[Number($('#trajJoint').value)||0];if(j){$('#trajStart').value=j.type==='R'?j.theta:j.d;$('#trajEnd').value=Math.max(j.min,Math.min(j.max,(j.type==='R'?j.theta:j.d)+(j.type==='R'?45:30)))}};$('#trajPlay').onclick=()=>{if(!trajData.length)generateTrajectory();if(!trajData.length)return;clearInterval(trajTimer);let k=0,i=Number($('#trajJoint').value)||0;trajTimer=setInterval(()=>{if(k>=trajData.length){clearInterval(trajTimer);return}let j=joints[i],q=trajData[k++][1];if(j.type==='R')j.theta=q;else j.d=q;selected=i;renderAll(false)},Math.max(15,Number($('#trajDuration').value)*1000/100))};$('#trajStop').onclick=()=>{clearInterval(trajTimer);trajTimer=null};$('#workspaceRun').onclick=sampleWorkspace;$('#workspaceCsv').onclick=()=>{if(!workspaceData.length)return toast('Sample the workspace first');download('workspace-points.csv','x_mm,y_mm,z_mm\n'+workspaceData.map(p=>p.join(',')).join('\n'),'text/csv')};$('#dynCalculate').onclick=calcDynamics;['dynJoint','dynMass','dynArm','dynAccel','dynInertia'].forEach(id=>$('#'+id).addEventListener('change',calcDynamics));$$('[data-view]').forEach(b=>b.addEventListener('click',()=>setCameraPreset(b.dataset.view)));$('#fitView').addEventListener('click',()=>{orbit3d.target=[180,0,80];orbit3d.r=1150;updateCamera3D()});$$('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.page==='jacobian')renderJacobian();if(b.dataset.page==='trajectory')refreshJointSelects();if(b.dataset.page==='dynamics'){refreshJointSelects();calcDynamics()}if(b.dataset.page==='workspaceAnalysis'){$('#workspaceSummary').textContent=workspaceData.length?$('#workspaceSummary').textContent:'Run sampling to estimate the workspace.'}}));}
 // Hook 3D rendering into the existing Modified-DH refresh cycle without changing its math.
@@ -1129,11 +1176,15 @@ $('.viewport-head').insertAdjacentHTML('beforeend','<span class="pill green" id=
 $('#baseH').value=baseH;$('#baseH').onchange=e=>{baseH=Math.max(0,Math.min(2000,+e.target.value||0));good=null;renderAll()};$('#blockCol').onchange=e=>{blockOn=e.target.checked};
 /* ---- workspace sampler with optional collision filter ---- */
 $('#workspaceRun').insertAdjacentHTML('beforebegin','<label class="tiny" style="display:flex;gap:4px;align-items:center"><input type="checkbox" id="wsFilter" checked> Exclude colliding poses</label>');
-sampleWorkspace=function(){const N=+$('#workspaceSamples').value||1000,pr=$('#workspaceProjection').value,keep=vars(),F=$('#wsFilter').checked;workspaceData=[];let skipped=0;
+sampleWorkspace=function(){const N=+$('#workspaceSamples').value||1000,keep=vars(),F=$('#wsFilter').checked;workspaceData=[];let skipped=0;
  for(let n=0;n<N;n++){joints.forEach(j=>{const v=j.min+Math.random()*(j.max-j.min);if(j.type==='R')j.theta=v;else j.d=v});if(F&&collisionReport().hit){skipped++;continue}workspaceData.push(pos(calc().T))}
- setVars(keep);const ix=pr==='xy'?[0,1]:pr==='xz'?[0,2]:[1,2];drawWorkspaceCanvas($('#workspacePlot'),workspaceData.map(p=>[p[ix[0]],p[ix[1]]]));
+ setVars(keep);redrawWorkspace();
  $('#workspaceSummary').textContent=workspaceData.length?`Sampled ${N.toLocaleString()} configurations${F?`, ${skipped.toLocaleString()} rejected for collision (${(100*skipped/N).toFixed(0)}%)`:''}. Bounds: ${['X','Y','Z'].map((c,i)=>`${c} ${Math.min(...workspaceData.map(p=>p[i])).toFixed(0)} to ${Math.max(...workspaceData.map(p=>p[i])).toFixed(0)} mm`).join(' · ')}.`:'Every sampled pose collided — raise the base height.';renderAll(false)};
 $('#workspaceRun').onclick=sampleWorkspace;
+$('#workspaceProjection').onchange=()=>{if(workspaceData.length)redrawWorkspace();else toast('Sample the workspace to plot it')};
+/* The panel is hidden until you navigate to it, so the canvas has no width
+   while hidden — redraw once it is on screen. */
+RoboRouter.onPage(p=>{if(p==='workspaceAnalysis'&&workspaceData.length){if(typeof requestAnimationFrame==='function')requestAnimationFrame(redrawWorkspace);else redrawWorkspace()}});
 /* ---- scrollable, responsive layout ---- */
 const st=document.createElement('style');st.textContent=`
 html{scroll-behavior:smooth;scroll-padding-top:78px}*{scrollbar-width:thin;scrollbar-color:#8fbfb0 transparent}
@@ -1197,7 +1248,7 @@ $('#dynamicsPage').insertAdjacentHTML('beforeend','<div class="panel" id="payloa
 $('#payGo').onclick=()=>{const kg=Math.max(0,+$('#payKg').value||0),G={z:[0,0,-9.81],y:[0,-9.81,0],x:[-9.81,0,0],none:[0,0,0]}[$('#dynG').value],r=toRL(),q=qNow(),Jm=RL.jacobian(r,q),own=RL.gravityVector(r,q,G),pay=joints.map((_,i)=>-kg*(Jm[0][i]*G[0]+Jm[1][i]*G[1]+Jm[2][i]*G[2])),tot=pay.map((v,i)=>v+own[i]),mx=tot.reduce((b,v,i)=>Math.abs(v)>Math.abs(tot[b])?i:b,0),f=v=>v.toFixed(2);
  $('#payOut').innerHTML='<div class="table-wrap"><table style="min-width:0"><thead><tr><th>Joint</th><th>Arm weight</th><th>Payload</th><th>Total to hold</th></tr></thead><tbody>'+joints.map((j,i)=>`<tr><td>${i+1}. ${j.name} (${j.type})</td><td>${f(own[i])}</td><td>${f(pay[i])}</td><td><b>${f(tot[i])}${j.type==='R'?' N·m':' N'}</b></td></tr>`).join('')+`</tbody></table></div><div class="status">Heaviest load: <b>${joints[mx].name}</b> (${f(Math.abs(tot[mx]))}${joints[mx].type==='R'?' N·m':' N'}). ${$('#dynG').value==='z'&&joints.every(j=>j.type==='R'&&Math.abs(j.alpha)<1e-9)?'Planar arm with −Z gravity has no joint torque — switch gravity to −Y above.':''}</div>`};
 /* ---- 5. kinematics quiz (Learning Center) ---- */
-$('#learnPage').insertAdjacentHTML('beforeend','<div class="panel" id="quizPanel" style="margin-top:14px"><div class="panel-head"><h2>✎ Quick quiz — forward kinematics</h2><span class="pill blue" id="quizScore">0 / 0</span></div><p class="muted tiny">Work out the tool position from the Modified-DH table (the highlighted * value is the joint variable). Answers within 1 mm count as correct.</p><div id="quizTable" class="table-wrap"></div><div class="pills" style="margin-top:10px">X <input id="qx" class="quiz-in" type="number" step="any"> Y <input id="qy" class="quiz-in" type="number" step="any"> Z <input id="qz" class="quiz-in" type="number" step="any"> mm<button class="primary" id="qCheck">Check</button><button class="soft" id="qNext">New question</button><button class="soft" id="qShow">Show in 3D</button></div><div id="qOut" class="analysis-output"></div></div>');
+$('#learnPage').insertAdjacentHTML('beforeend','<div class="panel" id="quizPanel" style="margin-top:14px"><div class="panel-head"><h2>✎ Quick quiz — forward kinematics</h2><span class="pill blue" id="quizScore">0 / 0</span></div><p class="muted tiny">Work out the tool position from the Modified-DH table (the highlighted * value is the joint variable). Answers within 1 mm count as correct.</p><div id="quizTable" class="table-wrap"></div><div class="pills" style="margin-top:10px">X <input id="qx" class="quiz-in" type="number" step="any"> Y <input id="qy" class="quiz-in" type="number" step="any"> Z <input id="qz" class="quiz-in" type="number" step="any"> mm<button class="primary" id="qCheck">Check</button><button class="soft" id="qNext">New question</button><button class="soft" id="qShow">Show in 3D</button><button class="soft" id="qSolution">Show solution</button></div><div id="qOut" class="analysis-output"></div><div id="qSol" class="analysis-output"></div></div>');
 let Q=null,sc=[0,0];const tcp=(js,tx,tz)=>{const sj=joints,s1=toolOffset,s2=toolOffsetZ;joints=js;toolOffset=tx;toolOffsetZ=tz;try{return pos(calc().T)}finally{joints=sj;toolOffset=s1;toolOffsetZ=s2}};
 function quizNew(){const ks=Object.keys(defaults).filter(k=>k!=='custom'),id=ks[Math.floor(Math.random()*ks.length)],js=structuredClone(defaults[id]).map(j=>{const v=Math.round((j.min+Math.random()*(j.max-j.min))/(j.type==='R'?15:25))*(j.type==='R'?15:25);j[varK(j)]=Math.min(j.max,Math.max(j.min,v));return j}),tx=presetTool[id]||0,tz=(window.presetToolZ||{})[id]||0;Q={id,js,tx,tz,ans:tcp(js,tx,tz)};
  $('#quizTable').innerHTML='<table style="min-width:0"><thead><tr><th>i</th><th>Type</th><th>α(i−1) °</th><th>a(i−1) mm</th><th>θ(i) °</th><th>d(i) mm</th></tr></thead><tbody>'+js.map((j,i)=>{const R=j.type==='R';return `<tr><td>${i+1}</td><td>${j.type}</td><td>${j.alpha}</td><td>${j.a}</td><td>${R?'<b>'+j.theta+'*</b>':j.theta}</td><td>${R?j.d:'<b>'+j.d+'*</b>'}</td></tr>`}).join('')+(tx||tz?`<tr><td>T</td><td>tool</td><td>0</td><td>${tx}</td><td>0</td><td>${tz}</td></tr>`:'')+'</tbody></table>';
@@ -1205,13 +1256,21 @@ function quizNew(){const ks=Object.keys(defaults).filter(k=>k!=='custom'),id=ks[
 $('#qNext').onclick=quizNew;$('#qCheck').onclick=()=>{if(!Q)quizNew();const g=['qx','qy','qz'].map(i=>parseFloat($('#'+i).value));if(g.some(Number.isNaN))return toast('Enter X, Y and Z first');const e=g.map((v,i)=>v-Q.ans[i]),ok=Math.hypot(...e)<=1;sc[1]++;if(ok)sc[0]++;$('#quizScore').textContent=sc[0]+' / '+sc[1];
  $('#qOut').innerHTML=`<div class="status" style="${ok?'':'background:#ffe0dd'}">${ok?'✓ Correct!':'✗ Not quite.'} Answer: X ${Q.ans[0].toFixed(1)} · Y ${Q.ans[1].toFixed(1)} · Z ${Q.ans[2].toFixed(1)} mm (you were off by ${Math.hypot(...e).toFixed(1)} mm). Chain: ⁰T₍ₙ₎ = ¹T·²T·…·ⁿT, each ⁱ⁻¹Tᵢ = Rx(α)·Tx(a)·Rz(θ)·Tz(d).</div>`};
 $('#qShow').onclick=()=>{if(!Q)return;setPreset(Q.id);Q.js.forEach((j,i)=>{joints[i][varK(j)]=j[varK(j)]});renderAll();document.querySelector('[data-page="workspace"]').click()};
+/* A worked solution for the drill: show the origin after each link transform,
+   then the tool frame. Additive only — it never touches Q, sc or the score. */
+$('#qSolution').onclick=()=>{if(!Q)quizNew();
+ const f=v=>Number(v).toFixed(1);
+ const rows=Q.js.map((j,i)=>{const t=tcp(Q.js.slice(0,i+1),0,0);return `<tr><td>${i+1}</td><td>${j.name||('joint '+(i+1))}</td><td>${j.type}</td><td>${t.map(f).join(' · ')}</td></tr>`}).join('');
+ $('#qSol').innerHTML='<div class="table-wrap"><table style="min-width:0"><thead><tr><th>After link</th><th>Joint</th><th>Type</th><th>Running origin X · Y · Z (mm)</th></tr></thead><tbody>'+rows+
+  `<tr><td>tool</td><td>tool frame</td><td>—</td><td>${Q.ans.map(f).join(' · ')}</td></tr></tbody></table></div>`+
+  `<div class="status">Each row multiplies on the next link transform i−1Ti = Rx(α(i−1))·Tx(a(i−1))·Rz(θ(i))·Tz(d(i)). The last column of the running product holds the origin shown above; the tool frame then places the TCP at X ${f(Q.ans[0])} · Y ${f(Q.ans[1])} · Z ${f(Q.ans[2])} mm.</div>`};
 quizNew();window.__Q=()=>Q;window.quizNew=quizNew;
 })();
 
 </script>
 <script>
 /* ===== v8 (app v2): Export & Report — print-ready report, LaTeX, Markdown, MATLAB, Python, PNG, CSV ===== */
-window.APP_VERSION='5.0.0';
+window.APP_VERSION='6.0.0';
 (()=>{
 const D2=Math.PI/180,V='Ken’s RoboLabs v'+APP_VERSION,esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const F=(v,d)=>{v=Math.abs(v)<5*10**-(d+3)?0:v;return v.toFixed(d)},rn=()=>(typeof currentPreset!=='undefined'&&currentPreset)||'custom',rt=()=>typeof robotTitle==='function'?robotTitle(rn()):rn(),tool=()=>toolOffset||toolOffsetZ?[[1,0,0,toolOffset],[0,1,0,0],[0,0,1,toolOffsetZ],[0,0,0,1]]:null;
@@ -1620,9 +1679,9 @@ $$('[data-csv]').forEach(b=>b.onclick=()=>{const s=CSV[b.dataset.csv]();s?downlo
       text: 'Change a value and watch the matrices, pose and 3D view update together. Limits are validated so the joint cannot leave its range.'
     },
     {
-      target: '#learnPage .matrix-grid',
-      title: '5 · Learn the why',
-      text: 'The Learning Center explains each parameter, the transformation order and the common mistakes. The quick quiz checks your forward kinematics by hand.',
+      target: '#practiceModules',
+      title: '5 · Practise, don’t just read',
+      text: 'The Learning Center is eight self-study practice modules: reference notes, a generated quiz with a worked solution for every answer, and progress kept in this browser. The forward-kinematics drill at the bottom checks your by-hand maths.',
       page: 'learn'
     }
   ];
@@ -1936,4 +1995,6 @@ $$('[data-csv]').forEach(b=>b.onclick=()=>{const s=CSV[b.dataset.csv]();s?downlo
 </script>
 <script src="engine/v5.js"></script>
 <script src="assets/v5.js"></script>
+<script src="engine/practice.js"></script>
+<script src="assets/practice.js"></script>
 </body></html>

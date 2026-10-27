@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 470" role="img" aria-label="The two inverse-kinematics solutions of a 2R planar arm">
+<style>
+.bg{fill:#fff}.frame{fill:none;stroke:#a3cdbe;stroke-width:1.5}
+.ttl{font:700 16px Outfit,system-ui,sans-serif;fill:#082f3c}
+.sub{font:12px Outfit,system-ui,sans-serif;fill:#3a5c63}
+.lab{font:700 11px 'JetBrains Mono',ui-monospace,monospace;fill:#082f3c}
+.mono{font:11px 'JetBrains Mono',ui-monospace,monospace;fill:#3a5c63}
+.zh{stroke:#06617c;stroke-width:2.6;fill:none;stroke-linecap:round}
+.xh{stroke:#c92b34;stroke-width:2.4;fill:none;stroke-linecap:round}
+.yh{stroke:#0b7a5c;stroke-width:2.4;fill:none;stroke-linecap:round}
+.dash{stroke:#06617c;stroke-width:1.5;stroke-dasharray:5 5;fill:none}
+.dim{stroke:#bf8a1e;stroke-width:1.4;fill:none}
+.ang{stroke:#0b7a5c;stroke-width:1.8;fill:none}
+.grid{stroke:#e6f1ec;stroke-width:1}.ax0{stroke:#cfe3db;stroke-width:1.4}
+.dot{fill:#082f3c}.hot{fill:#c92b34}.pivot{fill:#082f3c}
+.link{stroke:#0b7a5c;stroke-width:7;stroke-linecap:round;fill:none}
+.link2{stroke:#2273ca;stroke-width:3.4;stroke-dasharray:8 5;fill:none;stroke-linecap:round}
+.chip{fill:#f1fbf6;stroke:#a3cdbe;stroke-width:1}
+</style>
+<rect class="bg" width="700" height="470" rx="12"/>
+<text class="ttl" x="26" y="32">Inverse kinematics — the two branches</text>
+<text class="sub" x="26" y="52">A point inside the annulus has two solutions: elbow-down (θ2 &gt; 0) and elbow-up (θ2 &lt; 0).</text><rect class="chip" x="18" y="70" width="330" height="72" rx="10"/><text class="lab" x="32" y="92">cos θ2 = ( r² − L1² − L2² ) / ( 2 L1 L2 )</text><text class="lab" x="32" y="114">θ1 = atan2(y, x) − atan2(L2 sin θ2, L1 + L2 cos θ2)</text><text class="mono" x="32" y="133">L1 = 220 mm · L2 = 180 mm · target (280, 200) mm</text><line class="ax0" x1="60" y1="420" x2="660" y2="420"/><path d="M 150 420 L 378.7 387.4 L 444 210" fill="none" stroke="#0b7a5c" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="378.7" cy="387.4" r="5.5" fill="#0b7a5c"/><text class="mono" x="390.7" y="407.4">θ1 8.1°, θ2 61.7°</text><path d="M 150 420 L 255 214.3 L 444 210" fill="none" stroke="#2273ca" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/><circle cx="255" cy="214.3" r="5.5" fill="#2273ca"/><text class="mono" x="245" y="202.3">θ1 63.0°, θ2 -61.7°</text><circle class="pivot" cx="150" cy="420" r="9"/><circle class="hot" cx="444" cy="210" r="7"/><text class="lab" x="456" y="201">target</text><text class="lab" x="456" y="218" fill="#0b7a5c">elbow-down</text><text class="lab" x="456" y="235" fill="#2273ca">elbow-up (dashed)</text><text class="mono" x="26" y="454">r &gt; L1+L2 or r &lt; |L1−L2| → no solution  ·  r on the boundary → exactly one  ·  otherwise two</text>
+</svg>

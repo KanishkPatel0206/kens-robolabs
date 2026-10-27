@@ -4,7 +4,7 @@ const w=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,virtualC
 w.HTMLCanvasElement.prototype.getContext=()=>new Proxy({}, {get:()=>()=>{},set:()=>true});w.scrollTo=()=>{};w.addEventListener('error',e=>errs.push(String(e.error&&e.error.stack||e.message).slice(0,300)));
 const ev=c=>w.eval(c),out=[],T=(n,ok,d='')=>out.push((ok?'PASS ':'FAIL ')+n+(d!==''?'  '+d:''));
 setTimeout(()=>{
- T('version label shows v5',/v5/.test(w.document.querySelector('.tag').textContent)&&ev('APP_VERSION')==='5.0.0');
+ T('version label shows v6',/v6/.test(w.document.querySelector('.tag').textContent)&&ev('APP_VERSION')==='6.0.0');
  // navigation
  ev("document.querySelector('[data-page=\"export\"]').click()");T('Export page opens, others hide',!w.document.querySelector('#exportPage').classList.contains('hidden')&&w.document.querySelector('#workspacePage').classList.contains('hidden'));
  ev("document.querySelector('.navitem[data-page=\"library\"]').click()");T('leaving Export page hides it again',w.document.querySelector('#exportPage').classList.contains('hidden')&&!w.document.querySelector('#libraryPage').classList.contains('hidden'));
@@ -28,7 +28,7 @@ setTimeout(()=>{
  // report
  ev("setPreset('irb120')");const rep=ev('__export.doc(__export.O())');const d=new JSDOM(rep).window.document;
  T('report: valid HTML with title, DH table, 6 link matrices + final',!!d.querySelector('h1')&&d.querySelectorAll('table.m').length>=7&&/Modified DH parameters/.test(d.body.textContent));
- T('report: footer has share link, version and 30/30 self-tests',/v5\.0\.0/.test(d.body.textContent)&&/#s=/.test(d.body.innerHTML)&&/30\/30/.test(d.body.textContent));
+ T('report: footer has share link, version and 30/30 self-tests',/v6\.0\.0/.test(d.body.textContent)&&/#s=/.test(d.body.innerHTML)&&/30\/30/.test(d.body.textContent));
  const F=(v)=>v.toFixed(3);const P=ev('pos(calc().T)');T('report: final tool position printed correctly',d.body.textContent.includes('X = '+F(P[0])+' mm'));
  ev("document.querySelector('[data-page=\"trajectory\"]').click();document.querySelector('#trajGenerate')&&document.querySelector('#trajGenerate').click()");
  const rep2=ev('(()=>{const o=__export.O();o.s.traj=true;return __export.report(o)})()');T('report: trajectory section present after generating one',ev('trajData.length')>10&&/Joint trajectory/.test(rep2)&&/<img/.test(rep2)||ev('trajData.length')>10&&/Joint trajectory/.test(rep2),ev('trajData.length')+' samples');

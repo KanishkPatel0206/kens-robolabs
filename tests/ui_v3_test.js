@@ -16,7 +16,7 @@ setTimeout(()=>{
   T('A3.4 checklist has 8 tickable, labelled steps',!!cl&&cl.querySelectorAll('input[type=checkbox][aria-label]').length===8);
   T('A3.4 checklist has a print button',!!d.querySelector('#v3PrintCheck'));
   T('E3.1 joint-name markup is never rendered as HTML',(()=>{w.eval("setPreset('ur5');joints[0].name='<img src=x onerror=window.__x=1>';renderAll()");return !w.__x&&!d.querySelector('img[src="x"]')})());
-  T('A3.1 version is consistent (UI, package.json, changelog, README)',w.APP_VERSION==='5.0.0'&&JSON.parse(rd('package.json')).version==='5.0.0'&&/\[5\.0\.0\]/.test(rd('CHANGELOG.md'))&&/v5\.0/.test(rd('README.md')));
+  T('A3.1 version is consistent (UI, package.json, changelog, README)',w.APP_VERSION==='6.0.0'&&JSON.parse(rd('package.json')).version==='6.0.0'&&/\[6\.0\.0\]/.test(rd('CHANGELOG.md'))&&/v6\.0/.test(rd('README.md')));
   T('E3.7 static release assets exist',['favicon.svg','site.webmanifest','404.html','robots.txt','sitemap.xml','assets/v3.css'].every(f=>fs.existsSync(path.join(root,f))));
   T('E3.7 manifest icons all resolve',JSON.parse(rd('site.webmanifest')).icons.every(i=>fs.existsSync(path.join(root,i.src))));
   T('E3.8 LICENSE names the author (no placeholder)',/Kanishk Patel/.test(rd('LICENSE'))&&!/<YOUR NAME>/.test(rd('LICENSE')));

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 470" role="img" aria-label="Forward kinematics of a 2R planar arm">
+<style>
+.bg{fill:#fff}.frame{fill:none;stroke:#a3cdbe;stroke-width:1.5}
+.ttl{font:700 16px Outfit,system-ui,sans-serif;fill:#082f3c}
+.sub{font:12px Outfit,system-ui,sans-serif;fill:#3a5c63}
+.lab{font:700 11px 'JetBrains Mono',ui-monospace,monospace;fill:#082f3c}
+.mono{font:11px 'JetBrains Mono',ui-monospace,monospace;fill:#3a5c63}
+.zh{stroke:#06617c;stroke-width:2.6;fill:none;stroke-linecap:round}
+.xh{stroke:#c92b34;stroke-width:2.4;fill:none;stroke-linecap:round}
+.yh{stroke:#0b7a5c;stroke-width:2.4;fill:none;stroke-linecap:round}
+.dash{stroke:#06617c;stroke-width:1.5;stroke-dasharray:5 5;fill:none}
+.dim{stroke:#bf8a1e;stroke-width:1.4;fill:none}
+.ang{stroke:#0b7a5c;stroke-width:1.8;fill:none}
+.grid{stroke:#e6f1ec;stroke-width:1}.ax0{stroke:#cfe3db;stroke-width:1.4}
+.dot{fill:#082f3c}.hot{fill:#c92b34}.pivot{fill:#082f3c}
+.link{stroke:#0b7a5c;stroke-width:7;stroke-linecap:round;fill:none}
+.link2{stroke:#2273ca;stroke-width:3.4;stroke-dasharray:8 5;fill:none;stroke-linecap:round}
+.chip{fill:#f1fbf6;stroke:#a3cdbe;stroke-width:1}
+</style>
+<rect class="bg" width="700" height="470" rx="12"/>
+<text class="ttl" x="26" y="32">Forward kinematics — 2R planar arm</text>
+<text class="sub" x="26" y="52">Multiply the two link transforms, then the tool frame, and read the last column.</text><line class="ax0" x1="60" y1="430" x2="660" y2="430"/><rect class="chip" x="18" y="72" width="352" height="92" rx="10"/><text class="lab" x="32" y="94">i=1  a0 = 0, α0 = 0, θ1 = 40°, d1 = 0</text><text class="lab" x="32" y="116">i=2  a1 = 280 mm, α1 = 0, θ2 = 55°, d2 = 0</text><text class="lab" x="32" y="138">tool  L2 = 200 mm along X2</text><text class="mono" x="32" y="157">0T2 = 0T1 · 1T2   ·   TCP = 0T2 · tool</text><path class="link" d="M 150 430 L 353.8 259 L 337.2 69.7"/><path class="dash" d="M 150 430 L 337.2 69.7"/><circle class="pivot" cx="150" cy="430" r="9"/><circle class="dot" cx="353.8" cy="259" r="6"/><circle class="hot" cx="337.2" cy="69.7" r="7"/><path class="xh" d="M 150 430 L 208 430"/><polygon points="208,430 202.5,432.4 202.5,427.6" fill="#c92b34"/><text class="lab" x="212" y="434">X</text><path class="yh" d="M 150 430 L 150 372"/><polygon points="150,372 152.4,377.5 147.6,377.5" fill="#0b7a5c"/><text class="lab" x="146" y="366" text-anchor="end">Y</text><path class="ang" d="M 216 430 A 66 66 0 0 0 200.6 387.6"/><text class="lab" x="224" y="386">q1 = 40°</text><path class="ang" d="M 390.5 228.2 A 48 48 0 0 0 349.6 211.2"/><text class="lab" x="393.8" y="225">q2 = 55°</text><text class="lab" x="261.9" y="338.5">L1 = 280</text><text class="lab" x="357.5" y="168.4">L2 = 200</text><text class="lab" x="349.2" y="59.7">TCP (197.1, 379.2) mm</text><text class="mono" x="26" y="454">x = L1cos q1 + L2cos(q1+q2)   ·   y = L1sin q1 + L2sin(q1+q2)</text>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-label="7-DOF redundant arm wireframe drawn from its Modified-DH parameters">
+<style>
+.bg{fill:#ffffff}.grid{stroke:#dceee7;stroke-width:1}
+.link{stroke:#0b7a5c;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.shadow{stroke:#0b7a5c;opacity:.14;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.base{fill:#164049}.j{fill:#2273ca;stroke:#fff;stroke-width:1.6}.tcp{fill:#c92b34;stroke:#fff;stroke-width:1.6}
+.lbl{font:600 10px 'JetBrains Mono',monospace;fill:#2c5866}.title{font:700 13px Outfit,sans-serif;fill:#164049}
+.sub{font:500 10px 'JetBrains Mono',monospace;fill:#5b7f86}
+</style>
+<defs><clipPath id="c"><rect x="6" y="6" width="468" height="348" rx="8"/></clipPath></defs>
+<rect class="bg" width="480" height="360" rx="10"/>
+<g clip-path="url(#c)"><g class="grid"><line x1="78.1" y1="212.3" x2="-155.7" y2="315.5"/><line x1="78.1" y1="212.3" x2="412.1" y2="284.5"/><line x1="161.6" y1="230.3" x2="-72.2" y2="333.5"/><line x1="19.7" y1="238.1" x2="353.6" y2="310.3"/><line x1="245.1" y1="248.4" x2="11.3" y2="351.6"/><line x1="-38.8" y1="263.9" x2="295.1" y2="336.1"/><line x1="328.6" y1="266.5" x2="94.7" y2="369.7"/><line x1="-97.3" y1="289.7" x2="236.7" y2="361.9"/><line x1="412.1" y1="284.5" x2="178.2" y2="387.7"/><line x1="-155.7" y1="315.5" x2="178.2" y2="387.7"/></g></g>
+<circle class="base" cx="128.2" cy="307" r="11"/>
+<g clip-path="url(#c)"><path class="shadow" d="M 128.2 300 L 128.2 173.2 M 128.2 173.2 L 192.4 58 M 192.4 58 L 320.8 85.8 M 320.8 85.8 L 351.8 122.7" transform="translate(3 5)"/><path class="link" d="M 128.2 300 L 128.2 173.2 M 128.2 173.2 L 192.4 58 M 192.4 58 L 320.8 85.8 M 320.8 85.8 L 351.8 122.7"/></g>
+<circle cx="128.2" cy="300" r="5.5" class="j"/><text x="136.2" y="294" class="lbl">base</text><circle cx="128.2" cy="173.2" r="5" class="j"/><text x="136.2" y="167.2" class="lbl">J1</text><circle cx="192.4" cy="58" r="5" class="j"/><text x="200.4" y="52" class="lbl">J3</text><circle cx="320.8" cy="85.8" r="5" class="j"/><text x="328.8" y="79.8" class="lbl">J5</text>
+<circle class="tcp" cx="351.8" cy="122.7" r="4.5"/><text x="359.8" y="136.7" class="lbl">TCP</text>
+<text x="14" y="24" class="title">7-DOF redundant arm</text>
+<text x="14" y="40" class="sub">7 DOF · RRRRRRR · drawn from its DH table</text>
+<text x="14" y="348" class="sub">reach ≈ 1266 mm · KUKA LBR iiwa style</text>
+</svg>

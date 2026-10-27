@@ -3,6 +3,31 @@
 All notable changes to Ken’s RoboLabs are recorded here.
 The app version is available at `window.APP_VERSION` and in every exported report.
 
+## [6.0.0] — 2026-10-27 — Practice Modules
+
+The Learning Center becomes a set of **self-study practice modules**. Each module is reference documentation, a **generated quiz** and a **worked solution** — there is no lecture voice, and every published answer is produced by the real Modified-DH maths rather than typed in by hand. The reachable-workspace plot is also corrected.
+
+### Added
+- **Practice modules (eight).** `engine/practice.js` defines the catalogue — Modified-DH parameters, frame assignment and transform order, forward kinematics, inverse kinematics, the Jacobian and singularities, trajectory smoothness, the reachable workspace, and dynamics with payload. Each ships `doc` (reference), `figures` and a `makeQuiz(rng)` builder.
+- **Generated quizzes with independent verification.** Every question is built from a fresh random DH row, 2R arm, target or payload, and each module carries a `verify(q)` that re-derives the answer through a *different* path from the one used to ask it: forward kinematics (`RL.fk`) for the FK and DH-row questions, the closed-form 2R solver (`RL.ik2R` + FK) for IK, the analytic Jacobian (`RL.jacobian`) for the determinant and column norms, and the core trajectory sampler (`RL.jointTrajectory`) for the profile peak velocities. `PRACTICE.selfTests()` re-derives all 384 generated questions across six seeds and reports the worst residual (FK 0.0, IK 1.8e-13 mm, Jacobian 0.0, trajectory 0.0 °/s). Tolerances are published on each question.
+- **A practice UI layer.** `assets/practice.js` mounts a module navigator, the reference text, the figures and the quiz into `#practiceModules`, with **Check**, **Show solution** and per-module progress remembered in `localStorage` (`robolabs-practice-progress`). `assets/practice.css` carries the tropical mint/teal identity.
+- **Eight generated concept figures.** `tools/gen_figures.js` now also draws the documentation diagrams from the real maths — the four DH parameters, transform order, a 2R FK sketch, the two IK branches, a velocity ellipsoid from the singular values of J, cubic/quintic/S-curve profiles from the core sampler, the three workspace projections and the gravity-torque moment arm. The generator writes 16 committed SVGs in total (six robot wireframes, two workspace plots, eight concepts), so the site stays static.
+- **`tests/ui_practice_test.js`** — a Node pass over `engine/practice.js` (catalogue, generation determinism, every `verify`, the self-tests) plus a jsdom pass over the mounted UI (navigator, documentation, figures, checking a correct and a wrong numeric answer, a multiple-choice answer, reveal/hide solution and progress persistence).
+
+### Changed
+- **The Learning Center is now the practice modules.** The four static teaching panels and the "chosen transformation order" panel are replaced by a hero and `<div id="practiceModules">`. The v3 learning-outcome banner and the eight-step frame-assignment checklist (`#v3FrameChecklist`) stay exactly as they were.
+- **The legacy forward-kinematics drill gained a "Show solution" button** (`#qSolution`, `#qSol`). It prints the running frame origin after each link transform and then the tool frame. The exercise, its IDs, its score and the 30/30 `quizNew()` cross-check are untouched — the new affordance is purely additive.
+- `engine/practice.js` + `assets/practice.js` + `assets/practice.css` are new static layers loaded after v5, so the 4 000-line `index.html` is not destabilised.
+- **Version unified to 6.0.0** across `window.APP_VERSION`, `<title>`, the Open Graph title, the app-bar tag, `meta[application-version]`, `package.json` and the release docs.
+
+### Fixed
+- **The workspace visualiser used two different scales.** `drawWorkspaceCanvas` scaled X and Y independently, so the sampled reachable workspace was stretched to fill the canvas and a disc could look like an ellipse. It now uses a single scale for both axes (equal aspect), sizes for the device pixel ratio so it is crisp on retina displays, draws labelled ticks with units and a plane label, and marks the live TCP position (`✚`). The scatter is redrawn when the projection changes and when the page is shown (the canvas has no width while the panel is hidden).
+
+### Verification (2026-10-27)
+- `engine/practice.js` self-tests: **13/13** (8 module verifications + FK, IK, Jacobian, trajectory cross-checks + catalogue completeness), with machine-precision residuals.
+- `tools/gen_figures.js` writes **16 SVGs**, all free of `NaN`/`undefined`/`Infinity`.
+- Node + jsdom suites pass; the legacy FK drill still scores `1 / 1`, `1 / 2` and matches live FK 30/30.
+
 ## [5.0.0] — 2026-10-27 — Professional Credibility
 
 The release that closes the gap to industrial toolchains: real 3D robot models, URDF in and out, and a validation harness that proves every claim **in your browser**. Everything remains static and GitHub-Pages-only — no account, server, database or upload.

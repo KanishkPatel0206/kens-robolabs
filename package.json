@@ -1,14 +1,15 @@
 {
   "name": "kens-robolabs",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "private": true,
   "description": "Browser-based Modified-DH manipulator kinematics, dynamics and teaching studio.",
   "scripts": {
-    "test": "node tests/run_selftests.js && node tests/ui_smoke_test.js && node tests/ui_audit_test.js && node tests/ui_features_test.js && node tests/ui_export_test.js && node tests/ui_collision_test.js && node tests/ui_snapshot_test.js && node tests/ui_v3_test.js && node tests/ui_v5_test.js",
+    "test": "node tests/run_selftests.js && node tests/ui_smoke_test.js && node tests/ui_audit_test.js && node tests/ui_features_test.js && node tests/ui_export_test.js && node tests/ui_collision_test.js && node tests/ui_snapshot_test.js && node tests/ui_v3_test.js && node tests/ui_v5_test.js && node tests/ui_practice_test.js",
     "test:engine": "node tests/run_selftests.js",
     "test:v3": "node tests/ui_v3_test.js",
     "test:v5": "node tests/ui_v5_test.js",
-    "test:ui": "node tests/ui_smoke_test.js && node tests/ui_audit_test.js && node tests/ui_features_test.js && node tests/ui_export_test.js && node tests/ui_collision_test.js && node tests/ui_snapshot_test.js && node tests/ui_v3_test.js && node tests/ui_v5_test.js"
+    "test:practice": "node tests/ui_practice_test.js",
+    "test:ui": "node tests/ui_smoke_test.js && node tests/ui_audit_test.js && node tests/ui_features_test.js && node tests/ui_export_test.js && node tests/ui_collision_test.js && node tests/ui_snapshot_test.js && node tests/ui_v3_test.js && node tests/ui_v5_test.js && node tests/ui_practice_test.js"
   },
   "devDependencies": {
     "jsdom": "^30.1.3"

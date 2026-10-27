@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 470" role="img" aria-label="Velocity ellipsoid of a 2R planar arm at a given pose">
+<style>
+.bg{fill:#fff}.frame{fill:none;stroke:#a3cdbe;stroke-width:1.5}
+.ttl{font:700 16px Outfit,system-ui,sans-serif;fill:#082f3c}
+.sub{font:12px Outfit,system-ui,sans-serif;fill:#3a5c63}
+.lab{font:700 11px 'JetBrains Mono',ui-monospace,monospace;fill:#082f3c}
+.mono{font:11px 'JetBrains Mono',ui-monospace,monospace;fill:#3a5c63}
+.zh{stroke:#06617c;stroke-width:2.6;fill:none;stroke-linecap:round}
+.xh{stroke:#c92b34;stroke-width:2.4;fill:none;stroke-linecap:round}
+.yh{stroke:#0b7a5c;stroke-width:2.4;fill:none;stroke-linecap:round}
+.dash{stroke:#06617c;stroke-width:1.5;stroke-dasharray:5 5;fill:none}
+.dim{stroke:#bf8a1e;stroke-width:1.4;fill:none}
+.ang{stroke:#0b7a5c;stroke-width:1.8;fill:none}
+.grid{stroke:#e6f1ec;stroke-width:1}.ax0{stroke:#cfe3db;stroke-width:1.4}
+.dot{fill:#082f3c}.hot{fill:#c92b34}.pivot{fill:#082f3c}
+.link{stroke:#0b7a5c;stroke-width:7;stroke-linecap:round;fill:none}
+.link2{stroke:#2273ca;stroke-width:3.4;stroke-dasharray:8 5;fill:none;stroke-linecap:round}
+.chip{fill:#f1fbf6;stroke:#a3cdbe;stroke-width:1}
+</style>
+<rect class="bg" width="700" height="470" rx="12"/>
+<text class="ttl" x="26" y="32">The velocity ellipsoid at the tool</text>
+<text class="sub" x="26" y="52">The image of the unit joint-rate ball is an ellipse; its semi-axes are the singular values σ1 ≥ σ2.</text><line class="ax0" x1="60" y1="420" x2="660" y2="420"/><path class="link" d="M 150 420 L 337.1 312 L 305.8 134.7"/><circle class="pivot" cx="150" cy="420" r="9"/><circle class="dot" cx="337.1" cy="312" r="6"/><ellipse cx="305.8" cy="134.7" rx="119.1" ry="34.1" transform="rotate(159.2 305.8 134.7)" fill="#cde7dc" fill-opacity="0.55" stroke="#06617c" stroke-width="2.4"/><line class="dim" x1="305.8" y1="134.7" x2="194.5" y2="177" stroke="#c92b34"/><text class="lab" x="200.5" y="173">σ1 = 397 mm/s</text><text class="lab" x="315.8" y="156.7">σ2 = 114</text><text class="mono" x="26" y="416">manipulability w = σ1·σ2 = |det J| = 45105 mm²   ·   condition number σ1/σ2 = 3.5</text><text class="mono" x="26" y="436">q1 = 30°, q2 = 70°, L1 = 240 mm, L2 = 200 mm. Rotate the whole arm (change q1) and the ellipse turns with it; change q2 and its shape changes.</text><text class="mono" x="26" y="456">As q2 → 0° or ±180° the minor axis σ2 → 0: the pose is singular and some tool directions need unbounded joint speed.</text>
+</svg>

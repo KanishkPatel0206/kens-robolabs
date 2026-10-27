@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 790 300" role="img" aria-label="Modified-DH transform order and which operations commute">
+<style>
+.bg{fill:#fff}.frame{fill:none;stroke:#a3cdbe;stroke-width:1.5}
+.ttl{font:700 16px Outfit,system-ui,sans-serif;fill:#082f3c}
+.sub{font:12px Outfit,system-ui,sans-serif;fill:#3a5c63}
+.lab{font:700 11px 'JetBrains Mono',ui-monospace,monospace;fill:#082f3c}
+.mono{font:11px 'JetBrains Mono',ui-monospace,monospace;fill:#3a5c63}
+.zh{stroke:#06617c;stroke-width:2.6;fill:none;stroke-linecap:round}
+.xh{stroke:#c92b34;stroke-width:2.4;fill:none;stroke-linecap:round}
+.yh{stroke:#0b7a5c;stroke-width:2.4;fill:none;stroke-linecap:round}
+.dash{stroke:#06617c;stroke-width:1.5;stroke-dasharray:5 5;fill:none}
+.dim{stroke:#bf8a1e;stroke-width:1.4;fill:none}
+.ang{stroke:#0b7a5c;stroke-width:1.8;fill:none}
+.grid{stroke:#e6f1ec;stroke-width:1}.ax0{stroke:#cfe3db;stroke-width:1.4}
+.dot{fill:#082f3c}.hot{fill:#c92b34}.pivot{fill:#082f3c}
+.link{stroke:#0b7a5c;stroke-width:7;stroke-linecap:round;fill:none}
+.link2{stroke:#2273ca;stroke-width:3.4;stroke-dasharray:8 5;fill:none;stroke-linecap:round}
+.chip{fill:#f1fbf6;stroke:#a3cdbe;stroke-width:1}
+</style>
+<rect class="bg" width="790" height="300" rx="12"/>
+<text class="ttl" x="26" y="34">Modified-DH transform order</text>
+<text class="sub" x="26" y="55">The four elementary transforms multiply left to right inside one 4×4 link matrix.</text><rect class="chip" x="30" y="112" width="150" height="74" rx="12"/><text class="lab" x="105" y="144" text-anchor="middle">Rx(α<sub>i−1</sub>)</text><text class="mono" x="105" y="164" text-anchor="middle">twist about X</text><line class="dim" x1="186" y1="149" x2="207" y2="149" stroke="#06617c"/><polygon points="209,149 202.6,151.9 202.6,146.1" fill="#06617c"/><rect class="chip" x="215" y="112" width="150" height="74" rx="12"/><text class="lab" x="290" y="144" text-anchor="middle">Tx(a<sub>i−1</sub>)</text><text class="mono" x="290" y="164" text-anchor="middle">length along X</text><line class="dim" x1="371" y1="149" x2="392" y2="149" stroke="#06617c"/><polygon points="394,149 387.6,151.9 387.6,146.1" fill="#06617c"/><rect class="chip" x="400" y="112" width="150" height="74" rx="12"/><text class="lab" x="475" y="144" text-anchor="middle">Rz(θ<sub>i</sub>)</text><text class="mono" x="475" y="164" text-anchor="middle">angle about Z</text><line class="dim" x1="556" y1="149" x2="577" y2="149" stroke="#06617c"/><polygon points="579,149 572.6,151.9 572.6,146.1" fill="#06617c"/><rect class="chip" x="585" y="112" width="150" height="74" rx="12"/><text class="lab" x="660" y="144" text-anchor="middle">Tz(d<sub>i</sub>)</text><text class="mono" x="660" y="164" text-anchor="middle">offset along Z</text><text class="mono" x="30" y="100">frame {i−1}</text><text class="mono" x="741" y="100">frame {i}</text><text class="lab" x="30" y="220">commute: both act about / along X(i−1)</text><line class="ang" x1="30" y1="198" x2="365" y2="198" stroke="#0b7a5c"/><text class="lab" x="400" y="220">commute: both act about / along Z(i)</text><line class="ang" x1="400" y1="198" x2="735" y2="198" stroke="#0b7a5c"/><text class="mono" x="30" y="266">Swapping a twist about X with the joint rotation about Z (or a Z translation with an X translation) changes the link — the order is part of the model.</text><text class="lab" x="30" y="286">i−1T(i) = A1 · A2 · A3 · A4</text>
+</svg>

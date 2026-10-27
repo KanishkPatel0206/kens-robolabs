@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 470" role="img" aria-label="The four Modified-DH parameters of one row">
+<style>
+.bg{fill:#fff}.frame{fill:none;stroke:#a3cdbe;stroke-width:1.5}
+.ttl{font:700 16px Outfit,system-ui,sans-serif;fill:#082f3c}
+.sub{font:12px Outfit,system-ui,sans-serif;fill:#3a5c63}
+.lab{font:700 11px 'JetBrains Mono',ui-monospace,monospace;fill:#082f3c}
+.mono{font:11px 'JetBrains Mono',ui-monospace,monospace;fill:#3a5c63}
+.zh{stroke:#06617c;stroke-width:2.6;fill:none;stroke-linecap:round}
+.xh{stroke:#c92b34;stroke-width:2.4;fill:none;stroke-linecap:round}
+.yh{stroke:#0b7a5c;stroke-width:2.4;fill:none;stroke-linecap:round}
+.dash{stroke:#06617c;stroke-width:1.5;stroke-dasharray:5 5;fill:none}
+.dim{stroke:#bf8a1e;stroke-width:1.4;fill:none}
+.ang{stroke:#0b7a5c;stroke-width:1.8;fill:none}
+.grid{stroke:#e6f1ec;stroke-width:1}.ax0{stroke:#cfe3db;stroke-width:1.4}
+.dot{fill:#082f3c}.hot{fill:#c92b34}.pivot{fill:#082f3c}
+.link{stroke:#0b7a5c;stroke-width:7;stroke-linecap:round;fill:none}
+.link2{stroke:#2273ca;stroke-width:3.4;stroke-dasharray:8 5;fill:none;stroke-linecap:round}
+.chip{fill:#f1fbf6;stroke:#a3cdbe;stroke-width:1}
+</style>
+<rect class="bg" width="720" height="470" rx="12"/>
+<text class="ttl" x="26" y="34">Modified (Craig) DH — the four link parameters</text>
+<text class="sub" x="26" y="55">Each row i turns frame {i−1} into frame {i}:  T = Rx(α) · Tx(a) · Rz(θ) · Tz(d)</text><path class="dash" d="M 210 372 L 210 96"/><polygon points="210,96 212.9,102.4 207.1,102.4" fill="#06617c"/><path class="dash" d="M 475.3 376.1 L 572.6 76.5"/><path class="dim" d="M 210 300 L 500 300"/><path class="dim" d="M 210 300 L 210 332 M 500 300 L 500 332"/><line class="dim" x1="210" y1="332" x2="500" y2="332" stroke="#bf8a1e"/><polygon points="500,332 493.6,334.9 493.6,329.1" fill="#bf8a1e"/><polygon points="210,332 216.4,329.1 216.4,334.9" fill="#bf8a1e"/><text class="lab" x="352" y="352" text-anchor="middle">a(i−1)</text><line class="dim" x1="500" y1="300" x2="529.4" y2="209.6" stroke="#bf8a1e"/><polygon points="529.4,209.6 530.1,216.6 524.7,214.8" fill="#bf8a1e"/><polygon points="500,300 499.3,293 504.7,294.8" fill="#bf8a1e"/><text class="lab" x="545.4" y="223.6">d(i)</text><path class="xh" d="M 210 300 L 288 300"/><polygon points="288,300 281.6,302.9 281.6,297.1" fill="#c92b34"/><path class="yh" d="M 210 300 L 166 256"/><polygon points="166,256 172.5,258.5 168.5,262.5" fill="#0b7a5c"/><text class="lab" x="294" y="304">X(i−1)</text><text class="lab" x="160" y="250" text-anchor="end">Y(i−1)</text><circle class="dot" cx="210" cy="300" r="4"/><circle class="dot" cx="529.4" cy="209.6" r="4"/><path class="ang" d="M 210 254 A 46 46 0 0 1 224.2 256.3"/><polygon points="224.2,256.3 224.8,262.2 220.2,260.7" fill="#0b7a5c"/><text class="lab" x="264" y="260">α(i−1)</text><path class="dash" d="M 529.35661446562 209.64963095196043 L 613.35661446562 209.64963095196043"/><path class="xh" d="M 529.35661446562 209.64963095196043 L 583 164.7"/><path class="ang" d="M 569.4 209.6 A 40 40 0 0 0 560 183.9"/><text class="lab" x="575.35661446562" y="183.64963095196043">θ(i)</text><text class="lab" x="611.35661446562" y="213.64963095196043">X(i)</text><text class="lab" x="204" y="90" text-anchor="end">Z(i−1)</text><text class="lab" x="578.6" y="76.5">Z(i)</text><text class="mono" x="150" y="320" text-anchor="end">frame {i−1}</text><text class="mono" x="455.4" y="201.6" text-anchor="end">frame {i}</text><text class="mono" x="26" y="454">α(i−1) twist about X(i−1)  ·  a(i−1) length along X(i−1)  ·  θ(i) angle about Z(i)  ·  d(i) offset along Z(i)</text>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 470" role="img" aria-label="Gravity torque on a revolute joint and its moment arm">
+<style>
+.bg{fill:#fff}.frame{fill:none;stroke:#a3cdbe;stroke-width:1.5}
+.ttl{font:700 16px Outfit,system-ui,sans-serif;fill:#082f3c}
+.sub{font:12px Outfit,system-ui,sans-serif;fill:#3a5c63}
+.lab{font:700 11px 'JetBrains Mono',ui-monospace,monospace;fill:#082f3c}
+.mono{font:11px 'JetBrains Mono',ui-monospace,monospace;fill:#3a5c63}
+.zh{stroke:#06617c;stroke-width:2.6;fill:none;stroke-linecap:round}
+.xh{stroke:#c92b34;stroke-width:2.4;fill:none;stroke-linecap:round}
+.yh{stroke:#0b7a5c;stroke-width:2.4;fill:none;stroke-linecap:round}
+.dash{stroke:#06617c;stroke-width:1.5;stroke-dasharray:5 5;fill:none}
+.dim{stroke:#bf8a1e;stroke-width:1.4;fill:none}
+.ang{stroke:#0b7a5c;stroke-width:1.8;fill:none}
+.grid{stroke:#e6f1ec;stroke-width:1}.ax0{stroke:#cfe3db;stroke-width:1.4}
+.dot{fill:#082f3c}.hot{fill:#c92b34}.pivot{fill:#082f3c}
+.link{stroke:#0b7a5c;stroke-width:7;stroke-linecap:round;fill:none}
+.link2{stroke:#2273ca;stroke-width:3.4;stroke-dasharray:8 5;fill:none;stroke-linecap:round}
+.chip{fill:#f1fbf6;stroke:#a3cdbe;stroke-width:1}
+</style>
+<rect class="bg" width="700" height="470" rx="12"/>
+<text class="ttl" x="26" y="32">Gravity torque on a revolute joint</text>
+<text class="sub" x="26" y="52">The weight’s moment arm about the joint is r·sin θ, so the holding torque is τ = m·g·r·|sin θ|.</text><path class="dash" d="M 200 120 L 200 370"/><text class="mono" x="190" y="382" text-anchor="end">vertical</text><path class="link" d="M 200 120 L 335 280.9"/><path class="dim" d="M 200 120 L 335 120"/><path class="dash" d="M 335 120 L 335 280.9"/><path d="M 335 120 l -10 0 l 0 10" fill="none" stroke="#bf8a1e" stroke-width="1.4"/><text class="lab" x="267.5" y="112" text-anchor="middle">r·sin θ = 135</text><circle class="pivot" cx="200" cy="120" r="9"/><circle cx="335" cy="280.9" r="17" fill="#cde7dc" stroke="#0b7a5c" stroke-width="2.5"/><text class="lab" x="335" y="284.9" text-anchor="middle">m</text><path class="ang" d="M 200 184 A 64 64 0 0 0 241.1 169"/><text class="lab" x="270" y="164">θ</text><line x1="335" y1="298.9" x2="335" y2="376.9" stroke="#c92b34" stroke-width="2.6"/><polygon points="335,380.9 331.7,373.6 338.3,373.6" fill="#c92b34"/><text class="lab" x="345" y="350.9" fill="#c92b34">m·g = 8·9.81 N</text><rect class="chip" x="18" y="330" width="330" height="86" rx="10"/><text class="lab" x="32" y="354">τ = m · g · r · |sin θ|</text><text class="mono" x="32" y="376">Straight down (θ = 0°): τ = 0 — no moment arm.</text><text class="mono" x="32" y="394">Horizontal (θ = 90°): τ = m·g·r — the maximum.</text><text class="mono" x="32" y="410">Doubling the payload doubles τ.</text><rect x="410" y="180" width="278" height="200" rx="10" fill="#fff" stroke="#a3cdbe"/><text class="lab" x="420" y="200">τ(θ) ∝ sin θ</text><path class="dim" d="M 420 220 L 668 220"/><path d="M 420 221 L 424.1 212.6 L 428.3 204.3 L 432.4 196 L 436.5 187.7 L 440.7 179.6 L 444.8 171.6 L 448.9 163.7 L 453.1 155.9 L 457.2 148.4 L 461.3 141 L 465.5 133.9 L 469.6 127 L 473.7 120.3 L 477.9 113.9 L 482 107.9 L 486.1 102.1 L 490.3 96.7 L 494.4 91.6 L 498.5 86.8 L 502.7 82.4 L 506.8 78.4 L 510.9 74.8 L 515.1 71.6 L 519.2 68.8 L 523.3 66.5 L 527.5 64.5 L 531.6 63 L 535.7 61.9 L 539.9 61.2 L 544 61 L 548.1 61.2 L 552.3 61.9 L 556.4 63 L 560.5 64.5 L 564.7 66.5 L 568.8 68.8 L 572.9 71.6 L 577.1 74.8 L 581.2 78.4 L 585.3 82.4 L 589.5 86.8 L 593.6 91.6 L 597.7 96.7 L 601.9 102.1 L 606 107.9 L 610.1 113.9 L 614.3 120.3 L 618.4 127 L 622.5 133.9 L 626.7 141 L 630.8 148.4 L 634.9 155.9 L 639.1 163.7 L 643.2 171.6 L 647.3 179.6 L 651.5 187.7 L 655.6 196 L 659.7 204.3 L 663.9 212.6 L 668 221" fill="none" stroke="#0b7a5c" stroke-width="2.6"/><text class="mono" x="420" y="236">0°</text><text class="mono" x="534" y="236">90°</text><text class="mono" x="650" y="236">180°</text><text class="mono" x="26" y="454">This is the static gravity term. The full joint torque also carries inertial (I·q̈) and Coriolis terms.</text>
+</svg>

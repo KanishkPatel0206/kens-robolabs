@@ -1,6 +1,6 @@
-# Ken’s RoboLabs — v3 / v4 / v5 Implementation Plan
+# Ken’s RoboLabs — v3 / v4 / v5 / v6 Implementation Plan
 
-Status: **v3 complete** (two external gates open: post-deploy Lighthouse and a two-user pilot). **v5 complete and shipping** — URDF interop, premade 3D models and a live validation harness. **v4 partial** — E4.1 single router shipped; the lesson/assessment modules remain. Hosted as a static site on **GitHub Pages only**.
+Status: **v3 complete** (two external gates open: post-deploy Lighthouse and a two-user pilot). **v5 complete and shipping** — URDF interop, premade 3D models and a live validation harness. **v6 complete and shipping** — the Learning Center is a set of eight self-study practice modules (reference + generated quiz + worked solution) and the workspace plot is corrected. **v4 superseded** by v6's practice modules (E4.1 single router shipped earlier). Hosted as a static site on **GitHub Pages only**.
 Owner: Kanishk Patel (product, UI, integration) · Atharva Bhosale (engine)
 Last updated: 2026-10-27
 
@@ -61,6 +61,7 @@ Every release ships as static files served by GitHub Pages. There is no runtime 
 | **v3.0 — Trust & Polish** | Make the existing studio feel professional, safe and usable on every device. | Everyone | No critical accessibility/security defects; mobile navigation works; first-run onboarding; consistent motion system; v3 release notes. |
 | **v4.0 — Learn & Teach** | Turn the studio into a structured course with assessment and instructor tools. | Students, instructors | 6 modules with objectives, labs, auto-graded checks, local progress tracking and instructor assignment links — all client-side. |
 | **v5.0 — Professional Credibility** | Close the gap to industrial workflows and trusted robotics toolchains. | Engineers, institutions | URDF import, classical/MDH toggle, analytic 6R IK, full inertial parameters, reference validation, downloadable LMS packages. |
+| **v6.0 — Practice Modules** | Ship the self-study Learning Center (the v4 “Learn & Teach” curriculum in practice-module form) and correct the workspace plot. | Students, self-learners | Eight practice modules (reference + generated quiz + worked solution), engine-verified answers, committed concept figures, equal-aspect workspace plot. |
 
 ---
 

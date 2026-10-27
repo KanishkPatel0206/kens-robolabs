@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-label="2R planar wireframe drawn from its Modified-DH parameters">
+<style>
+.bg{fill:#ffffff}.grid{stroke:#dceee7;stroke-width:1}
+.link{stroke:#0b7a5c;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.shadow{stroke:#0b7a5c;opacity:.14;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.base{fill:#164049}.j{fill:#2273ca;stroke:#fff;stroke-width:1.6}.tcp{fill:#c92b34;stroke:#fff;stroke-width:1.6}
+.lbl{font:600 10px 'JetBrains Mono',monospace;fill:#2c5866}.title{font:700 13px Outfit,sans-serif;fill:#164049}
+.sub{font:500 10px 'JetBrains Mono',monospace;fill:#5b7f86}
+</style>
+<defs><clipPath id="c"><rect x="6" y="6" width="468" height="348" rx="8"/></clipPath></defs>
+<rect class="bg" width="480" height="360" rx="10"/>
+<g clip-path="url(#c)"><g class="grid"><line x1="-400.1" y1="140.4" x2="-400.1" y2="187.7"/><line x1="-400.1" y1="140.4" x2="504.1" y2="140.4"/><line x1="-174" y1="140.4" x2="-174" y2="187.7"/><line x1="-400.1" y1="152.2" x2="504.1" y2="152.2"/><line x1="52" y1="140.4" x2="52" y2="187.7"/><line x1="-400.1" y1="164" x2="504.1" y2="164"/><line x1="278" y1="140.4" x2="278" y2="187.7"/><line x1="-400.1" y1="175.9" x2="504.1" y2="175.9"/><line x1="504.1" y1="140.4" x2="504.1" y2="187.7"/><line x1="-400.1" y1="187.7" x2="504.1" y2="187.7"/></g></g>
+<circle class="base" cx="52" cy="171" r="11"/>
+<g clip-path="url(#c)"><path class="shadow" d="M 52 164 L 315.5 172 M 315.5 172 L 428 194" transform="translate(3 5)"/><path class="link" d="M 52 164 L 315.5 172 M 315.5 172 L 428 194"/></g>
+<circle cx="52" cy="164" r="5.5" class="j"/><text x="60" y="158" class="lbl">base</text><circle cx="315.5" cy="172" r="5" class="j"/><text x="323.5" y="166" class="lbl">J2</text>
+<circle class="tcp" cx="428" cy="194" r="4.5"/><text x="436" y="208" class="lbl">TCP</text>
+<text x="14" y="24" class="title">2R planar</text>
+<text x="14" y="40" class="sub">2 DOF · RR · drawn from its DH table</text>
+<text x="14" y="348" class="sub">reach ≈ 350 mm · Educational</text>
+</svg>
