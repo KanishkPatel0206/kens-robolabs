@@ -1,4 +1,4 @@
-# 🌺 Ken’s RoboLabs v6 — Manipulator Kinematics Studio
+# 🌺 Ken’s RoboLabs v6.1 — Manipulator Kinematics Studio
 
 **🌐 Live demo: https://kanishkpatel0206.github.io/kens-robolabs/**
 
@@ -14,14 +14,14 @@ It is designed as a **learning tool**: every number stays visible, every solver 
 4. Use **Forward/Inverse Kinematics**, **Jacobian**, **Trajectory**, **Workspace** and **Dynamics** to test the model.
 5. Go to **Export & Report** for a printable derivation, LaTeX, Markdown, MATLAB, Python, PNG or CSV.
 
-## v6.0 — Practice Modules (current release)
+## v6.1 — Practice Modules + 3D workspace (current release)
 
-v6 turns the Learning Center into a set of **self-study practice modules** — documentation, a generated quiz and a worked solution for each topic, with no lecture voice and no server:
+v6 turns the Learning Center into a set of **self-study practice modules** — documentation, a generated quiz and a worked solution for each topic, with no lecture voice and no server — and v6.1 makes the Workspace Analysis page an **interactive 3D reachable volume**:
 
 - **Eight practice modules:** Modified-DH parameters, frame assignment and transform order, forward kinematics, inverse kinematics, the Jacobian and singularities, trajectory smoothness, the reachable workspace, and dynamics with payload.
 - **Generated, engine-verified questions.** `engine/practice.js` builds each quiz from the real Modified-DH maths and re-derives every published answer through a *different* code path (forward kinematics, the analytic Jacobian, the closed-form 2R solver, the core trajectory sampler). `PRACTICE.selfTests()` re-derives all 384 generated questions; the worst residual is machine precision. Tolerances are printed on each question.
 - **Reference + figures + worked solutions.** Each module ships concise reference notes, figures drawn from its own maths (`tools/gen_figures.js` writes 16 committed SVGs), and a **Show solution** on every question. **Check** grades your answer and per-module progress is remembered in this browser only (`localStorage`).
-- **Corrected workspace plot.** The reachable-workspace scatter now uses one scale for both axes (equal aspect), sizes for the screen's pixel ratio, labels its ticks and units, and marks the live TCP.
+- **Interactive 3D workspace (v6.1).** The Workspace Analysis page is now a live three.js point cloud of the sampled reachable volume — orbit, zoom, pan, colour by height, labelled X/Y/Z axes and a red ✚ that follows the live TCP. If WebGL is unavailable it falls back to the equal-aspect orthographic canvas, which is also the figure the printable report uses.
 
 **Release docs:** [`CHANGELOG.md`](CHANGELOG.md) · [`docs/ROADMAP.md`](docs/ROADMAP.md)
 
@@ -58,6 +58,7 @@ v3 added no new robotics mathematics. It made the studio safe, usable on a phone
 | **v4** | Learn & Teach | Six-module course, auto-graded labs, progress, instructor mode |
 | **v5** | Professional Credibility | Premade 3D models, URDF import/export, full inertia, validation harness, workspace v2, redundancy |
 | **v6** | Practice Modules | Self-study Learning Center: reference + engine-verified quizzes + worked solutions, corrected workspace plot |
+| **v6.1** | 3D Workspace | Workspace Analysis is an interactive 3D reachable volume (orbit/zoom/pan, height colour, live TCP), with the orthographic canvas as the WebGL fallback and report figure |
 
 The complete task plan — including visual and animation workstreams, acceptance criteria and risks — is in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ken’s RoboLabs v6 — Manipulator Kinematics Studio</title>
+<title>Ken’s RoboLabs v6.1 — Manipulator Kinematics Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -23,14 +23,16 @@
 .field-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:9px 0}
 .field-row label{font-size:12px;color:var(--muted)}.field-row input,.field-row select{max-width:150px;border:1px solid var(--line);border-radius:8px;padding:8px;background:#fff;color:var(--ink)}
 .plot-box{width:100%;height:270px;background:#fff;border:1px solid var(--line);border-radius:10px}
-@media(max-width:900px){.advanced-grid{grid-template-columns:1fr}#robot3d{min-height:320px}}
+.ws3d-wrap{position:relative;width:100%;height:min(58vh,540px);min-height:340px;background:#eef8f4;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+#workspace3d{display:block;width:100%;height:100%;touch-action:none}
+@media(max-width:900px){.advanced-grid{grid-template-columns:1fr}#robot3d{min-height:320px}.ws3d-wrap{height:min(52vh,420px);min-height:280px}}
 </style>
 <link rel="stylesheet" href="assets/v3.css">
 <link rel="stylesheet" href="assets/v5.css">
 <link rel="stylesheet" href="assets/practice.css">
-<meta name="description" content="Ken’s RoboLabs v6: a professional, browser-based Modified-DH manipulator kinematics, dynamics and teaching studio with self-study practice modules, URDF interop, premade 3D robot models, 3D visualisation, inverse kinematics, Jacobian, trajectories, collision checking and teaching tools.">
-<meta name="application-version" content="6.0.0">
-<meta name="theme-color" content="#eef8f4"><meta property="og:title" content="Ken’s RoboLabs v6 — Manipulator Kinematics Studio"><meta property="og:description" content="Interactive Modified Denavit–Hartenberg robot kinematics, dynamics and teaching studio with self-study practice modules."><meta property="og:type" content="website"><meta property="og:url" content="https://kanishkpatel0206.github.io/kens-robolabs/"><link rel="canonical" href="https://kanishkpatel0206.github.io/kens-robolabs/">
+<meta name="description" content="Ken’s RoboLabs v6.1: a professional, browser-based Modified-DH manipulator kinematics, dynamics and teaching studio with self-study practice modules, interactive 3D workspace analysis, URDF interop, premade 3D robot models, inverse kinematics, Jacobian, trajectories, collision checking and teaching tools.">
+<meta name="application-version" content="6.1.0">
+<meta name="theme-color" content="#eef8f4"><meta property="og:title" content="Ken’s RoboLabs v6.1 — Manipulator Kinematics Studio"><meta property="og:description" content="Interactive Modified Denavit–Hartenberg robot kinematics, dynamics and teaching studio with self-study practice modules and an interactive 3D reachable-workspace view."><meta property="og:type" content="website"><meta property="og:url" content="https://kanishkpatel0206.github.io/kens-robolabs/"><link rel="canonical" href="https://kanishkpatel0206.github.io/kens-robolabs/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="site.webmanifest">
 <link rel="apple-touch-icon" href="favicon.svg">
@@ -39,7 +41,7 @@
 <script>try{var _o=localStorage.getItem('crayon-mdh-project');if(_o&&!localStorage.getItem('robolabs-project'))localStorage.setItem('robolabs-project',_o)}catch(e){}</script>
 <a class="skip-link" href="#mainContent">Skip to main content</a>
 <header class="appbar">
-  <div class="brand"><div class="logo" aria-hidden="true">🌺</div><span>Ken’s RoboLabs</span><span class="tag">MODIFIED DH · v6</span></div>
+  <div class="brand"><div class="logo" aria-hidden="true">🌺</div><span>Ken’s RoboLabs</span><span class="tag">MODIFIED DH · v6.1</span></div>
   <div class="topnav"><button class="active" data-page="workspace">Workspace</button><button data-page="library">Robot Library</button><button data-page="learn">Learning Center</button><button data-page="pro">Professional</button></div>
   <div style="display:flex;gap:7px;align-items:center"><button class="soft hide-mobile" id="undoBtn" title="Undo">↶</button><button class="soft hide-mobile" id="redoBtn" title="Redo">↷</button><button class="gold" id="saveBtn">▣ Save</button><button class="soft hide-mobile" id="exportBtn">↓ Export</button></div>
 </header>
@@ -102,7 +104,7 @@
 </section>
 <section id="workspaceAnalysisPage" class="hidden">
  <div class="hero"><h1>◌ Workspace Analysis</h1><p>Sample the active robot's reachable TCP positions by sweeping its joint limits. Results are approximate and depend on the DH frame assignment.</p></div>
- <div class="panel"><div class="field-row"><label>Sample count</label><select id="workspaceSamples"><option value="300">300 (quick)</option><option value="1000" selected>1,000</option><option value="3000">3,000</option><option value="8000">8,000</option></select><label>Projection</label><select id="workspaceProjection"><option value="xy">XY (top)</option><option value="xz">XZ (front)</option><option value="yz">YZ (side)</option></select><button class="primary" id="workspaceRun">Sample workspace</button><button class="soft" id="workspaceCsv">Export points CSV</button></div><canvas id="workspacePlot" class="plot-box" width="900" height="360" aria-label="Sampled reachable workspace"></canvas><div id="workspaceSummary" class="status">Run sampling to estimate the workspace.</div></div>
+ <div class="panel"><div class="panel-head"><h2>◎ Reachable volume · interactive 3D</h2><span class="pill blue">DRAG TO ORBIT</span></div><div class="field-row" style="margin-top:2px"><label>Sample count</label><select id="workspaceSamples"><option value="300">300 (quick)</option><option value="1000" selected>1,000</option><option value="3000">3,000</option><option value="8000">8,000</option></select><button class="primary" id="workspaceRun">Sample workspace</button><button class="soft" id="workspaceCsv">Export points CSV</button></div><div class="ws3d-wrap"><canvas id="workspace3d" aria-label="Interactive 3D point cloud of the sampled reachable workspace; drag to orbit, scroll to zoom, Shift-drag to pan"></canvas><div id="ws3dFallback" class="tiny muted" style="display:none;padding:12px">3D renderer unavailable on this device — the orthographic projection below is shown instead.</div></div><div class="button-row" style="margin-top:9px"><button class="soft" id="ws3dFit">⌂ Fit 3D</button><button class="soft" data-ws3dview="iso">Isometric</button><button class="soft" data-ws3dview="top">Top (XY)</button><button class="soft" data-ws3dview="front">Front (XZ)</button><span class="tiny muted" style="margin-left:6px">Axes <b style="color:#c81e28">X</b> · <b style="color:#077d46">Y</b> · <b style="color:#1d5fd6">Z</b> · dot colour = height Z · red ✚ = live TCP</span></div><div id="ws2dFallback" style="display:none"><h3 style="margin:14px 0 8px">Orthographic projection (fallback)</h3><canvas id="workspacePlot" class="plot-box" width="900" height="360" aria-label="Sampled reachable workspace (orthographic projection)"></canvas></div><div id="workspaceSummary" class="status" style="margin-top:12px">Run sampling to estimate the workspace.</div></div>
 </section>
 <section id="dynamicsPage" class="hidden">
  <div class="hero"><h1>⚖ Dynamics Explorer</h1><p>Transparent, simplified single-joint torque estimate for learning. It is not a full multi-body inverse-dynamics solver and should not be used to size real hardware.</p></div>
@@ -896,7 +898,7 @@ function updateVelocity(){if(!$('#velocityResult'))return;let J=numericJacobian(
 function refreshJointSelects(){['trajJoint','dynJoint'].forEach(id=>{let el=$('#'+id),old=el.value;el.innerHTML=joints.map((j,i)=>`<option value="${i}">${i+1}. ${j.name} (${j.type})</option>`).join('');if(old<joints.length)el.value=old});if($('#trajJoint')){let j=joints[Number($('#trajJoint').value)||0];$('#trajStart').value=j?(j.type==='R'?j.theta:j.d):0;$('#trajEnd').value=j?(j.type==='R'?Math.min(j.max,(j.type==='R'?j.theta:j.d)+45):Math.min(j.max,j.d+30)):0}}
 function drawLinePlot(canvas,points,color='#06617c'){if(!canvas)return;let ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#ffffff';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#c2d9d2';ctx.lineWidth=1;for(let i=1;i<6;i++){ctx.beginPath();ctx.moveTo(35,i*h/6);ctx.lineTo(w-12,i*h/6);ctx.stroke()}if(!points.length)return;let xs=points.map(p=>p[0]),ys=points.map(p=>p[1]),xmin=Math.min(...xs),xmax=Math.max(...xs)||1,ymin=Math.min(...ys),ymax=Math.max(...ys);if(ymax===ymin){ymax+=1;ymin-=1}ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();points.forEach((p,i)=>{let x=35+(p[0]-xmin)/(xmax-xmin||1)*(w-50),y=h-25-(p[1]-ymin)/(ymax-ymin)*(h-40);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();ctx.fillStyle='#1f4a54';ctx.font='12px sans-serif';ctx.fillText(ymax.toFixed(1),4,18);ctx.fillText(ymin.toFixed(1),4,h-8);ctx.fillText('time / sample',w/2-35,h-5)}
 function generateTrajectory(){let i=Number($('#trajJoint').value)||0,j=joints[i],q0=Number($('#trajStart').value),q1=Number($('#trajEnd').value),duration=Math.max(.2,Math.min(60,Number($('#trajDuration').value)||4)),kind=$('#trajType')?.value||'cubic';if(!j||!Number.isFinite(q0)||!Number.isFinite(q1)){toast('Enter valid trajectory values');return}if(q0<j.min||q0>j.max||q1<j.min||q1>j.max){$('#trajStatus').textContent=`Target values must stay within joint limits [${j.min}, ${j.max}].`;return}trajData=[];trajVelData=[];trajAccData=[];let delta=q1-q0;for(let k=0;k<=100;k++){let t=duration*k/100,u=t/duration,q,qd,qdd;if(kind==='quintic'){q=q0+delta*(10*u**3-15*u**4+6*u**5);qd=delta/duration*(30*u**2-60*u**3+30*u**4);qdd=delta/(duration*duration)*(60*u-180*u**2+120*u**3)}else{q=q0+delta*(3*u*u-2*u*u*u);qd=delta/duration*(6*u-6*u*u);qdd=delta/(duration*duration)*(6-12*u)}trajData.push([t,q]);trajVelData.push([t,qd]);trajAccData.push([t,qdd])}drawLinePlot($('#trajPlot'),trajData,'#1a73c7');drawLinePlot($('#trajVelPlot'),trajVelData,'#0f7a5f');drawLinePlot($('#trajAccPlot'),trajAccData,'#d1373f');$('#trajStatus').textContent=`Generated 101 ${kind} samples for ${j.name}; duration ${duration.toFixed(2)} s.`}
-function sampleWorkspace(){let count=Number($('#workspaceSamples').value)||1000,proj=$('#workspaceProjection').value;workspaceData=[];let originals=joints.map(j=>({...j}));for(let n=0;n<count;n++){joints.forEach(j=>{let q=j.min+Math.random()*(j.max-j.min);if(j.type==='R')j.theta=q;else j.d=q});let p=pos(calc().T);workspaceData.push(p)}joints=originals;let ix=proj==='xy'?[0,1]:proj==='xz'?[0,2]:[1,2],pts=workspaceData.map(p=>[p[ix[0]],p[ix[1]]]),cur=pos(calc().T);drawWorkspaceCanvas($('#workspacePlot'),pts,{plane:proj,current:[cur[ix[0]],cur[ix[1]]]});$('#workspaceSummary').textContent=`Sampled ${count.toLocaleString()} configurations. Approximate bounds: ${['X','Y','Z'].map((n,i)=>`${n} ${Math.min(...workspaceData.map(p=>p[i])).toFixed(1)} to ${Math.max(...workspaceData.map(p=>p[i])).toFixed(1)} mm`).join(' · ')}.`;renderAll(false)}
+function sampleWorkspace(){let count=Number($('#workspaceSamples').value)||1000,proj=($('#workspaceProjection')||{value:'xy'}).value;workspaceData=[];let originals=joints.map(j=>({...j}));for(let n=0;n<count;n++){joints.forEach(j=>{let q=j.min+Math.random()*(j.max-j.min);if(j.type==='R')j.theta=q;else j.d=q});let p=pos(calc().T);workspaceData.push(p)}joints=originals;let ix=proj==='xy'?[0,1]:proj==='xz'?[0,2]:[1,2],pts=workspaceData.map(p=>[p[ix[0]],p[ix[1]]]),cur=pos(calc().T);drawWorkspaceCanvas($('#workspacePlot'),pts,{plane:proj,current:[cur[ix[0]],cur[ix[1]]]});$('#workspaceSummary').textContent=`Sampled ${count.toLocaleString()} configurations. Approximate bounds: ${['X','Y','Z'].map((n,i)=>`${n} ${Math.min(...workspaceData.map(p=>p[i])).toFixed(1)} to ${Math.max(...workspaceData.map(p=>p[i])).toFixed(1)} mm`).join(' · ')}.`;renderAll(false)}
 function niceStep(range){const raw=Math.max(1e-9,range)/6,p=Math.pow(10,Math.floor(Math.log10(raw))),n=raw/p;return (n<=1?1:n<=2?2:n<=5?5:10)*p}
 /* Equal-aspect, retina-crisp scatter for the workspace page. `opts.plane` is
    'xy'|'xz'|'yz' and `opts.current` is the live TCP projected the same way, so
@@ -906,7 +908,7 @@ function drawWorkspaceCanvas(canvas,pts,opts){
   opts=opts||{};const plane=opts.plane||'xy';
   const AX={xy:{h:'X',v:'Y',t:'XY · top view'},xz:{h:'X',v:'Z',t:'XZ · front view'},yz:{h:'Y',v:'Z',t:'YZ · side view'}}[plane]||{h:'X',v:'Y',t:'XY'};
   const dpr=Math.min(2,window.devicePixelRatio||1);
-  const cssW=Math.max(320,Math.round(canvas.clientWidth||canvas.width||900)),cssH=Math.max(240,Math.round(cssW*0.44));
+  const cssW=Math.max(320,Math.round(canvas.clientWidth>0?canvas.clientWidth:900)),cssH=Math.max(240,Math.round(cssW*0.44));
   const bw=Math.round(cssW*dpr),bh=Math.round(cssH*dpr);
   if(canvas.width!==bw||canvas.height!==bh){canvas.width=bw;canvas.height=bh}
   const ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height;
@@ -943,12 +945,142 @@ function redrawWorkspace(){
   const ix=plane==='xy'?[0,1]:plane==='xz'?[0,2]:[1,2];
   let cur=null;try{const t=pos(calc().T);cur=[t[ix[0]],t[ix[1]]]}catch(e){}
   drawWorkspaceCanvas($('#workspacePlot'),workspaceData.map(p=>[p[ix[0]],p[ix[1]]]),{plane,current:cur});
+  renderWorkspace3D();
 }
+
+/* ---- Interactive 3D view of the reachable workspace (Workspace Analysis) ----
+   The sampled TCP positions drawn as a live three.js point cloud on this
+   page's own orbit camera. `z` is up (matching the robot viewport) and the
+   colour encodes height; the red ✚ marks the live tool centre point. This is
+   the primary view of the page: if WebGL or three.js is unavailable the panel
+   says so and reveals the orthographic projection underneath, which is also
+   the figure the printable report uses. */
+let ws3d=null,ws3dDrag=null,ws3dOrbit={theta:-0.9,phi:1.05,r:1600,target:[0,0,0]};
+function initWorkspace3D(){
+  if(ws3d)return true;
+  const canvas=$('#workspace3d');if(!canvas||!window.THREE)return false;
+  try{
+    const scene=new THREE.Scene();scene.background=new THREE.Color('#eef8f4');
+    const camera=new THREE.PerspectiveCamera(45,1,1,80000);camera.up.set(0,0,1);
+    const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    if('outputEncoding' in renderer)renderer.outputEncoding=THREE.sRGBEncoding;
+    scene.add(new THREE.HemisphereLight(0xffffff,0x6f99ad,.78));
+    const sun=new THREE.DirectionalLight(0xffffff,.6);sun.position.set(700,-900,1500);scene.add(sun);
+    const cloud=new THREE.Group(),axes=new THREE.Group();scene.add(cloud,axes);
+    ws3d={scene,camera,renderer,cloud,axes,grid:null,points:null,marker:null,markerR:0,bounds:null};
+    canvas.addEventListener('pointerdown',e=>{ws3dDrag={x:e.clientX,y:e.clientY,button:e.button,theta:ws3dOrbit.theta,phi:ws3dOrbit.phi,target:ws3dOrbit.target.slice()};try{canvas.setPointerCapture(e.pointerId)}catch(_){}});
+    canvas.addEventListener('pointermove',e=>{if(!ws3dDrag)return;const dx=e.clientX-ws3dDrag.x,dy=e.clientY-ws3dDrag.y;if(ws3dDrag.button===2||e.shiftKey){const k=ws3dOrbit.r*.0012;ws3dOrbit.target[0]-=dx*k;ws3dOrbit.target[1]+=dy*k}else{ws3dOrbit.theta=ws3dDrag.theta-dx*.008;ws3dOrbit.phi=Math.max(.06,Math.min(Math.PI-.06,ws3dDrag.phi+dy*.008))}ws3dCamera();ws3dRender()});
+    canvas.addEventListener('pointerup',()=>ws3dDrag=null);
+    canvas.addEventListener('pointercancel',()=>ws3dDrag=null);
+    canvas.addEventListener('contextmenu',e=>e.preventDefault());
+    canvas.addEventListener('wheel',e=>{e.preventDefault();ws3dOrbit.r=Math.max(120,Math.min(60000,ws3dOrbit.r*Math.exp(e.deltaY*.0012)));ws3dCamera();ws3dRender()},{passive:false});
+    if(window.ResizeObserver)new ResizeObserver(()=>{ws3dResize();ws3dRender()}).observe(canvas);
+    ws3dResize();
+    return true;
+  }catch(e){console.warn('Workspace 3D unavailable',e);ws3d=null;return false}
+}
+function ws3dResize(){if(!ws3d)return;const c=$('#workspace3d'),w=Math.max(1,c.clientWidth||900),h=Math.max(1,c.clientHeight||420);ws3d.renderer.setSize(w,h,false);ws3d.camera.aspect=w/h;ws3d.camera.updateProjectionMatrix()}
+function ws3dCamera(){if(!ws3d)return;const[tx,ty,tz]=ws3dOrbit.target,r=ws3dOrbit.r,ph=ws3dOrbit.phi,th=ws3dOrbit.theta;ws3d.camera.position.set(tx+r*Math.sin(ph)*Math.cos(th),ty+r*Math.sin(ph)*Math.sin(th),tz+r*Math.cos(ph));ws3d.camera.lookAt(tx,ty,tz)}
+function ws3dRender(){if(!ws3d)return;try{ws3d.renderer.render(ws3d.scene,ws3d.camera)}catch(e){}}
+function ws3dClear(group){while(group.children.length){const o=group.children.pop();if(o.traverse)o.traverse(x=>{if(x.geometry&&x.geometry.dispose)x.geometry.dispose();if(x.material){const ms=Array.isArray(x.material)?x.material:[x.material];ms.forEach(m=>{if(m.map&&m.map.dispose)m.map.dispose();if(m.dispose)m.dispose()})}})}} 
+function ws3dLabel(text,color){
+  try{
+    const c=document.createElement('canvas');c.width=c.height=64;
+    const g=c.getContext('2d');if(!g)return null;
+    g.fillStyle=color;g.font='bold 46px Outfit,system-ui,sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(text,32,34);
+    const t=new THREE.CanvasTexture(c);t.needsUpdate=true;
+    const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthTest:false}));s.scale.set(80,80,1);return s;
+  }catch(e){return null}
+}
+function ws3dBuild(){
+  if(!ws3d)return;
+  ws3dClear(ws3d.cloud);ws3dClear(ws3d.axes);ws3d.points=null;ws3d.bounds=null;ws3d.markerR=0;
+  const pts=(workspaceData||[]).filter(p=>p&&Number.isFinite(p[0])&&Number.isFinite(p[1])&&Number.isFinite(p[2]));
+  /* Default frame before anything is sampled, so the empty scene still reads
+     as a coordinate volume instead of a blank panel. */
+  let xmin=-400,xmax=400,ymin=-400,ymax=400,zmin=0,zmax=400;
+  if(pts.length){
+    xmin=Infinity;xmax=-Infinity;ymin=Infinity;ymax=-Infinity;zmin=Infinity;zmax=-Infinity;
+    for(const p of pts){if(p[0]<xmin)xmin=p[0];if(p[0]>xmax)xmax=p[0];if(p[1]<ymin)ymin=p[1];if(p[1]>ymax)ymax=p[1];if(p[2]<zmin)zmin=p[2];if(p[2]>zmax)zmax=p[2]}
+  }
+  const span=Math.max(xmax-xmin,ymax-ymin,zmax-zmin,1);
+  if(pts.length){
+    const pos=new Float32Array(pts.length*3),col=new Float32Array(pts.length*3),c=new THREE.Color();
+    for(let i=0;i<pts.length;i++){const p=pts[i],t=zmax>zmin?(p[2]-zmin)/(zmax-zmin):.5;pos[i*3]=p[0];pos[i*3+1]=p[1];pos[i*3+2]=p[2];c.setHSL(0.46-0.34*t,0.62,0.40+0.20*t);col[i*3]=c.r;col[i*3+1]=c.g;col[i*3+2]=c.b}
+    const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));geo.setAttribute('color',new THREE.Float32BufferAttribute(col,3));
+    ws3d.points=new THREE.Points(geo,new THREE.PointsMaterial({size:Math.max(7,span/70),vertexColors:true,sizeAttenuation:true,transparent:true,opacity:.92}));
+    ws3d.cloud.add(ws3d.points);
+  }
+  const cx=(xmin+xmax)/2,cy=(ymin+ymax)/2,cz=(zmin+zmax)/2;
+  ws3d.bounds={xmin,xmax,ymin,ymax,zmin,zmax,cx,cy,cz,span,empty:!pts.length};
+  const L=span*0.6,dirs=[[1,0,0],[0,1,0],[0,0,1]],nm=['X','Y','Z'],hx=['#c81e28','#077d46','#1d5fd6'],lc=[0xe11d2e,0x0a9d52,0x1d5fd6];
+  for(let k=0;k<3;k++){
+    const end=[cx+dirs[k][0]*L,cy+dirs[k][1]*L,cz+dirs[k][2]*L];
+    const g2=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(cx,cy,cz),new THREE.Vector3(end[0],end[1],end[2])]);
+    ws3d.axes.add(new THREE.Line(g2,new THREE.LineBasicMaterial({color:lc[k],depthTest:false})));
+    const lb=ws3dLabel(nm[k],hx[k]);if(lb){lb.position.set(end[0],end[1],end[2]);ws3d.axes.add(lb)}
+  }
+  const gsz=Math.max(400,Math.pow(2,Math.round(Math.log2(span))+1));
+  if(ws3d.grid){ws3d.scene.remove(ws3d.grid);if(ws3d.grid.geometry&&ws3d.grid.geometry.dispose)ws3d.grid.geometry.dispose()}
+  const grid=new THREE.GridHelper(gsz,20,0x2c5866,0xbcd9d1);grid.rotation.x=Math.PI/2;grid.position.set(cx,cy,zmin-1);ws3d.grid=grid;ws3d.scene.add(grid);
+}
+function ws3dSetMarker(p){
+  if(!ws3d)return;
+  const r=Math.max(6,(ws3d.bounds?ws3d.bounds.span:600)/55);
+  let g=ws3d.marker;
+  if(!g){g=new THREE.Group();ws3d.scene.add(g);ws3d.marker=g}
+  if(ws3d.markerR!==r){
+    while(g.children.length){const o=g.children.pop();if(o.geometry&&o.geometry.dispose)o.geometry.dispose();if(o.material&&o.material.dispose)o.material.dispose()}
+    const dot=new THREE.Mesh(new THREE.SphereGeometry(r,14,10),new THREE.MeshBasicMaterial({color:0xd1373f,depthTest:false,transparent:true,opacity:.95}));
+    dot.renderOrder=999;g.add(dot);
+    const k=r*1.9,mat=new THREE.LineBasicMaterial({color:0xd1373f,depthTest:false});
+    [[[-k,0,0],[k,0,0]],[[0,-k,0],[0,k,0]],[[0,0,-k],[0,0,k]]].forEach(seg=>{const gg=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(seg[0][0],seg[0][1],seg[0][2]),new THREE.Vector3(seg[1][0],seg[1][1],seg[1][2])]);const l=new THREE.Line(gg,mat);l.renderOrder=999;g.add(l)});
+    ws3d.markerR=r;
+  }
+  g.position.set(p[0],p[1],p[2]);
+}
+function ws3dFit(){
+  if(!ws3d||!ws3d.bounds)return;
+  const b=ws3d.bounds;ws3dOrbit.target=[b.cx,b.cy,Math.max(0,b.cz)];
+  const rad=Math.sqrt((b.xmax-b.xmin)*(b.xmax-b.xmin)+(b.ymax-b.ymin)*(b.ymax-b.ymin)+(b.zmax-b.zmin)*(b.zmax-b.zmin))/2||b.span/2||300;
+  ws3dOrbit.r=Math.max(300,rad*3.2);ws3dCamera();
+}
+function ws3dView(mode){
+  if(!ws3d)return;
+  if(mode==='top'){ws3dOrbit.theta=-Math.PI/2;ws3dOrbit.phi=.06}
+  else if(mode==='front'){ws3dOrbit.theta=-Math.PI/2;ws3dOrbit.phi=Math.PI/2}
+  else{ws3dOrbit.theta=-0.9;ws3dOrbit.phi=1.05}
+  ws3dCamera();ws3dRender();
+}
+/* Rebuild the cloud after a new sample (or a robot change), move the live TCP
+   marker, and fit the camera. Returns false when 3D is unavailable. */
+function renderWorkspace3D(){
+  const fb=$('#ws3dFallback'),cv=$('#workspace3d'),two=$('#ws2dFallback');
+  if(!initWorkspace3D()){
+    if(cv)cv.style.display='none';if(fb)fb.style.display='block';if(two)two.style.display='block';
+    return false;
+  }
+  if(cv)cv.style.display='block';if(fb)fb.style.display='none';if(two)two.style.display='none';
+  ws3dResize();ws3dBuild();
+  if(ws3d.bounds&&!ws3d.bounds.empty)ws3dFit();
+  let cur=null;try{cur=pos(calc().T)}catch(e){}
+  if(cur&&cur.every(Number.isFinite))ws3dSetMarker(cur);
+  ws3dCamera();ws3dRender();return true;
+}
+/* Cheap per-frame follow of the live TCP while the robot moves. */
+function ws3dTick(){
+  if(!ws3d||!ws3d.points)return;
+  const pg=$('#workspaceAnalysisPage');if(pg&&pg.classList.contains('hidden'))return;
+  let cur=null;try{cur=pos(calc().T)}catch(e){}
+  if(cur&&cur.every(Number.isFinite)){ws3dSetMarker(cur);ws3dRender()}
+}
+(function bindWorkspace3D(){const f=$('#ws3dFit');if(f)f.onclick=()=>{ws3dFit();ws3dRender()};$$('[data-ws3dview]').forEach(b=>b.onclick=()=>ws3dView(b.dataset.ws3dview))})();
 function calcDynamics(){let i=Number($('#dynJoint').value)||0,j=joints[i],m=Math.max(0,Number($('#dynMass').value)||0),r=Math.max(0,Number($('#dynArm').value)||0),acc=Number($('#dynAccel').value)||0,I=Math.max(0,Number($('#dynInertia').value)||0);if(j.type==='R'){let tau=m*9.81*r*Math.abs(Math.sin(rad(j.theta)))+I*acc;$('#dynResult').innerHTML=`<h3>Estimated joint torque</h3><p class="mono" style="font-size:24px;margin:8px 0">${tau.toFixed(3)} N·m</p><p>Gravity component: ${(m*9.81*r*Math.abs(Math.sin(rad(j.theta)))).toFixed(3)} N·m</p><p>Inertial component: ${(I*acc).toFixed(3)} N·m</p><p class="muted tiny">Uses |sin(θ)| for a simplified planar gravity moment; actual torque depends on link orientation and mass distribution.</p>`}else{let force=m*(9.81+acc);$('#dynResult').innerHTML=`<h3>Estimated prismatic force</h3><p class="mono" style="font-size:24px;margin:8px 0">${force.toFixed(3)} N</p><p>Equivalent load m(g+a), assuming vertical motion and positive downward gravity.</p>`}}
 function bindAdvancedTools(){init3D();$('#jacobianRefresh').onclick=renderJacobian;$('#zeroRates').onclick=()=>{$$('[data-rate]').forEach(e=>e.value=0);updateVelocity()};$('#rateInputs').addEventListener('input',updateVelocity);$('#trajGenerate').onclick=generateTrajectory;$('#trajJoint').onchange=()=>{let j=joints[Number($('#trajJoint').value)||0];if(j){$('#trajStart').value=j.type==='R'?j.theta:j.d;$('#trajEnd').value=Math.max(j.min,Math.min(j.max,(j.type==='R'?j.theta:j.d)+(j.type==='R'?45:30)))}};$('#trajPlay').onclick=()=>{if(!trajData.length)generateTrajectory();if(!trajData.length)return;clearInterval(trajTimer);let k=0,i=Number($('#trajJoint').value)||0;trajTimer=setInterval(()=>{if(k>=trajData.length){clearInterval(trajTimer);return}let j=joints[i],q=trajData[k++][1];if(j.type==='R')j.theta=q;else j.d=q;selected=i;renderAll(false)},Math.max(15,Number($('#trajDuration').value)*1000/100))};$('#trajStop').onclick=()=>{clearInterval(trajTimer);trajTimer=null};$('#workspaceRun').onclick=sampleWorkspace;$('#workspaceCsv').onclick=()=>{if(!workspaceData.length)return toast('Sample the workspace first');download('workspace-points.csv','x_mm,y_mm,z_mm\n'+workspaceData.map(p=>p.join(',')).join('\n'),'text/csv')};$('#dynCalculate').onclick=calcDynamics;['dynJoint','dynMass','dynArm','dynAccel','dynInertia'].forEach(id=>$('#'+id).addEventListener('change',calcDynamics));$$('[data-view]').forEach(b=>b.addEventListener('click',()=>setCameraPreset(b.dataset.view)));$('#fitView').addEventListener('click',()=>{orbit3d.target=[180,0,80];orbit3d.r=1150;updateCamera3D()});$$('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.page==='jacobian')renderJacobian();if(b.dataset.page==='trajectory')refreshJointSelects();if(b.dataset.page==='dynamics'){refreshJointSelects();calcDynamics()}if(b.dataset.page==='workspaceAnalysis'){$('#workspaceSummary').textContent=workspaceData.length?$('#workspaceSummary').textContent:'Run sampling to estimate the workspace.'}}));}
 // Hook 3D rendering into the existing Modified-DH refresh cycle without changing its math.
 const originalRenderRobot=renderRobot;renderRobot=function(){originalRenderRobot();render3D()};
-const originalRenderAll=renderAll;renderAll=function(updateTable=true){originalRenderAll(updateTable);refreshJointSelectsIfReady()};
+const originalRenderAll=renderAll;renderAll=function(updateTable=true){originalRenderAll(updateTable);refreshJointSelectsIfReady();if(typeof ws3dTick==='function')ws3dTick()};
 function refreshJointSelectsIfReady(){if($('#trajJoint'))refreshJointSelects()}
 bindAdvancedTools();
 renderAll();
@@ -1181,10 +1313,9 @@ sampleWorkspace=function(){const N=+$('#workspaceSamples').value||1000,keep=vars
  setVars(keep);redrawWorkspace();
  $('#workspaceSummary').textContent=workspaceData.length?`Sampled ${N.toLocaleString()} configurations${F?`, ${skipped.toLocaleString()} rejected for collision (${(100*skipped/N).toFixed(0)}%)`:''}. Bounds: ${['X','Y','Z'].map((c,i)=>`${c} ${Math.min(...workspaceData.map(p=>p[i])).toFixed(0)} to ${Math.max(...workspaceData.map(p=>p[i])).toFixed(0)} mm`).join(' · ')}.`:'Every sampled pose collided — raise the base height.';renderAll(false)};
 $('#workspaceRun').onclick=sampleWorkspace;
-$('#workspaceProjection').onchange=()=>{if(workspaceData.length)redrawWorkspace();else toast('Sample the workspace to plot it')};
-/* The panel is hidden until you navigate to it, so the canvas has no width
-   while hidden — redraw once it is on screen. */
-RoboRouter.onPage(p=>{if(p==='workspaceAnalysis'&&workspaceData.length){if(typeof requestAnimationFrame==='function')requestAnimationFrame(redrawWorkspace);else redrawWorkspace()}});
+/* The reachable volume is drawn in 3D; the hidden 2D canvas is the WebGL
+   fallback and the source of the report figure (XY plane). */
+RoboRouter.onPage(p=>{if(p==='workspaceAnalysis'){const go=()=>{if(workspaceData.length)redrawWorkspace();else renderWorkspace3D()};if(typeof requestAnimationFrame==='function')requestAnimationFrame(go);else go()}});
 /* ---- scrollable, responsive layout ---- */
 const st=document.createElement('style');st.textContent=`
 html{scroll-behavior:smooth;scroll-padding-top:78px}*{scrollbar-width:thin;scrollbar-color:#8fbfb0 transparent}
@@ -1270,7 +1401,7 @@ quizNew();window.__Q=()=>Q;window.quizNew=quizNew;
 </script>
 <script>
 /* ===== v8 (app v2): Export & Report — print-ready report, LaTeX, Markdown, MATLAB, Python, PNG, CSV ===== */
-window.APP_VERSION='6.0.0';
+window.APP_VERSION='6.1.0';
 (()=>{
 const D2=Math.PI/180,V='Ken’s RoboLabs v'+APP_VERSION,esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const F=(v,d)=>{v=Math.abs(v)<5*10**-(d+3)?0:v;return v.toFixed(d)},rn=()=>(typeof currentPreset!=='undefined'&&currentPreset)||'custom',rt=()=>typeof robotTitle==='function'?robotTitle(rn()):rn(),tool=()=>toolOffset||toolOffsetZ?[[1,0,0,toolOffset],[0,1,0,0],[0,0,1,toolOffsetZ],[0,0,0,1]]:null;
@@ -1455,7 +1586,6 @@ $$('[data-csv]').forEach(b=>b.onclick=()=>{const s=CSV[b.dataset.csv]();s?downlo
     trajDuration: 'Trajectory duration in seconds',
     trajType: 'Trajectory profile',
     workspaceSamples: 'Workspace sample count',
-    workspaceProjection: 'Workspace projection plane',
     qx: 'Quiz answer X in millimetres',
     qy: 'Quiz answer Y in millimetres',
     qz: 'Quiz answer Z in millimetres',

@@ -3,6 +3,26 @@
 All notable changes to Ken’s RoboLabs are recorded here.
 The app version is available at `window.APP_VERSION` and in every exported report.
 
+## [6.1.0] — 2026-10-27 — 3D Reachable Workspace
+
+The Workspace Analysis page becomes an **interactive 3D reachable volume**. The flat orthographic scatter that shipped in 6.0.0 is kept, but only as the WebGL fallback and the figure the printable report uses — the primary view is now a live three.js point cloud. Everything remains static and GitHub-Pages-only.
+
+### Added
+- **Live 3D point cloud of the sampled workspace.** `#workspace3d` draws the sampled tool-centre points on the page's own three.js scene, camera and orbit controls. Drag to orbit, scroll to zoom, Shift-drag to pan. `z` is up (matching the robot viewport) and the dot colour encodes height. Labelled X/Y/Z axes (red/green/blue) and a ground grid give the volume its frame even before anything is sampled.
+- **View controls.** `Fit 3D` re-centres on the sampled bounds, and three preset views (**Isometric**, **Top (XY)**, **Front (XZ)**) snap the orbit camera. A red ✚ marks the live tool centre point and follows the joints (`ws3dTick`) without a render loop — the view is drawn on demand.
+- **Graceful fallback.** If three.js or WebGL is unavailable, `initWorkspace3D()` returns `false`, the 3D canvas hides, both the 3D note and the orthographic projection are revealed, and the page still samples, summarises and exports CSV.
+- **`tests/ui_workspace3d_test.js`** — a static-wiring pass plus two jsdom passes (three.js present with a stubbed `WebGLRenderer`; three.js absent). It asserts the 300-point coloured cloud, ≥3 axis objects, the grid, the fitted camera, the live-TCP marker, the preset views and `Fit 3D`, the 3D canvas shown with the 2D fallback hidden, the hidden 2D canvas still drawn for the report, and the no-three.js degradation path — all with no JS errors.
+
+### Changed
+- **The Workspace Analysis panel is one 3D panel.** The "Projection" selector (`#workspaceProjection`) is removed — there is nothing to project; the control row now carries the sample count, **Sample workspace** and **Export points CSV** above the 3D canvas. The orthographic canvas moved into a hidden `#ws2dFallback` block, with the summary below.
+- **The 2D canvas is retained on purpose.** It is the WebGL fallback *and* the source of the printable-report figure — a WebGL canvas without `preserveDrawingBuffer` captures blank, so `canvasPng` keeps reading the orthographic canvas (still drawn at 900 logical px).
+- **The sampler no longer reads the projection control** (`proj` falls back to `'xy'`), and the page-shown handler renders the 3D view even before any sampling so the axes and grid are visible immediately.
+- **Version unified to 6.1.0** across `window.APP_VERSION`, `<title>`, `meta[application-version]`, the Open Graph tags, the app-bar tag, `package.json` and the release docs. The `engine/practice.js` and `assets/practice.js` layers keep their own `6.0.0` version, as the v5 layer keeps `5.0.0`.
+
+### Verification (2026-10-27)
+- `tests/ui_workspace3d_test.js`: **23/23** (static wiring + jsdom with and without three.js).
+- Full `npm test` exits **0**: engine self-tests still **30/30** and the in-browser validation harness still reports **0 FAIL of 60 badges**; the legacy FK drill is untouched.
+
 ## [6.0.0] — 2026-10-27 — Practice Modules
 
 The Learning Center becomes a set of **self-study practice modules**. Each module is reference documentation, a **generated quiz** and a **worked solution** — there is no lecture voice, and every published answer is produced by the real Modified-DH maths rather than typed in by hand. The reachable-workspace plot is also corrected.
