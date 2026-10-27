@@ -1,6 +1,6 @@
 # Ken’s RoboLabs — v3 / v4 / v5 Implementation Plan
 
-Status: **v3 complete** (two external gates open: post-deploy Lighthouse and a two-user pilot). **v4 in progress** — E4.1 single router shipped. Hosted as a static site on **GitHub Pages only**.
+Status: **v3 complete** (two external gates open: post-deploy Lighthouse and a two-user pilot). **v5 complete and shipping** — URDF interop, premade 3D models and a live validation harness. **v4 partial** — E4.1 single router shipped; the lesson/assessment modules remain. Hosted as a static site on **GitHub Pages only**.
 Owner: Kanishk Patel (product, UI, integration) · Atharva Bhosale (engine)
 Last updated: 2026-10-27
 
@@ -228,6 +228,28 @@ Every release ships as static files served by GitHub Pages. There is no runtime 
 
 **Goal:** an engineer can bring a real manipulator model into the lab, compare it with trusted toolchains, and export it to their workflow.
 
+**Status: delivered (2026-10-27).** What shipped, against the task IDs below:
+
+| # | Task | State |
+|---|---|---|
+| B5.1 | URDF import | **Done** — `RL5.parseURDF` / `RL5.urdfToRobot`, one joint at a time with the decomposition residual reported; round-trip self-tests for all six models. |
+| B5.2 | Classical vs Modified DH | Done earlier in the engine (`convertConvention`); a classical-DH robot exports as a URDF by converting to modified DH inside the file. |
+| B5.3 | Full inertial parameters | **Done** — `inertiaToMatrix` accepts a diagonal, a URDF 6-vector or a full symmetric 3×3, and the mass matrix uses it; `reflectedInertia(n, I_m)`. |
+| B5.4 | Friction model | Not in v5 — deferred. |
+| B5.5 | Analytic 6R IK | Not in v5 — the verified DLS solver remains; deferred. |
+| B5.6 | Redundancy | **Done** — `nullSpaceStep` and the Professional null-space panel. |
+| B5.7 | Trajectory v2 | **Done** — trapezoidal and jerk-limited S-curve, synchronised durations, velocity/acceleration residual checks. |
+| B5.8 | Workspace v2 | **Done** — reachable vs dexterous from the geometric-Jacobian singular values, reporting honestly when no pose is well conditioned. |
+| B5.9 | Planning demo (RRT-Connect) | Not in v5 — deferred. |
+| B5.10 | Interop | **Done for URDF** — export/import byte-identical to `assets/robots/*.urdf`; ROS 2 SRDF, Pinocchio, MuJoCo and MATLAB/Python exporters remain. |
+| B5.11 | Validation page | **Done** — 57 live checks in four groups with the tolerances printed on the page. |
+| C5.1–C5.7 | Visual and motion | Partly: joint axes, frames and the tool flange are in the model view; manipulability ellipsoids, planner playback and presentation mode are deferred. |
+| F5.1–F5.4 | Credibility and compliance | **Done** — citations, per-model provenance and data assumptions, accessibility and privacy statements. |
+| F5.5–F5.6 | LMS packaging, licensing review | Deferred. |
+| F5.7 | Performance budget | Not measured yet. |
+
+Unplanned addition that became the headline feature: **six premade 3D models**, each mirroring a library preset exactly and offered in both a link/skeleton and a 3D-model form, with the shipped `assets/robots/*.urdf` as the shared artefact.
+
 ### 6.1 Robotics depth
 
 | # | Task | Detail | Acceptance |
@@ -270,12 +292,12 @@ Every release ships as static files served by GitHub Pages. There is no runtime 
 
 ### 6.4 v5 exit criteria
 
-- URDF round-trip and FK parity demonstrated on at least three real robots.
-- Validation page reproducible in CI with published tolerances.
-- All learning content mapped to outcomes and assessment.
-- Accessibility and privacy statements published.
-- Commercial licensing clarified.
-- No v5 feature requires a backend; all interop and LMS output is file-based.
+- [x] URDF round-trip and FK parity demonstrated on six models, each also verified parameter-for-parameter against its library preset.
+- [x] Validation harness reproducible: 57 checks run in the browser and in CI (`tests/ui_v5_test.js`), with the tolerances printed on the page.
+- [x] Every page (now 12) states a learning outcome.
+- [x] Accessibility and privacy statements published on the Professional page.
+- [ ] Commercial licensing clarified.
+- [x] No v5 feature requires a backend; every interop output is a file.
 
 ---
 
@@ -317,6 +339,7 @@ Every release ships as static files served by GitHub Pages. There is no runtime 
 - [ ] `node tests/run_selftests.js` — 30/30 engine checks.
 - [ ] `node tests/ui_smoke_test.js` — 24 UI checks (requires `jsdom`).
 - [ ] `node tests/ui_audit_test.js` — geometry/Jacobian/energy/NaN audit.
+- [ ] `node tests/ui_v5_test.js` — premade 3D models, URDF round-trip and byte-parity with the shipped files, model≡preset identity, and the Professional page (uses `jsdom`).
 - [ ] Playwright: load, navigate, tour, mobile sheet, share round-trip.
 - [ ] axe-core: no serious/critical violations.
 - [ ] Lighthouse: mobile performance/accessibility budgets (post-deploy).

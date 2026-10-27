@@ -55,7 +55,7 @@ jobs:
       - name: Stage site files
         run: |
           mkdir -p _site
-          cp -r index.html 404.html favicon.svg robots.txt sitemap.xml site.webmanifest assets vendor _site/
+          cp -r index.html 404.html favicon.svg robots.txt sitemap.xml site.webmanifest assets engine vendor _site/
       # Guard: every locally-referenced asset must exist in the artifact, so a
       # missing directory fails the build instead of breaking the page in prod.
       - name: Verify every local asset is staged
@@ -72,6 +72,13 @@ jobs:
           done
           [ "$missing" -eq 0 ] || exit 1
           echo "All referenced assets are present in _site."
+          # Premade URDF models are fetched at runtime, so check them explicitly.
+          n=$(ls -1 _site/assets/robots/*.urdf 2>/dev/null | wc -l)
+          if [ "$n" -lt 6 ]; then
+            echo "::error::expected at least 6 premade URDF models in assets/robots, found $n"
+            exit 1
+          fi
+          echo "Premade URDF models staged: $n."
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

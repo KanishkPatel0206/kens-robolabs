@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ken’s RoboLabs v3 — Manipulator Kinematics Studio</title>
+<title>Ken’s RoboLabs v5 — Manipulator Kinematics Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -26,9 +26,10 @@
 @media(max-width:900px){.advanced-grid{grid-template-columns:1fr}#robot3d{min-height:320px}}
 </style>
 <link rel="stylesheet" href="assets/v3.css">
-<meta name="description" content="Ken’s RoboLabs v3: a professional, browser-based Modified-DH manipulator kinematics and dynamics studio with 3D visualisation, inverse kinematics, Jacobian, trajectories, collision checking and teaching tools.">
-<meta name="application-version" content="3.0.0">
-<meta name="theme-color" content="#eef8f4"><meta property="og:title" content="Ken’s RoboLabs v3 — Manipulator Kinematics Studio"><meta property="og:description" content="Interactive Modified Denavit–Hartenberg robot kinematics, dynamics and teaching studio."><meta property="og:type" content="website"><meta property="og:url" content="https://kanishkpatel0206.github.io/kens-robolabs/"><link rel="canonical" href="https://kanishkpatel0206.github.io/kens-robolabs/">
+<link rel="stylesheet" href="assets/v5.css">
+<meta name="description" content="Ken’s RoboLabs v5: a professional, browser-based Modified-DH manipulator kinematics, dynamics and teaching studio with URDF interop, premade 3D robot models, 3D visualisation, inverse kinematics, Jacobian, trajectories, collision checking and teaching tools.">
+<meta name="application-version" content="5.0.0">
+<meta name="theme-color" content="#eef8f4"><meta property="og:title" content="Ken’s RoboLabs v5 — Manipulator Kinematics Studio"><meta property="og:description" content="Interactive Modified Denavit–Hartenberg robot kinematics, dynamics and teaching studio."><meta property="og:type" content="website"><meta property="og:url" content="https://kanishkpatel0206.github.io/kens-robolabs/"><link rel="canonical" href="https://kanishkpatel0206.github.io/kens-robolabs/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="site.webmanifest">
 <link rel="apple-touch-icon" href="favicon.svg">
@@ -37,8 +38,8 @@
 <script>try{var _o=localStorage.getItem('crayon-mdh-project');if(_o&&!localStorage.getItem('robolabs-project'))localStorage.setItem('robolabs-project',_o)}catch(e){}</script>
 <a class="skip-link" href="#mainContent">Skip to main content</a>
 <header class="appbar">
-  <div class="brand"><div class="logo" aria-hidden="true">🌺</div><span>Ken’s RoboLabs</span><span class="tag">MODIFIED DH · v3</span></div>
-  <div class="topnav"><button class="active" data-page="workspace">Workspace</button><button data-page="library">Robot Library</button><button data-page="learn">Learning Center</button></div>
+  <div class="brand"><div class="logo" aria-hidden="true">🌺</div><span>Ken’s RoboLabs</span><span class="tag">MODIFIED DH · v5</span></div>
+  <div class="topnav"><button class="active" data-page="workspace">Workspace</button><button data-page="library">Robot Library</button><button data-page="learn">Learning Center</button><button data-page="pro">Professional</button></div>
   <div style="display:flex;gap:7px;align-items:center"><button class="soft hide-mobile" id="undoBtn" title="Undo">↶</button><button class="soft hide-mobile" id="redoBtn" title="Redo">↷</button><button class="gold" id="saveBtn">▣ Save</button><button class="soft hide-mobile" id="exportBtn">↓ Export</button></div>
 </header>
 <div class="shell">
@@ -54,6 +55,7 @@
   <button class="navitem" data-page="trajectory"><span class="navicon">⌁</span>Trajectory Planner</button>
   <button class="navitem" data-page="workspaceAnalysis"><span class="navicon">◌</span>Workspace Analysis</button>
   <button class="navitem" data-page="dynamics"><span class="navicon">⚖</span>Dynamics Explorer</button>
+  <button class="navitem" data-page="pro"><span class="navicon">◈</span>Professional · URDF</button>
   <div class="aside-note"><div class="caps">Your convention</div><div class="mono" style="font-size:11px;line-height:1.8;margin-top:7px">T = Rx(αᵢ₋₁) Tx(aᵢ₋₁) Rz(θᵢ) Tz(dᵢ)</div><p>Craig-style Modified DH. Matrix math and frame transforms update from your parameters.</p></div>
 </aside>
 <main class="content" id="mainContent" tabindex="-1">
@@ -81,6 +83,10 @@
 <div class="panel"><h2>Cartesian Gantry (PPP)</h2><p>Three prismatic axes with different directions; useful for studying linear stages.</p><button class="primary" data-preset="cartesian">Load PPP</button></div>
 <div class="panel"><h2>Custom Arm</h2><p>Start with a compact arm and modify link lengths, twists, joint types and limits.</p><button class="primary" data-preset="custom">Start custom</button></div>
 </div></section>
+<section id="proPage" class="hidden">
+<div class="hero"><h1>◈ Professional · URDF &amp; validated models</h1><p>Import/export URDF, inspect full 3×3 link inertia, run the published validation harness, and read the citations behind every premade model. Everything runs locally in your browser — nothing is uploaded.</p></div>
+<div id="proBody"></div>
+</section>
 <section id="framesPage" class="hidden"><div class="hero"><h1>Coordinate Frames</h1><p>Frame axes are drawn from the cumulative homogeneous transformations. Red = X, green = Y, blue = Z.</p></div><div class="panel"><h2>Frame transforms</h2><div class="matrix-grid" id="frameGrid"></div></div></section>
 <section id="fkPage" class="hidden"><div class="hero"><h1>Forward Kinematics</h1><p>Compute the base-to-tool pose by multiplying the selected Modified DH transforms in sequence.</p></div><div class="panel"><div id="fkSummary"></div><button class="primary" id="fkGo">Recalculate forward kinematics</button></div><div class="panel"><h2>Final transform</h2><div id="fkMatrix"></div></div></section>
 <section id="ikPage" class="hidden"><div class="hero"><h1>Inverse Kinematics</h1><p>Use the analytic 2R solver for planar arms, or damped least-squares position IK for the currently loaded Modified-DH robot.</p></div><div class="panel"><h2>Analytical planar 2R</h2><p class="muted tiny">For a two-link planar arm. Applies joint angles to joints 1 and 2 only.</p><div class="pills"><label>Target X (mm) <input id="ikX" type="number" value="350" style="width:110px;padding:8px;border:1px solid var(--line);border-radius:8px"></label><label>Target Y (mm) <input id="ikY" type="number" value="150" style="width:110px;padding:8px;border:1px solid var(--line);border-radius:8px"></label><button class="primary" id="solveIK">Solve 2R IK</button></div><div id="ikResult" style="margin-top:14px"></div></div><div class="panel" style="margin-top:14px"><h2>General IK · Damped least squares (position or full pose)</h2><p class="muted tiny">Verified damped-least-squares solver with multi-start, joint limits and optional orientation matching, using the analytic geometric Jacobian. Every answer is re-checked with forward kinematics; unreachable or singular targets are reported honestly.</p><div class="pills"><label>Target X (mm) <input id="ik3X" type="number" value="350" style="width:100px;padding:8px;border:1px solid var(--line);border-radius:8px"></label><label>Target Y (mm) <input id="ik3Y" type="number" value="150" style="width:100px;padding:8px;border:1px solid var(--line);border-radius:8px"></label><label>Target Z (mm) <input id="ik3Z" type="number" value="0" style="width:100px;padding:8px;border:1px solid var(--line);border-radius:8px"></label><button class="primary" id="solveIK3D">Solve position IK</button></div><div id="ik3Result" class="analysis-output" style="margin-top:14px">Choose a robot in Robot Library, enter a target and solve.</div></div></section>
@@ -239,6 +245,19 @@ const RL = (function () {
   function makeJoint(o) {
     return Object.assign({ name: 'Joint', linkName: 'Link', type: 'R', a: 0, alpha: 0, d: 0, theta: 0, qmin: -180, qmax: 180,
       mass: 1, com: [0, 0, 0], inertia: [0.01, 0.01, 0.01] }, o || {});
+  }
+  /**
+   * Normalise a link inertia to a symmetric 3x3 matrix (kg m^2). Accepts the
+   * legacy diagonal [Ixx,Iyy,Izz] (so existing robots are bit-identical), a
+   * URDF-style 6-vector [ixx,ixy,ixz,iyy,iyz,izz], or a full 3x3 matrix.
+   */
+  function inertiaToMatrix(v) {
+    if (Array.isArray(v) && Array.isArray(v[0])) {
+      return [[+v[0][0] || 0, +v[0][1] || 0, +v[0][2] || 0], [+v[1][0] || 0, +v[1][1] || 0, +v[1][2] || 0], [+v[2][0] || 0, +v[2][1] || 0, +v[2][2] || 0]];
+    }
+    if (Array.isArray(v) && v.length === 6) return [[+v[0] || 0, +v[1] || 0, +v[2] || 0], [+v[1] || 0, +v[3] || 0, +v[4] || 0], [+v[2] || 0, +v[4] || 0, +v[5] || 0]];
+    const d = Array.isArray(v) ? v : [0.01, 0.01, 0.01];
+    return [[+d[0] || 0, 0, 0], [0, +d[1] || 0, 0], [0, 0, +d[2] || 0]];
   }
   /** Fill mass properties from a slender-rod approximation of the DH link geometry. */
   function autoInertial(j, mass) {
@@ -563,7 +582,7 @@ const RL = (function () {
   function massMatrix(robot, q) {
     const n = q.length, M = Mx.zeros(n, n), cj = linkComJacobians(robot, fk(robot, q).frames);
     for (const { Jv, Jw, R, L } of cj) {
-      const I = Mx.mul(Mx.mul(R, [[L.inertia[0], 0, 0], [0, L.inertia[1], 0], [0, 0, L.inertia[2]]]), Mx.T(R));
+      const I = Mx.mul(Mx.mul(R, inertiaToMatrix(L.inertia)), Mx.T(R));
       const A = Mx.mul(Mx.T(Jv), Jv), B = Mx.mul(Mx.T(Jw), Mx.mul(I, Jw));
       for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) M[i][j] += L.mass * A[i][j] + B[i][j];
     }
@@ -648,7 +667,11 @@ const RL = (function () {
         qmin: numIn(j.qmin, -1e4, 1e4, L + 'qmin'), qmax: numIn(j.qmax, -1e4, 1e4, L + 'qmax'), mass: numIn(j.mass, 0, 1e6, L + 'mass') });
       if (o.qmin >= o.qmax) err.push(L + 'lower limit must be below upper limit.');
       if (!Array.isArray(j.com) || j.com.length !== 3) err.push(L + 'com must be [x,y,z].'); else o.com = j.com.map((v, k) => numIn(v, -100, 100, L + 'com[' + k + ']'));
-      if (!Array.isArray(j.inertia) || j.inertia.length !== 3) err.push(L + 'inertia must be [Ixx,Iyy,Izz].'); else o.inertia = j.inertia.map((v, k) => numIn(v, 0, 1e6, L + 'inertia[' + k + ']'));
+      if (Array.isArray(j.inertia) && Array.isArray(j.inertia[0]) && j.inertia.length === 3 && j.inertia.every(r => Array.isArray(r) && r.length === 3))
+        o.inertia = j.inertia.map((row, r) => row.map((v, k) => numIn(v, -1e6, 1e6, L + 'inertia[' + r + '][' + k + ']')));
+      else if (Array.isArray(j.inertia) && j.inertia.length === 6) o.inertia = j.inertia.map((v, k) => numIn(v, -1e6, 1e6, L + 'inertia[' + k + ']'));
+      else if (Array.isArray(j.inertia) && j.inertia.length === 3) o.inertia = j.inertia.map((v, k) => numIn(v, 0, 1e6, L + 'inertia[' + k + ']'));
+      else err.push(L + 'inertia must be [Ixx,Iyy,Izz], a URDF 6-vector, or a full 3x3 tensor.');
       return o;
     });
     const gravity = Array.isArray(r.gravity) && r.gravity.length === 3 && r.gravity.every(v => isNum(v) && Math.abs(v) <= 1e3) ? r.gravity.slice() : (err.push('gravity must be three finite numbers.'), [0, 0, -9.81]);
@@ -740,7 +763,7 @@ const RL = (function () {
     return res;
   }
 
-  return { D2R, R2D, clamp, wrapPi, isNum, V, Mx, eye4, Rof, Pof, colOf, dhMatrix, mdhMatrix, convertConvention, autoInertialAt, invT, rpyToR, rToRPY, rotationCheck, logRot, makeJoint, autoInertial,
+  return { D2R, R2D, clamp, wrapPi, isNum, V, Mx, eye4, Rof, Pof, colOf, dhMatrix, mdhMatrix, convertConvention, autoInertialAt, invT, rpyToR, rToRPY, rotationCheck, logRot, makeJoint, autoInertial, inertiaToMatrix,
     jointLimitsSI, jointDisplayScale, clampQ, qWithinLimits, reachEstimate, buildPreset, PRESET_IDS, cloneRobot, linkTransform, fk, fkPos, jacobian, jacobianFromFrames,
     jacobianFD, maxAbsDiff, analyzeJacobian, jointVelocityFromTwist, makeRng, ikDLS, ikMulti, isPlanar2R, ik2R, qDistance, polyCoeffs, evalPoly, jointTrajectory,
     trajectoryChecks, cartesianLineTrajectory, TRAJ_MAX_SAMPLES, massMatrix, gravityVector, coriolisMatrix, inverseDynamics, forwardDynamics, energy, simulateForward,
@@ -1188,7 +1211,7 @@ quizNew();window.__Q=()=>Q;window.quizNew=quizNew;
 </script>
 <script>
 /* ===== v8 (app v2): Export & Report — print-ready report, LaTeX, Markdown, MATLAB, Python, PNG, CSV ===== */
-window.APP_VERSION='3.0.0';
+window.APP_VERSION='5.0.0';
 (()=>{
 const D2=Math.PI/180,V='Ken’s RoboLabs v'+APP_VERSION,esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const F=(v,d)=>{v=Math.abs(v)<5*10**-(d+3)?0:v;return v.toFixed(d)},rn=()=>(typeof currentPreset!=='undefined'&&currentPreset)||'custom',rt=()=>typeof robotTitle==='function'?robotTitle(rn()):rn(),tool=()=>toolOffset||toolOffsetZ?[[1,0,0,toolOffset],[0,1,0,0],[0,0,1,toolOffsetZ],[0,0,0,1]]:null;
@@ -1573,7 +1596,7 @@ $$('[data-csv]').forEach(b=>b.onclick=()=>{const s=CSV[b.dataset.csv]();s?downlo
   var STEPS = [
     {
       target: '.brand',
-      title: 'Welcome to Ken’s RoboLabs v3',
+      title: 'Welcome to Ken’s RoboLabs v5',
       text: 'A browser-based manipulator studio. This short tour shows where to build a robot, inspect the maths and learn the method. You can leave at any time.'
     },
     {
@@ -1850,6 +1873,7 @@ $$('[data-csv]').forEach(b=>b.onclick=()=>{const s=CSV[b.dataset.csv]();s?downlo
     var OUT = {
       workspacePage: 'Edit a Modified-DH table and see the robot, its link matrices and its tool position update together.',
       libraryPage: 'Load any of 16 teaching robots and read its DOF, joint string and reach before you modify it.',
+      proPage: 'Import or export URDF, inspect full 3×3 link inertia tensors, and read the validation harness behind every premade 3D model.',
       framesPage: 'Read each joint frame (X red, Y green, Z blue) and tell whether a DH row places it correctly.',
       fkPage: 'Multiply the link transforms in order and predict the tool pose by hand, then check it here.',
       ikPage: 'Solve for joint angles that reach a target, compare distinct solutions and recognise why a solver fails.',
@@ -1910,4 +1934,6 @@ $$('[data-csv]').forEach(b=>b.onclick=()=>{const s=CSV[b.dataset.csv]();s?downlo
   doc.documentElement.setAttribute('data-robolabs-version', VERSION);
 })();
 </script>
+<script src="engine/v5.js"></script>
+<script src="assets/v5.js"></script>
 </body></html>

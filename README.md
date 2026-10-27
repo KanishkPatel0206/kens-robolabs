@@ -1,8 +1,8 @@
-# 🌺 Ken’s RoboLabs v3 — Manipulator Kinematics Studio
+# 🌺 Ken’s RoboLabs v5 — Manipulator Kinematics Studio
 
 **🌐 Live demo: https://kanishkpatel0206.github.io/kens-robolabs/**
 
-Ken’s RoboLabs is a browser-based manipulator-robotics studio built around Craig-style **Modified Denavit–Hartenberg** parameters. It pairs a colour-coded editable MDH table and tool frame with a real 3D workcell (prismatic rails, floor and collision checking), 16 robot models, forward and inverse kinematics, an analytic Jacobian, trajectories, workspace analysis, full dynamics and report-ready exports. It runs entirely in the browser; nothing is uploaded.
+Ken’s RoboLabs is a browser-based manipulator-robotics studio built around Craig-style **Modified Denavit–Hartenberg** parameters. It pairs a colour-coded editable MDH table and tool frame with a real 3D workcell (prismatic rails, floor and collision checking), 16 teaching robots plus **six premade 3D arms**, forward and inverse kinematics, an analytic Jacobian, trajectories, workspace analysis, full dynamics, **URDF import/export** and report-ready exports. It runs entirely in the browser; nothing is uploaded.
 
 It is designed as a **learning tool**: every number stays visible, every solver reports why it failed, and the export turns the robot on screen into a worked derivation for a lab report.
 
@@ -14,9 +14,20 @@ It is designed as a **learning tool**: every number stays visible, every solver 
 4. Use **Forward/Inverse Kinematics**, **Jacobian**, **Trajectory**, **Workspace** and **Dynamics** to test the model.
 5. Go to **Export & Report** for a printable derivation, LaTeX, Markdown, MATLAB, Python, PNG or CSV.
 
-## v3.0 — Trust & Polish (current release)
+## v5.0 — Professional Credibility (current release)
 
-v3 adds no new robotics mathematics. It makes the existing studio safe, usable on a phone and presentable to a class or reviewer.
+v5 adds the layer industrial users ask for first, still with no server and no upload:
+
+- **Premade 3D models:** six library arms — UR5-style 6R, PUMA 560-style, IRB 120-style, a 7-DOF redundant arm, a SCARA RRPR and a 2R planar. Each has **both** a link/skeleton view and a detailed 3D model, plus a downloadable URDF; geometry is generated from the real DH parameters, so the kinematics are the trustworthy part.
+- **URDF import/export:** infer a Modified-DH table from any URDF one joint at a time (the decomposition residual is reported, so an approximation is never mistaken for an exact match), or export the robot on screen as a URDF that re-imports into the same pose — byte-identical to the shipped `assets/robots/*.urdf`.
+- **Professional page:** a live validation harness (57 checks, PASS/FAIL badges), full 3×3 link inertia tensors, the convention reference, trajectory v2 (trapezoidal and jerk-limited S-curve), workspace reachable-vs-dexterous metrics, null-space redundancy, the model catalogue and a provenance/accessibility/privacy statement.
+- **Viewport switch:** `Link (skeleton) ↔ 3D model`, remembered between visits, falling back to the skeleton view if the model renderer ever fails.
+
+**Release docs:** [`CHANGELOG.md`](CHANGELOG.md) · [`docs/ROADMAP.md`](docs/ROADMAP.md)
+
+## v3.0 — Trust & Polish
+
+v3 added no new robotics mathematics. It made the studio safe, usable on a phone and presentable to a class or reviewer.
 
 - **Mobile navigation:** bottom bar (Workspace, Library, Learn, Analyze, More) plus an “All sections” sheet that reaches all 11 pages.
 - **First-run tour:** six spotlight steps (welcome, tree, viewport, MDH table, inspector, Learning Center) with keyboard support, persisted and reopenable with `?`.
@@ -34,12 +45,12 @@ v3 adds no new robotics mathematics. It makes the existing studio safe, usable o
 |---|---|---|
 | **v3** | Trust & Polish | Safe, accessible, mobile-ready studio with onboarding |
 | **v4** | Learn & Teach | Six-module course, auto-graded labs, progress, instructor mode |
-| **v5** | Professional Credibility | URDF, classical/MDH toggle, full inertia, analytic 6R IK, validation, LMS export |
+| **v5** | Professional Credibility | Premade 3D models, URDF import/export, full inertia, validation harness, workspace v2, redundancy |
 
 The complete task plan — including visual and animation workstreams, acceptance criteria and risks — is in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## Run
-**Online:** open the live demo above. **Locally:** open `index.html` in Chrome, Edge or Firefox (three.js is bundled in `vendor/`, so 3D works offline; only the Google Fonts are optional, system fonts are the fallback). The v3 visual layer is in `assets/v3.css`; keep it beside `index.html`. `node tests/run_selftests.js` runs the 30 engine checks; `npm i && npm test` runs everything.
+**Online:** open the live demo above. **Locally:** open `index.html` in Chrome, Edge or Firefox (three.js is bundled in `vendor/`, so 3D works offline; only the Google Fonts are optional, system fonts are the fallback). Keep `assets/` (the `v3`/`v5` visual layers and `assets/robots/*.urdf`) and `engine/` beside `index.html`. `node tests/run_selftests.js` runs the 30 engine checks; `npm i && npm test` runs the engine, the jsdom UI suites and the v5 checks.
 
 **Share a robot:** press **🔗 Share** to copy a link that contains your whole robot, for example `https://kanishkpatel0206.github.io/kens-robolabs/#s=…`.
 
@@ -55,6 +66,9 @@ The site is fully static: no build step and no server. All paths are relative, s
 
 ## Notes and limits
 - Units on the page stay mm/degrees; the engine works in m/rad internally.
+- Premade 3D models are **procedurally generated** from the DH parameters, not manufacturer CAD assemblies; the URDF files are the machine-readable artefact and the numbers are the trustworthy part. Model names say “-style” for that reason.
+- URDF export follows the Modified (Craig) DH convention: each joint origin is the zero-configuration DH transform and the `theta` column carries the live joint angle, so an exported file matches this app's DH table and the shipped `assets/robots/*.urdf`. Import reports the DH-decomposition residual instead of silently approximating.
+- `engine/v5.js`, `assets/v5.js` and `assets/v5.css` are optional layers: if they fail to load, the studio falls back to the link/skeleton view and the Professional page says the layer is unavailable.
 - Link masses are slender-rod estimates (default 1 kg per link, editable on the Dynamics page). Planar arms lying in the XY plane have zero gravity torque with −Z gravity; choose −Y gravity for a vertical plane.
 - Joint-limit-aware numerical IK can still fail near singularities; it then reports the best attempt instead of claiming success.
 - Presets are teaching models, not vendor-accurate robots.

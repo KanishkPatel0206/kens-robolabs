@@ -134,6 +134,19 @@ const RL = (function () {
     return Object.assign({ name: 'Joint', linkName: 'Link', type: 'R', a: 0, alpha: 0, d: 0, theta: 0, qmin: -180, qmax: 180,
       mass: 1, com: [0, 0, 0], inertia: [0.01, 0.01, 0.01] }, o || {});
   }
+  /**
+   * Normalise a link inertia to a symmetric 3x3 matrix (kg m^2). Accepts the
+   * legacy diagonal [Ixx,Iyy,Izz] (so existing robots are bit-identical), a
+   * URDF-style 6-vector [ixx,ixy,ixz,iyy,iyz,izz], or a full 3x3 matrix.
+   */
+  function inertiaToMatrix(v) {
+    if (Array.isArray(v) && Array.isArray(v[0])) {
+      return [[+v[0][0] || 0, +v[0][1] || 0, +v[0][2] || 0], [+v[1][0] || 0, +v[1][1] || 0, +v[1][2] || 0], [+v[2][0] || 0, +v[2][1] || 0, +v[2][2] || 0]];
+    }
+    if (Array.isArray(v) && v.length === 6) return [[+v[0] || 0, +v[1] || 0, +v[2] || 0], [+v[1] || 0, +v[3] || 0, +v[4] || 0], [+v[2] || 0, +v[4] || 0, +v[5] || 0]];
+    const d = Array.isArray(v) ? v : [0.01, 0.01, 0.01];
+    return [[+d[0] || 0, 0, 0], [0, +d[1] || 0, 0], [0, 0, +d[2] || 0]];
+  }
   /** Fill mass properties from a slender-rod approximation of the DH link geometry. */
   function autoInertial(j, mass) {
     const m = mass === undefined ? j.mass : mass, al = j.alpha * D2R, len = Math.hypot(j.a, j.d);
@@ -457,7 +470,7 @@ const RL = (function () {
   function massMatrix(robot, q) {
     const n = q.length, M = Mx.zeros(n, n), cj = linkComJacobians(robot, fk(robot, q).frames);
     for (const { Jv, Jw, R, L } of cj) {
-      const I = Mx.mul(Mx.mul(R, [[L.inertia[0], 0, 0], [0, L.inertia[1], 0], [0, 0, L.inertia[2]]]), Mx.T(R));
+      const I = Mx.mul(Mx.mul(R, inertiaToMatrix(L.inertia)), Mx.T(R));
       const A = Mx.mul(Mx.T(Jv), Jv), B = Mx.mul(Mx.T(Jw), Mx.mul(I, Jw));
       for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) M[i][j] += L.mass * A[i][j] + B[i][j];
     }
@@ -542,7 +555,11 @@ const RL = (function () {
         qmin: numIn(j.qmin, -1e4, 1e4, L + 'qmin'), qmax: numIn(j.qmax, -1e4, 1e4, L + 'qmax'), mass: numIn(j.mass, 0, 1e6, L + 'mass') });
       if (o.qmin >= o.qmax) err.push(L + 'lower limit must be below upper limit.');
       if (!Array.isArray(j.com) || j.com.length !== 3) err.push(L + 'com must be [x,y,z].'); else o.com = j.com.map((v, k) => numIn(v, -100, 100, L + 'com[' + k + ']'));
-      if (!Array.isArray(j.inertia) || j.inertia.length !== 3) err.push(L + 'inertia must be [Ixx,Iyy,Izz].'); else o.inertia = j.inertia.map((v, k) => numIn(v, 0, 1e6, L + 'inertia[' + k + ']'));
+      if (Array.isArray(j.inertia) && Array.isArray(j.inertia[0]) && j.inertia.length === 3 && j.inertia.every(r => Array.isArray(r) && r.length === 3))
+        o.inertia = j.inertia.map((row, r) => row.map((v, k) => numIn(v, -1e6, 1e6, L + 'inertia[' + r + '][' + k + ']')));
+      else if (Array.isArray(j.inertia) && j.inertia.length === 6) o.inertia = j.inertia.map((v, k) => numIn(v, -1e6, 1e6, L + 'inertia[' + k + ']'));
+      else if (Array.isArray(j.inertia) && j.inertia.length === 3) o.inertia = j.inertia.map((v, k) => numIn(v, 0, 1e6, L + 'inertia[' + k + ']'));
+      else err.push(L + 'inertia must be [Ixx,Iyy,Izz], a URDF 6-vector, or a full 3x3 tensor.');
       return o;
     });
     const gravity = Array.isArray(r.gravity) && r.gravity.length === 3 && r.gravity.every(v => isNum(v) && Math.abs(v) <= 1e3) ? r.gravity.slice() : (err.push('gravity must be three finite numbers.'), [0, 0, -9.81]);
@@ -634,7 +651,7 @@ const RL = (function () {
     return res;
   }
 
-  return { D2R, R2D, clamp, wrapPi, isNum, V, Mx, eye4, Rof, Pof, colOf, dhMatrix, mdhMatrix, convertConvention, autoInertialAt, invT, rpyToR, rToRPY, rotationCheck, logRot, makeJoint, autoInertial,
+  return { D2R, R2D, clamp, wrapPi, isNum, V, Mx, eye4, Rof, Pof, colOf, dhMatrix, mdhMatrix, convertConvention, autoInertialAt, invT, rpyToR, rToRPY, rotationCheck, logRot, makeJoint, autoInertial, inertiaToMatrix,
     jointLimitsSI, jointDisplayScale, clampQ, qWithinLimits, reachEstimate, buildPreset, PRESET_IDS, cloneRobot, linkTransform, fk, fkPos, jacobian, jacobianFromFrames,
     jacobianFD, maxAbsDiff, analyzeJacobian, jointVelocityFromTwist, makeRng, ikDLS, ikMulti, isPlanar2R, ik2R, qDistance, polyCoeffs, evalPoly, jointTrajectory,
     trajectoryChecks, cartesianLineTrajectory, TRAJ_MAX_SAMPLES, massMatrix, gravityVector, coriolisMatrix, inverseDynamics, forwardDynamics, energy, simulateForward,

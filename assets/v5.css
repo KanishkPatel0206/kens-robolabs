@@ -1,0 +1,283 @@
+/* ============================================================================
+   Ken's RoboLabs v5.0 — Professional layer
+   Loaded after the inline theme and after assets/v3.css, so these rules win.
+   Same tropical identity as v3: mint/teal with boosted contrast and a warm
+   yellow accent. Skeleton/link view and 3D-model view share every style here.
+   ========================================================================== */
+
+:root {
+  --v5-teal: #06617c;
+  --v5-teal-deep: #04333f;
+  --v5-mint: #8fe0c0;
+  --v5-mint-soft: #e2f6ee;
+  --v5-sun: #f0d489;
+  --v5-sun-deep: #b98a12;
+  --v5-ok: #0b7a5c;
+  --v5-ok-soft: #dbf5e8;
+  --v5-bad: #b0202a;
+  --v5-bad-soft: #ffe0dd;
+  --v5-line: #a3cdbe;
+  --v5-mono: 'JetBrains Mono', monospace;
+}
+
+/* ---------- skeleton / 3D-model switch in the viewport toolbar ---------- */
+.viewport-tools .v5-toggle {
+  margin-left: auto;
+  background: var(--v5-mint-soft);
+  border: 1px solid var(--v5-teal);
+  color: var(--v5-teal-deep);
+  font-weight: 600;
+  letter-spacing: .01em;
+}
+.viewport-tools .v5-toggle:hover {
+  background: var(--v5-mint);
+  border-color: var(--v5-teal-deep);
+}
+.viewport-tools .v5-toggle.v5-on {
+  background: linear-gradient(180deg, #1a9fbe 0%, var(--v5-teal) 100%);
+  border-color: var(--v5-teal-deep);
+  color: #fff;
+  box-shadow: 2px 2px 0 var(--v5-teal-deep);
+}
+.viewport-tools .v5-toggle.v5-on::before { content: ''; }
+
+/* ---------- professional page sections ---------------------------------- */
+#proPage .hero { margin-bottom: 14px; }
+
+.v5-panel { padding: 16px 18px; margin-bottom: 16px; }
+.v5-panel > h2,
+.v5-panel .panel-head h2 { margin: 0; }
+.v5-panel > p:first-of-type { margin-top: 0; }
+
+.v5-grid2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+.v5-grid2 > div {
+  background: var(--v5-mint-soft);
+  border: 1px solid var(--v5-line);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.v5-grid2 h3 { margin: 0 0 6px; font-size: 13px; color: var(--v5-teal-deep); }
+
+.v5-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.v5-row h2 { margin: 0; }
+
+.v5-inline {
+  justify-content: flex-start;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+.v5-inline label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--v5-teal-deep);
+}
+.v5-inline input[type="number"],
+.v5-inline select {
+  border: 1px solid var(--v5-line);
+  border-radius: 8px;
+  padding: 5px 7px;
+  background: #fff;
+  max-width: 130px;
+}
+.v5-inline input[type="number"] { width: 92px; }
+
+/* ---------- tables ------------------------------------------------------- */
+.v5-tablewrap {
+  overflow-x: auto;
+  border: 1px solid var(--v5-line);
+  border-radius: 12px;
+  margin: 8px 0;
+  background: #fff;
+}
+.v5-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.v5-table th,
+.v5-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--v5-line);
+  text-align: left;
+  vertical-align: top;
+}
+.v5-table thead th {
+  background: var(--v5-mint-soft);
+  color: var(--v5-teal-deep);
+  font-weight: 600;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+}
+.v5-table tbody tr:last-child td { border-bottom: 0; }
+.v5-table tbody tr:hover { background: #f3fbf7; }
+.v5-table td:nth-child(n+3) { font-variant-numeric: tabular-nums; }
+
+/* ---------- badges ------------------------------------------------------- */
+.v5-badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  border: 1px solid var(--v5-line);
+  background: var(--v5-mint-soft);
+  color: var(--v5-teal-deep);
+  white-space: nowrap;
+}
+.v5-badge.ok {
+  background: var(--v5-ok-soft);
+  border-color: var(--v5-ok);
+  color: var(--v5-ok);
+}
+.v5-badge.bad {
+  background: var(--v5-bad-soft);
+  border-color: var(--v5-bad);
+  color: var(--v5-bad);
+}
+
+.v5-cap {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--v5-teal);
+  border: 1px solid var(--v5-line);
+  border-radius: 5px;
+  padding: 1px 5px;
+  margin-right: 4px;
+}
+
+/* ---------- buttons ------------------------------------------------------ */
+.v5-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  padding: 7px 11px;
+  border-radius: 9px;
+  line-height: 1.1;
+}
+.v5-link {
+  background: var(--white);
+  border: 1px solid var(--v5-teal);
+  box-shadow: 2px 2px 0 var(--v5-teal);
+  color: var(--v5-teal);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.v5-link:hover {
+  background: var(--v5-mint-soft);
+  filter: brightness(1.01);
+  transform: translateY(-1px);
+}
+.v5-filebtn {
+  background: var(--v5-sun);
+  border: 1px solid var(--v5-sun-deep);
+  box-shadow: 2px 2px 0 var(--v5-sun-deep);
+  color: #4a3606;
+  font-weight: 600;
+  cursor: pointer;
+}
+.v5-filebtn:hover { filter: brightness(1.03); transform: translateY(-1px); }
+
+.v5-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+/* ---------- library catalogue ------------------------------------------- */
+.v5-sechead {
+  grid-column: 1 / -1;
+  margin: 14px 0 2px;
+}
+.v5-sechead h2 { margin: 0 0 2px; }
+.v5-sechead p { margin: 0; }
+
+.v5-catalogue-card { padding: 14px 16px; }
+.v5-catalogue-card h2 { font-size: 15px; margin: 0; }
+.v5-catalogue-card .v5-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 10px;
+  margin: 8px 0;
+  font-size: 12px;
+  color: var(--v5-teal-deep);
+}
+.v5-catalogue-card .v5-meta span {
+  background: var(--v5-mint-soft);
+  border: 1px solid var(--v5-line);
+  border-radius: 6px;
+  padding: 2px 7px;
+}
+.v5-catalogue-card p { margin: 6px 0 0; }
+
+/* ---------- outputs, plots, status boxes -------------------------------- */
+.v5-panel .analysis-output { margin-top: 10px; }
+
+.v5-plot {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 12px 0 4px;
+  border: 1px solid var(--v5-line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.v5-badbox {
+  display: block;
+  background: var(--v5-bad-soft);
+  border: 1px solid var(--v5-bad);
+  color: #6d1016;
+  border-radius: 10px;
+  padding: 9px 11px;
+  margin-top: 8px;
+}
+
+/* ---------- responsive --------------------------------------------------- */
+@media (max-width: 800px) {
+  .view-tabs { display: none; }
+  .viewport-tools .v5-toggle { margin-left: 0; }
+  .v5-panel { padding: 13px; }
+  .v5-tablewrap { font-size: 11px; }
+  .v5-inline { gap: 9px; }
+  .v5-inline label { flex: 1 1 46%; }
+}
+
+/* ---------- motion -------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .v5-btn,
+  .v5-link,
+  .v5-filebtn,
+  .viewport-tools .v5-toggle {
+    transition: none;
+  }
+  .v5-btn:hover,
+  .v5-link:hover,
+  .v5-filebtn:hover { transform: none; }
+}
+
+/* ---------- print --------------------------------------------------------- */
+@media print {
+  .viewport-tools .v5-toggle { display: none; }
+  .v5-panel { break-inside: avoid; border-color: #999; box-shadow: none; }
+  .v5-tablewrap { overflow: visible; }
+}

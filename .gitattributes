@@ -1,0 +1,4 @@
+# The premade URDF files are byte-compared against the exporter's output, so
+# keep them LF in the working tree on every platform (the repo has no other
+# line-ending policy).
+assets/robots/*.urdf text eol=lf
