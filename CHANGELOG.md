@@ -3,6 +3,28 @@
 All notable changes to Ken’s RoboLabs are recorded here.
 The app version is available at `window.APP_VERSION` and in every exported report.
 
+## [6.2.0] — 2026-10-28 — ROS 2 Lab
+
+A new **dedicated ROS 2 Lab page**: a terminal for `ros2 …` commands, a Python (rclpy-subset) playground, a node/topic graph and a message inspector, all backed by a real in-browser pub/sub simulation. Scripts that publish `trajectory_msgs/JointTrajectory` on `/arm_controller/joint_trajectory` (or `sensor_msgs/JointState` on `/joint_states`) actually move the robot in the workspace. Everything stays static, offline and sub-path-safe; nothing is uploaded and no CDN is fetched.
+
+### Added
+- **`engine/ros.js` — the middleware simulation (global `ROS2`).** Message types (`std_msgs`, `geometry_msgs`, `sensor_msgs`, `trajectory_msgs`, `control_msgs`, `rosgraph_msgs`, `builtin_interfaces`, `std_srvs`) with defaults, normalisation and validation (unknown fields are reported, not silently dropped); the graph (nodes, topics, publishers, subscriptions, timers, services, actions, parameters); an executor with a deterministic `step(dt)`/`spinFor()` so timers fire reproducibly; QoS with reliability, durability (`transient_local` latching) and bounded `depth`; a mini-YAML reader/writer for `topic pub`/`echo`; and the full `ros2` CLI (`node`, `topic`, `param`, `service`, `action`, `interface`, `run`, `launch`, `bag`, `doctor`, `wtf`).
+- **`engine/pysub.js` — the rclpy-subset Python runner (global `PY`).** A real tokenizer + recursive-descent parser + evaluator for the Python students write against rclpy: imports, classes with inheritance and `super()`, methods and attributes, lists/dicts/tuples, `if`/`while`/`for`, `def` with defaults and keyword arguments, f-strings, `%`-formatting and the usual operators — with errors that carry the failing line. `rclpy.init/spin/spin_once`, `Node`, `create_publisher/create_subscription/create_timer/create_service`, `get_logger`, `declare_parameter` and the message constructors all talk to the `ROS2` graph, so a script that publishes really delivers to subscribers.
+- **`assets/ros.js` + `assets/ros.css` — the ROS 2 Lab page.** Terminal with quick commands, a Python code editor (the C++/rclcpp tab is present but ships later), the node/topic graph drawn as SVG, a click-to-`echo` message inspector, a simulated clock with Step/Play, and **six engine-checked graded tasks** (publish once, a typed message, subscribe and relay, a timer publisher, move the arm, parameters) each with a starter and a worked solution.
+- **The arm bridge.** A subscription to `/arm_controller/joint_trajectory` and `/joint_states` resolves each message's `joint_names`/positions (exact name, or a trailing index) to the loaded robot's joints, clamps to limits and re-renders the workspace, so `ros2` code visibly drives the arm.
+- **`tests/ui_ros_test.js`.** Plain-Node passes for both engines (including every graded task solution verified against its own check in a fresh graph) and a jsdom pass over the real page (terminal, playground, graph, inspector, clock, tasks, arm bridge).
+
+### Notes
+- **Why not real Python?** Pyodide was spiked: it works (real CPython 3.14.2, classes run, ~1.3 s load) but vendors ~13.9 MB (9.4 MB wasm + 2.5 MB stdlib) and packages such as NumPy need a runtime CDN fetch — which breaks the offline/sub-path-safe constraint. The built-in rclpy-subset interpreter stays offline, is a tiny fraction of the size and is testable in the existing Node/jsdom CI, so it is the shipped engine.
+- Honest scope: GitHub Pages cannot run a real ROS 2 stack (that needs DDS, `rclpy` and the daemon). This is a faithful simulation of the parts a beginner practises, and the page says so.
+- **Version unified to 6.2.0** across `window.APP_VERSION`, `<title>`, `meta[application-version]`, the Open Graph tags, the app-bar tag, `package.json` and the release docs. The `engine/practice.js`/`assets/practice.js` (`6.0.0`), `engine/ros.js`/`engine/pysub.js`/`assets/ros.js` (`6.2.0`) and v5 (`5.0.0`) layers keep their own versions.
+- The Learning Center is now the 13th page; `tests/ui_v3_test.js` expects **13** pages and 13 outcomes.
+
+### Verification (2026-10-28)
+- `engine/ros.js`: **24/24** self-tests. `engine/pysub.js`: **18/18** self-tests. Every graded task solution passes its own engine check.
+- `tests/ui_ros_test.js`: **34/34** (two Node passes + one jsdom pass).
+- Full `npm test` exits **0**: engine self-tests still **30/30** and the in-browser validation harness still reports **0 FAIL of 60 badges**; the legacy FK drill is untouched.
+
 ## [6.1.0] — 2026-10-27 — 3D Reachable Workspace
 
 The Workspace Analysis page becomes an **interactive 3D reachable volume**. The flat orthographic scatter that shipped in 6.0.0 is kept, but only as the WebGL fallback and the figure the printable report uses — the primary view is now a live three.js point cloud. Everything remains static and GitHub-Pages-only.

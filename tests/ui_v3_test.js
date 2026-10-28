@@ -7,16 +7,16 @@ const w=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,virtualC
 w.HTMLCanvasElement.prototype.getContext=()=>new Proxy({}, {get:()=>()=>{},set:()=>true});w.scrollTo=()=>{};
 const out=[],T=(n,ok,d='')=>out.push((ok?'PASS ':'FAIL ')+n+(d!==''?'  '+d:''));
 setTimeout(()=>{
-  const d=w.document,ids=['workspace','library','pro','frames','fk','ik','learn','jacobian','trajectory','workspaceAnalysis','dynamics','export'].map(x=>x+'Page');
+  const d=w.document,ids=['workspace','library','pro','frames','fk','ik','learn','jacobian','trajectory','workspaceAnalysis','dynamics','export','ros'].map(x=>x+'Page');
   const missing=ids.filter(id=>!d.querySelector('#'+id+' .v3-outcome'));
-  T('A3.3 every one of the 12 pages states a learning outcome',missing.length===0,missing.join(','));
-  T('A3.3 outcomes are added once (idempotent)',d.querySelectorAll('.v3-outcome').length===12);
+  T('A3.3 every one of the 13 pages states a learning outcome',missing.length===0,missing.join(','));
+  T('A3.3 outcomes are added once (idempotent)',d.querySelectorAll('.v3-outcome').length===13);
   const cl=d.querySelector('#learnPage #v3FrameChecklist');
   T('A3.4 frame-assignment checklist is in the Learning Center',!!cl);
   T('A3.4 checklist has 8 tickable, labelled steps',!!cl&&cl.querySelectorAll('input[type=checkbox][aria-label]').length===8);
   T('A3.4 checklist has a print button',!!d.querySelector('#v3PrintCheck'));
   T('E3.1 joint-name markup is never rendered as HTML',(()=>{w.eval("setPreset('ur5');joints[0].name='<img src=x onerror=window.__x=1>';renderAll()");return !w.__x&&!d.querySelector('img[src="x"]')})());
-  T('A3.1 version is consistent (UI, package.json, changelog, README)',w.APP_VERSION==='6.1.0'&&JSON.parse(rd('package.json')).version==='6.1.0'&&/\[6\.1\.0\]/.test(rd('CHANGELOG.md'))&&/v6\.1/.test(rd('README.md')));
+  T('A3.1 version is consistent (UI, package.json, changelog, README)',w.APP_VERSION==='6.2.0'&&JSON.parse(rd('package.json')).version==='6.2.0'&&/\[6\.2\.0\]/.test(rd('CHANGELOG.md'))&&/v6\.2/.test(rd('README.md')));
   T('E3.7 static release assets exist',['favicon.svg','site.webmanifest','404.html','robots.txt','sitemap.xml','assets/v3.css'].every(f=>fs.existsSync(path.join(root,f))));
   T('E3.7 manifest icons all resolve',JSON.parse(rd('site.webmanifest')).icons.every(i=>fs.existsSync(path.join(root,i.src))));
   T('E3.8 LICENSE names the author (no placeholder)',/Kanishk Patel/.test(rd('LICENSE'))&&!/<YOUR NAME>/.test(rd('LICENSE')));

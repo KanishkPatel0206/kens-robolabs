@@ -28,7 +28,7 @@ setTimeout(()=>{w.eval(three);
  T('report: derivation blocks use T sup/sub, units and do not split across pages',d.querySelectorAll('.blk').length>=7&&/<sup>0<\/sup>T<sub>1<\/sub>/.test(rep)&&/Tx\(0\.000 mm\)/.test(rep));
  T('report: footer link is short anchor text (no overflowing URL)',/Open this exact robot/.test(rep)&&!/>https?:\/\/[^<]*#s=/.test(rep)&&!/>file:\/\//.test(rep));
  T('report: print colour + page-break CSS present',/print-color-adjust:exact/.test(ev('__export.doc(__export.O())'))&&/\.blk\{break-inside:avoid\}/.test(ev('__export.doc(__export.O())')));
- T('app version bumped to 6.1.0 and in the report footer',ev('APP_VERSION')==='6.1.0'&&/v6\.1\.0/.test(rep));
+ T('app version bumped to 6.2.0 and in the report footer',ev('APP_VERSION')==='6.2.0'&&/v6\.2\.0/.test(rep));
  // share link when the page is opened from disk (file://)
  const f=mk('file:///F:/store/kens-robolabs/index.html');setTimeout(()=>{const su=f.eval('shareURL()');T('file:// pages produce a share link to the published site (works for anyone)',/^https:\/\/kanishkpatel0206\.github\.io\/kens-robolabs\/#s=/.test(su),su.slice(0,60));
   console.log(out.join('\n'));console.log('JS errors:',errs.length?errs.slice(0,3):'none');process.exit(0)},400)},400);

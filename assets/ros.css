@@ -1,0 +1,65 @@
+/* ============================================================================
+   Ken's RoboLabs v6.2 — ROS 2 Lab (browser UI)
+   ----------------------------------------------------------------------------
+   Styling for the simulated ROS 2 workspace: the terminal, the code editor,
+   the node/topic graph, the message inspector and the graded tasks. Uses the
+   same tropical tokens declared in index.html (:root).
+   ========================================================================== */
+.ros-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:14px;align-items:start}
+@media(max-width:1100px){.ros-grid{grid-template-columns:1fr}}
+.ros-col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.ros-panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}
+.ros-panel h2{margin:0 0 8px;font-size:15px}
+.ros-panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.ros-panel-head h2{margin:0}
+
+.ros-term{background:#072a33;color:#c9f7df;font-family:var(--mono);font-size:12.5px;line-height:1.5;border-radius:10px;padding:10px;height:236px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+.ros-term div{min-height:1.2em}
+.ros-err{color:#ffb4a8}
+.ros-warn{color:#ffe08a}
+.ros-ok{color:#8fe0c0}
+.ros-dim{color:#7fb6a8}
+
+.ros-cmd{display:flex;gap:8px;margin-top:8px}
+.ros-cmd input{flex:1;min-width:0;font-family:var(--mono);border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fff;color:var(--ink)}
+.ros-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ros-chips button{font-size:11px;padding:5px 8px}
+
+.ros-tabs{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.ros-tabs button{font-size:12px;padding:6px 10px}
+.ros-tabs button.active{background:var(--blue);box-shadow:2px 2px 0 var(--blue-dark);font-weight:600}
+.ros-tabs button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.ros-editor{width:100%;min-height:264px;font-family:var(--mono);font-size:12.5px;line-height:1.55;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff;color:var(--ink);resize:vertical;tab-size:4;white-space:pre;overflow:auto}
+.ros-out{background:#072a33;color:#c9f7df;font-family:var(--mono);font-size:12px;line-height:1.5;border-radius:10px;padding:10px;min-height:84px;max-height:220px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:8px}
+.ros-btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+
+.ros-svg{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
+.ros-topic-list{max-height:236px;overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel2)}
+.ros-topic-row{display:flex;align-items:center;gap:8px;padding:7px 9px;border-bottom:1px dashed var(--line);cursor:pointer;font-size:12px}
+.ros-topic-row:last-child{border-bottom:0}
+.ros-topic-row:hover{background:#fff}
+.ros-topic-row.active{background:#d5efe2}
+.ros-topic-row .tname{font-family:var(--mono);font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ros-echo{background:#072a33;color:#c9f7df;font-family:var(--mono);font-size:12px;line-height:1.5;border-radius:10px;padding:10px;min-height:88px;max-height:220px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:8px}
+.ros-empty{color:var(--muted);font-size:12px;padding:9px}
+
+.ros-task{border:1px solid var(--line);border-radius:10px;background:#fff;padding:9px 10px;margin-bottom:8px;cursor:pointer}
+.ros-task:hover{border-color:var(--blue-dark)}
+.ros-task.active{border-color:var(--blue-dark);box-shadow:2px 2px 0 var(--blue-dark)}
+.ros-task b{display:block;margin-bottom:3px;font-size:12.5px}
+.ros-task .b{font-size:11.5px;color:var(--muted)}
+.ros-task .ros-task-brief{font-size:11.5px;color:var(--ink);margin-top:5px}
+.ros-task .ros-task-brief code{background:#eaf6f0;border-radius:4px;padding:0 3px;font-size:11px}
+.ros-verdict{margin-top:8px;border-radius:9px;padding:8px 10px;font-size:12.5px}
+.ros-verdict.pass{background:#d7f2e3;border:1px solid #4c9d76}
+.ros-verdict.fail{background:#ffe0dd;border:1px solid #d1373f}
+
+.ros-clock{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:13px}
+.ros-badge{display:inline-block;padding:2px 7px;border-radius:999px;font-size:10.5px;font-weight:700;background:var(--sun-soft);border:1px solid #caa94a}
+.ros-badge.pub{background:#cde7dc;border-color:#7bb79c}
+.ros-badge.sub{background:#cfe0f2;border-color:#8bb2d6}
+.ros-note{font-size:11.5px;color:var(--muted);line-height:1.5}
+.ros-kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin:4px 0 2px}
+.ros-kv div{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:7px 9px}
+.ros-kv .caps{font-size:9.5px;color:var(--muted)}
+.ros-kv b{font-family:var(--mono);font-size:13px}

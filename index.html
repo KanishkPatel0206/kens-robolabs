@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ken’s RoboLabs v6.1 — Manipulator Kinematics Studio</title>
+<title>Ken’s RoboLabs v6.2 — Manipulator Kinematics Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -30,9 +30,10 @@
 <link rel="stylesheet" href="assets/v3.css">
 <link rel="stylesheet" href="assets/v5.css">
 <link rel="stylesheet" href="assets/practice.css">
-<meta name="description" content="Ken’s RoboLabs v6.1: a professional, browser-based Modified-DH manipulator kinematics, dynamics and teaching studio with self-study practice modules, interactive 3D workspace analysis, URDF interop, premade 3D robot models, inverse kinematics, Jacobian, trajectories, collision checking and teaching tools.">
-<meta name="application-version" content="6.1.0">
-<meta name="theme-color" content="#eef8f4"><meta property="og:title" content="Ken’s RoboLabs v6.1 — Manipulator Kinematics Studio"><meta property="og:description" content="Interactive Modified Denavit–Hartenberg robot kinematics, dynamics and teaching studio with self-study practice modules and an interactive 3D reachable-workspace view."><meta property="og:type" content="website"><meta property="og:url" content="https://kanishkpatel0206.github.io/kens-robolabs/"><link rel="canonical" href="https://kanishkpatel0206.github.io/kens-robolabs/">
+<link rel="stylesheet" href="assets/ros.css">
+<meta name="description" content="Ken’s RoboLabs v6.2: a professional, browser-based Modified-DH manipulator kinematics, dynamics and teaching studio with self-study practice modules, an in-browser ROS 2 simulation (topics, nodes, rclpy), interactive 3D workspace analysis, URDF interop, premade 3D robot models, inverse kinematics, Jacobian, trajectories, collision checking and teaching tools.">
+<meta name="application-version" content="6.2.0">
+<meta name="theme-color" content="#eef8f4"><meta property="og:title" content="Ken’s RoboLabs v6.2 — Manipulator Kinematics Studio"><meta property="og:description" content="Interactive Modified Denavit–Hartenberg robot kinematics, dynamics and teaching studio with self-study practice modules, an in-browser ROS 2 simulation and an interactive 3D reachable-workspace view."><meta property="og:type" content="website"><meta property="og:url" content="https://kanishkpatel0206.github.io/kens-robolabs/"><link rel="canonical" href="https://kanishkpatel0206.github.io/kens-robolabs/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="site.webmanifest">
 <link rel="apple-touch-icon" href="favicon.svg">
@@ -41,8 +42,8 @@
 <script>try{var _o=localStorage.getItem('crayon-mdh-project');if(_o&&!localStorage.getItem('robolabs-project'))localStorage.setItem('robolabs-project',_o)}catch(e){}</script>
 <a class="skip-link" href="#mainContent">Skip to main content</a>
 <header class="appbar">
-  <div class="brand"><div class="logo" aria-hidden="true">🌺</div><span>Ken’s RoboLabs</span><span class="tag">MODIFIED DH · v6.1</span></div>
-  <div class="topnav"><button class="active" data-page="workspace">Workspace</button><button data-page="library">Robot Library</button><button data-page="learn">Learning Center</button><button data-page="pro">Professional</button></div>
+  <div class="brand"><div class="logo" aria-hidden="true">🌺</div><span>Ken’s RoboLabs</span><span class="tag">MODIFIED DH · v6.2</span></div>
+  <div class="topnav"><button class="active" data-page="workspace">Workspace</button><button data-page="library">Robot Library</button><button data-page="learn">Learning Center</button><button data-page="ros">ROS 2 Lab</button><button data-page="pro">Professional</button></div>
   <div style="display:flex;gap:7px;align-items:center"><button class="soft hide-mobile" id="undoBtn" title="Undo">↶</button><button class="soft hide-mobile" id="redoBtn" title="Redo">↷</button><button class="gold" id="saveBtn">▣ Save</button><button class="soft hide-mobile" id="exportBtn">↓ Export</button></div>
 </header>
 <div class="shell">
@@ -58,6 +59,7 @@
   <button class="navitem" data-page="trajectory"><span class="navicon">⌁</span>Trajectory Planner</button>
   <button class="navitem" data-page="workspaceAnalysis"><span class="navicon">◌</span>Workspace Analysis</button>
   <button class="navitem" data-page="dynamics"><span class="navicon">⚖</span>Dynamics Explorer</button>
+  <button class="navitem" data-page="ros"><span class="navicon">◍</span>ROS 2 Lab</button>
   <button class="navitem" data-page="pro"><span class="navicon">◈</span>Professional · URDF</button>
   <div class="aside-note"><div class="caps">Your convention</div><div class="mono" style="font-size:11px;line-height:1.8;margin-top:7px">T = Rx(αᵢ₋₁) Tx(aᵢ₋₁) Rz(θᵢ) Tz(dᵢ)</div><p>Craig-style Modified DH. Matrix math and frame transforms update from your parameters.</p></div>
 </aside>
@@ -109,6 +111,11 @@
 <section id="dynamicsPage" class="hidden">
  <div class="hero"><h1>⚖ Dynamics Explorer</h1><p>Transparent, simplified single-joint torque estimate for learning. It is not a full multi-body inverse-dynamics solver and should not be used to size real hardware.</p></div>
  <div class="panel"><div class="advanced-grid"><div><h2>Assumptions</h2><div class="field-row"><label>Selected joint</label><select id="dynJoint"></select></div><div class="field-row"><label>Downstream equivalent mass (kg)</label><input id="dynMass" type="number" min="0" value="1.5" step="0.1"></div><div class="field-row"><label>Effective lever arm (m)</label><input id="dynArm" type="number" min="0" value="0.25" step="0.01"></div><div class="field-row"><label>Joint acceleration (rad/s²)</label><input id="dynAccel" type="number" value="0" step="0.1"></div><div class="field-row"><label>Equivalent inertia (kg·m²)</label><input id="dynInertia" type="number" min="0" value="0.08" step="0.01"></div><button class="primary" id="dynCalculate">Estimate torque</button></div><div><h2>Estimate</h2><div id="dynResult" class="analysis-output">Enter assumptions and calculate.</div><p class="footer-note">Model: τ ≈ m g r |sin θ| + I α for a revolute joint. Prismatic joints are reported as force, F ≈ m(g + a), using the same simple vertical-load assumption.</p></div></div></div>
+</section>
+<section id="rosPage" class="hidden">
+ <div class="hero"><div class="hero-top"><div><h1>◍ ROS 2 Lab</h1><div class="muted">Practise the <span class="mono">ros2</span> command line and rclpy-style Python against a simulated pub/sub graph — and drive the robot you loaded in the workspace.</div></div><span class="pill blue">SIMULATED MIDDLEWARE</span></div>
+ <div class="pills" style="margin-top:12px"><span class="caps muted">Inside</span><span class="pill">NODES · TOPICS · QoS</span><span class="pill yellow">rclpy SUBSET</span><span class="pill">NO SERVER · NO CDN</span></div></div>
+ <div id="rosLab"></div>
 </section>
 </main></div>
 <div class="toast" id="toast"></div>
@@ -1401,7 +1408,7 @@ quizNew();window.__Q=()=>Q;window.quizNew=quizNew;
 </script>
 <script>
 /* ===== v8 (app v2): Export & Report — print-ready report, LaTeX, Markdown, MATLAB, Python, PNG, CSV ===== */
-window.APP_VERSION='6.1.0';
+window.APP_VERSION='6.2.0';
 (()=>{
 const D2=Math.PI/180,V='Ken’s RoboLabs v'+APP_VERSION,esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const F=(v,d)=>{v=Math.abs(v)<5*10**-(d+3)?0:v;return v.toFixed(d)},rn=()=>(typeof currentPreset!=='undefined'&&currentPreset)||'custom',rt=()=>typeof robotTitle==='function'?robotTitle(rn()):rn(),tool=()=>toolOffset||toolOffsetZ?[[1,0,0,toolOffset],[0,1,0,0],[0,0,1,toolOffsetZ],[0,0,0,1]]:null;
@@ -1669,6 +1676,7 @@ $$('[data-csv]').forEach(b=>b.onclick=()=>{const s=CSV[b.dataset.csv]();s?downlo
     ['trajectory', '⌁', 'Trajectory'],
     ['workspaceAnalysis', '◌', 'Workspace'],
     ['dynamics', '⚖', 'Dynamics'],
+    ['ros', '◍', 'ROS 2 Lab'],
     ['export', '⎙', 'Export & Report']
   ];
 
@@ -2071,6 +2079,7 @@ $$('[data-csv]').forEach(b=>b.onclick=()=>{const s=CSV[b.dataset.csv]();s?downlo
       trajectoryPage: 'Plan a smooth cubic or quintic move and check velocity and acceleration against limits.',
       workspaceAnalysisPage: 'Estimate the reachable volume of a robot and see how joint limits and collisions shape it.',
       dynamicsPage: 'Estimate gravity torque, and run a simulation, to see how pose and payload load each joint.',
+      rosPage: 'Create nodes, publishers and subscribers, read the graph with the ros2 CLI, and publish joint trajectories with an rclpy-style script.',
       exportPage: 'Turn the robot on screen into a worked derivation, LaTeX, code or CSV for a lab report.'
     };
     function addOutcomes(){
@@ -2127,4 +2136,7 @@ $$('[data-csv]').forEach(b=>b.onclick=()=>{const s=CSV[b.dataset.csv]();s?downlo
 <script src="assets/v5.js"></script>
 <script src="engine/practice.js"></script>
 <script src="assets/practice.js"></script>
+<script src="engine/ros.js"></script>
+<script src="engine/pysub.js"></script>
+<script src="assets/ros.js"></script>
 </body></html>

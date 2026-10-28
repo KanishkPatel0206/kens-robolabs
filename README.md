@@ -1,8 +1,8 @@
-# 🌺 Ken’s RoboLabs v6.1 — Manipulator Kinematics Studio
+# 🌺 Ken’s RoboLabs v6.2 — Manipulator Kinematics Studio
 
 **🌐 Live demo: https://kanishkpatel0206.github.io/kens-robolabs/**
 
-Ken’s RoboLabs is a browser-based manipulator-robotics studio built around Craig-style **Modified Denavit–Hartenberg** parameters. It pairs a colour-coded editable MDH table and tool frame with a real 3D workcell (prismatic rails, floor and collision checking), 16 teaching robots plus **six premade 3D arms**, forward and inverse kinematics, an analytic Jacobian, trajectories, workspace analysis, full dynamics, **URDF import/export** and report-ready exports. It runs entirely in the browser; nothing is uploaded.
+Ken’s RoboLabs is a browser-based manipulator-robotics studio built around Craig-style **Modified Denavit–Hartenberg** parameters. It pairs a colour-coded editable MDH table and tool frame with a real 3D workcell (prismatic rails, floor and collision checking), 16 teaching robots plus **six premade 3D arms**, forward and inverse kinematics, an analytic Jacobian, trajectories, workspace analysis, full dynamics, **URDF import/export**, an in-browser **ROS 2 Lab**, and report-ready exports. It runs entirely in the browser; nothing is uploaded.
 
 It is designed as a **learning tool**: every number stays visible, every solver reports why it failed, and the export turns the robot on screen into a worked derivation for a lab report.
 
@@ -12,9 +12,22 @@ It is designed as a **learning tool**: every number stays visible, every solver 
 2. Pick a robot in **Robot Library**, or edit the MDH table directly.
 3. Read the transformation chain in **Transformation Matrices** and **Multiplication Steps**.
 4. Use **Forward/Inverse Kinematics**, **Jacobian**, **Trajectory**, **Workspace** and **Dynamics** to test the model.
-5. Go to **Export & Report** for a printable derivation, LaTeX, Markdown, MATLAB, Python, PNG or CSV.
+5. Open **ROS 2 Lab** to run `ros2` commands and rclpy-style Python against a simulated graph — publish a joint trajectory and watch the arm move.
+6. Go to **Export & Report** for a printable derivation, LaTeX, Markdown, MATLAB, Python, PNG or CSV.
 
-## v6.1 — Practice Modules + 3D workspace (current release)
+## v6.2 — ROS 2 Lab (current release)
+
+v6.2 adds a dedicated **ROS 2 Lab** page: a terminal for `ros2 …` commands and an rclpy-style Python playground, both driving a faithful in-browser pub/sub simulation — and both able to move the robot in the workspace.
+
+- **A real middleware simulation.** `engine/ros.js` implements message types (std/geometry/sensor/trajectory/control/rosgraph/builtin), the graph (nodes, topics, publishers, subscribers, timers, services, actions, parameters), QoS (reliability, durability incl. `transient_local` latching, bounded depth), a deterministic executor, and the full `ros2` CLI (`node`, `topic`, `param`, `service`, `action`, `interface`, `run`, `launch`, `bag`, `doctor`).
+- **A Python (rclpy subset) playground.** `engine/pysub.js` is a real tokenizer + parser + evaluator, not a pattern matcher: classes with `super()`, lists/dicts, `for`/`while`, f-strings, `%`-formatting, keyword arguments and `math`, with errors that point at the failing line. `rclpy` and the message constructors are bridged to the graph, so publishing really delivers.
+- **The arm bridge.** Messages on `/arm_controller/joint_trajectory` (and `/joint_states`) are applied to the loaded robot's joints, so code you write visibly drives the arm — try the **Move the arm** task.
+- **Six graded tasks** with a starter and a worked solution each, engine-checked: publish once, a typed message, subscribe and relay, a timer publisher, move the arm, parameters. Plus a free sandbox.
+- **Honest scope.** GitHub Pages cannot run a real ROS 2 stack (that needs DDS, `rclpy` and the daemon); this simulates the parts you practise and says so. Pyodide was spiked but rejected (≈13.9 MB vendored, and NumPy needs a runtime CDN fetch) — the built-in interpreter stays offline, tiny and CI-testable.
+
+**Release docs:** [`CHANGELOG.md`](CHANGELOG.md) · [`docs/ROADMAP.md`](docs/ROADMAP.md)
+
+## v6.1 — Practice Modules + 3D workspace
 
 v6 turns the Learning Center into a set of **self-study practice modules** — documentation, a generated quiz and a worked solution for each topic, with no lecture voice and no server — and v6.1 makes the Workspace Analysis page an **interactive 3D reachable volume**:
 
@@ -59,11 +72,12 @@ v3 added no new robotics mathematics. It made the studio safe, usable on a phone
 | **v5** | Professional Credibility | Premade 3D models, URDF import/export, full inertia, validation harness, workspace v2, redundancy |
 | **v6** | Practice Modules | Self-study Learning Center: reference + engine-verified quizzes + worked solutions, corrected workspace plot |
 | **v6.1** | 3D Workspace | Workspace Analysis is an interactive 3D reachable volume (orbit/zoom/pan, height colour, live TCP), with the orthographic canvas as the WebGL fallback and report figure |
+| **v6.2** | ROS 2 Lab | A dedicated page where `ros2` commands and rclpy-style Python drive a faithful in-browser pub/sub simulation — and move the robot |
 
 The complete task plan — including visual and animation workstreams, acceptance criteria and risks — is in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## Run
-**Online:** open the live demo above. **Locally:** open `index.html` in Chrome, Edge or Firefox (three.js is bundled in `vendor/`, so 3D works offline; only the Google Fonts are optional, system fonts are the fallback). Keep `assets/` (the `v3`/`v5`/`practice` visual layers and `assets/robots/*.urdf`) and `engine/` beside `index.html`. `node tests/run_selftests.js` runs the 30 engine checks; `npm i && npm test` runs the engine, the jsdom UI suites and the v5/practice checks.
+**Online:** open the live demo above. **Locally:** open `index.html` in Chrome, Edge or Firefox (three.js is bundled in `vendor/`, so 3D works offline; only the Google Fonts are optional, system fonts are the fallback). Keep `assets/` (the `v3`/`v5`/`practice`/`ros` visual layers and `assets/robots/*.urdf`) and `engine/` (including `engine/ros.js` and `engine/pysub.js`) beside `index.html`. `node tests/run_selftests.js` runs the 30 engine checks; `npm i && npm test` runs the engine, the jsdom UI suites and the v5/practice/ROS 2 Lab checks.
 
 **Share a robot:** press **🔗 Share** to copy a link that contains your whole robot, for example `https://kanishkpatel0206.github.io/kens-robolabs/#s=…`.
 
